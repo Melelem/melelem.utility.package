@@ -17,5 +17,6 @@ def configure_root_logger(
 
     logger = logging.getLogger()
     logger.addHandler(stream_handler)
+    logger.setLevel(level)
 
     return logger
