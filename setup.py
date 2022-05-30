@@ -38,7 +38,6 @@ if known_args.version:
 else:
     from pkg_resources import parse_requirements
     from setuptools import setup, find_packages
-    import os
 
     with open('README.md', 'r', encoding='utf-8') as readme:
         long_description = readme.read()
