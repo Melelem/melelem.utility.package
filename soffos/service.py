@@ -19,8 +19,6 @@ class Service:
         """
         Initializes the microservice
         """
-        self.context: t.Dict[str, t.Any] = {}
-
         logging.info('Initializing service. %s', self.__class__.__name__)
         self.initialize()
         logging.info('Service %s successfully initialized',
