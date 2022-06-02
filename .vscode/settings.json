@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.mypyEnabled": false,
+    "python.linting.pylamaEnabled": false,
+    "python.languageServer": "Jedi"
+}
