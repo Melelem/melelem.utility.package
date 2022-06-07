@@ -24,7 +24,6 @@ class Service:
         logging.info('Service %s successfully initialized',
                      self.__class__.__name__)
 
-    @abstractmethod
     def initialize(self):
         """
         Initializes service, by loading whatever it needs to load into memory.
@@ -35,8 +34,8 @@ class Service:
         This is called when the service is loaded. It is expected to be called
         only once during microservice life-cycle.
         """
+        pass
 
-    @abstractmethod
     def validate(self, request_data: ServiceRequestData):
         """
         Abstract method. Validates the provided request.
@@ -51,6 +50,7 @@ class Service:
 
         If provided request is invalid, this should raise an exception.
         """
+        pass
 
     @abstractmethod
     def run(self, request_data: ServiceRequestData) -> ServiceResponse:
