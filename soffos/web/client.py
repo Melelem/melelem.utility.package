@@ -11,6 +11,7 @@ import requests
 from urllib3.util.retry import Retry
 
 Payload = t.NewType('Payload', t.Dict[str, t.Any])
+Header = t.NewType('Header', t.Dict[str, str])
 
 
 class WebClient:
@@ -21,11 +22,13 @@ class WebClient:
     method: str = 'POST'
     url: str
     timeout: float = 600.0
+    headers: t.Optional[t.List[Header]] = None
 
     class Error(Exception):
         """General WebClient error"""
 
-    def __init__(self, payload: t.Optional[Payload], url: t.Optional[str] = None):
+    def __init__(self, payload: t.Optional[Payload], url: t.Optional[str] = None,
+                 headers: t.Optional[t.List[Header]] = None):
         """
         Parameters
         ----------
@@ -33,11 +36,13 @@ class WebClient:
         - payload(optional): used to send information to the server
         - url(optional): if provided, builds a client capable to send requests
           to provided url.
+        - headers (optional): if provided, add extra headers to the request.
         """
         if self.method in ['POST', 'PUT', 'PATCH'] and payload is None:
             raise self.Error(
                 f'{self.method} requests must always provide a payload')
 
+        self.headers = headers
         self.payload = payload
         if url is not None:
             self.url = url
@@ -62,6 +67,7 @@ class WebClient:
                     'status_code': response.status_code,
                     'json': response_json
                 }))
+            return response.json()
         except Exception as excpt:
             raise self.Error from excpt
 
@@ -70,13 +76,14 @@ class WebClient:
         Executes the request accordingly.
 
         Do not call this method directly. This is a customization point so one
-        can customize how a request is sent to the target url.
+        can customize how a request is sent to the target url in subclasses.
         """
         return requests.request(
             method=self.method,
             url=self.url,
             json=self.payload,
-            timeout=self.timeout
+            timeout=self.timeout,
+            headers=self.headers
         )
 
 
@@ -111,5 +118,6 @@ class RetryWebClient(WebClient):
             self.method,
             self.url,
             timeout=self.timeout,
-            json=self.payload
+            json=self.payload,
+            headers=self.headers
         )
