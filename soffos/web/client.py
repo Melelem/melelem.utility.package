@@ -26,7 +26,7 @@ class WebClient:
     - timeout: Defaults to 10 minutes. Timeout to wait, in seconds, until
       request completes.
     - headers: Optional list of headers. If you need to send extra headers to
-      the target URL. 
+      the target URL.
     """
 
     method: str = 'POST'
