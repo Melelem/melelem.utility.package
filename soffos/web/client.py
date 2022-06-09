@@ -17,6 +17,16 @@ Header = t.NewType('Header', t.Dict[str, str])
 class WebClient:
     """
     General class for web requests
+
+    Customization Properties
+    ------------------------
+
+    - method: Method to use for this class. Defaults to POST
+    - url: URL to call
+    - timeout: Defaults to 10 minutes. Timeout to wait, in seconds, until
+      request completes.
+    - headers: Optional list of headers. If you need to send extra headers to
+      the target URL. 
     """
 
     method: str = 'POST'
@@ -90,6 +100,16 @@ class WebClient:
 class RetryWebClient(WebClient):
     """
     Web client capable of executing retries
+
+    Customizations
+    --------------
+
+    - retry_total: Defaults to 3. Total number of retries before failing.
+    - retry_backoff_factor: Defaults to 0.1. Factor used by requests library in
+      order to calculate wait times between retries.
+    - retry_status_forcelist: Defaults to set(429). List of error statuses to
+      which retries will be attempted.
+    - default_backoff_max: Defaults to 1 hour. Maximum number of time to wait.
     """
 
     retry_total: int = 3
