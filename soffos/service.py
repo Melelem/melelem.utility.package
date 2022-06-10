@@ -13,7 +13,15 @@ ServiceRequestData = t.List[t.Dict[str, t.Any]]
 class Service:
     """
     Base super class for every Soffos microservice.
+
+    Notes
+    -----
+
+    For Celery services, remember to change "name" property to something that is
+    adequate for celery. 
     """
+
+    name: str = 'ServiceName'
 
     def __init__(self):
         """
