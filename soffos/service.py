@@ -7,7 +7,7 @@ import logging
 import typing as t
 from abc import abstractmethod
 
-ServiceResponse = t.Optional[t.Tuple[t.Dict[str, t.Any], ...]]
+ServiceResponse = t.Optional[t.Dict[str, t.Any]]
 ServiceRequestData = t.List[t.Dict[str, t.Any]]
 
 class Service:
