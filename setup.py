@@ -40,6 +40,8 @@ else:
     from pkg_resources import parse_requirements
     from setuptools import setup, find_packages
 
+    from soffos import DATA_DIR
+
     with open('README.md', 'r', encoding='utf-8') as readme:
         long_description = readme.read()
 
@@ -61,5 +63,11 @@ else:
         ],
         packages=find_packages(),
         install_requires=install_requires,
+        include_package_data=True,
+        data_files=[
+            (DATA_DIR, [
+                'soffos/data/contractions.json'
+            ])
+        ],
         python_requires='==3.7.*'
     )

@@ -8,6 +8,7 @@ from nltk.corpus import stopwords
 import nltk
 
 from ..utilities import LazyLoader
+from .. import DATA_DIR
 
 
 def load_stopwords() -> t.Dict[str, t.Set[str]]:
@@ -22,7 +23,8 @@ def load_stopwords() -> t.Dict[str, t.Set[str]]:
 
 
 def load_contractions() -> t.Dict[str, str]:
-    with open('volume/contractions.json', 'r', encoding='utf-8') as contractions_file:
+    contractions_path = DATA_DIR.joinpath('contractions.json')
+    with open(contractions_path, 'r', encoding='utf-8') as contractions_file:
         return json.load(contractions_file)
 
 
