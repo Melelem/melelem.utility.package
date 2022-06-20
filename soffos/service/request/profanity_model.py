@@ -9,7 +9,9 @@ class ProfanityModelService(RetryWebClient):
     Profanity model service. Activates remote service with neural network
     processing capabilities.
     """
-    url = get_service_url('SOFFOS_SERVICE_MODEL_PROFANITY')
 
     def __init__(self, strings: t.List[str]):
-        super().__init__({'strings': strings})
+        super().__init__(
+            payload={'strings': strings},
+            url=get_service_url('SOFFOS_SERVICE_MODEL_PROFANITY')
+        )
