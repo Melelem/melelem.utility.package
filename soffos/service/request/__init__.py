@@ -1,0 +1,1 @@
+from .profanity_model import ProfanityModelService

@@ -7,8 +7,10 @@ import logging
 import typing as t
 from abc import abstractmethod
 
+
 ServiceResponse = t.Optional[t.Dict[str, t.Any]]
 ServiceRequestData = t.List[t.Dict[str, t.Any]]
+
 
 class Service:
     """
@@ -29,8 +31,7 @@ class Service:
         """
         logging.info('Initializing service. %s', self.__class__.__name__)
         self.initialize()
-        logging.info('Service %s successfully initialized',
-                     self.__class__.__name__)
+        logging.info('Service %s successfully initialized.', self.__class__.__name__)
 
     def initialize(self):
         """
