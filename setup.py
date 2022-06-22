@@ -61,7 +61,7 @@ else:
             'Programming Language :: Python :: 3',
             'Operating System :: OS Independent'
         ],
-        packages=find_packages(exclude=['tests.*']),
+        packages=find_packages(exclude=['tests', 'tests.*']),
         install_requires=install_requires,
         include_package_data=True,
         data_files=[
