@@ -18,4 +18,4 @@ class Timer:
     def __exit__(self, *args):
         self.end = default_timer()
         self.elapsed = self.end - self.start
-        self.logger.log(self.log_level, '%.4f seconds elapsed.', self.elapsed)
+        self.logger.log(self.log_level, 'Stopped Timer. %.4f seconds elapsed.', self.elapsed)
