@@ -12,10 +12,8 @@ from .. import DATA_DIR
 
 
 def load_stopwords() -> t.Dict[str, t.Set[str]]:
-    nltk.download('stopwords', download_dir='volume/nltk')
-    # TODO: investigate if this is needed.
-    nltk.download('averaged_perceptron_tagger', download_dir='volume/nltk')
     # Get stopwords for each supported language.
+    nltk.download('stopwords', download_dir=DATA_DIR.joinpath('nltk'))
     return {
         lang: set(stopwords.words(lang))
         for lang in stopwords.fileids()
@@ -47,6 +45,50 @@ class TextSpan(t.NamedTuple):
     @property
     def span_end(self):
         return self.span[1]
+
+
+def split_punctuations(text: str, span_offset: int = 0):
+    pattern = r'[^' + string.punctuation + r']+'
+
+    text_spans = []
+    for match in re.finditer(pattern, text):
+        span = match.span()
+        text_spans.append(TextSpan(
+            text=match.group(),
+            span=(span_offset + span[0], span_offset + span[1])
+        ))
+
+    return text_spans
+
+
+def split_stopwords(
+    text: str,
+    language: str = 'english',
+    ignore_case: bool = True,
+    span_offset: int = 0
+):
+    stopwords = STOPWORDS.lazy_load()[language.lower()]
+    pattern = r'\b(' + '|'.join(map(re.escape, stopwords)) + r')\b'
+
+    index = 0
+    text_spans = []
+    for match in re.finditer(pattern, text, flags=re.IGNORECASE if ignore_case else None):
+        span = match.span()
+        if span[0] > 0:
+            text_spans.append(TextSpan(
+                text=text[index:span[0]],
+                span=(span_offset + index, span_offset + span[0])
+            ))
+        index = span[1]
+
+    text_length = len(text)
+    if index < text_length:
+        text_spans.append(TextSpan(
+            text=text[index:text_length],
+            span=(span_offset + index, span_offset + text_length)
+        ))
+
+    return text_spans
 
 
 def remove_punctuations(text: str):
