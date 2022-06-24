@@ -50,7 +50,7 @@ class TextSpan(t.NamedTuple):
 def split_punctuations(text: str, span_offset: int = 0):
     pattern = r'[^' + string.punctuation + r']+'
 
-    text_spans = []
+    text_spans: t.List[TextSpan] = []
     for match in re.finditer(pattern, text):
         span = match.span()
         text_spans.append(TextSpan(
@@ -71,7 +71,7 @@ def split_stopwords(
     pattern = r'\b(' + '|'.join(map(re.escape, stopwords)) + r')\b'
 
     index = 0
-    text_spans = []
+    text_spans: t.List[TextSpan] = []
     for match in re.finditer(pattern, text, flags=re.IGNORECASE if ignore_case else None):
         span = match.span()
         if span[0] > 0:
