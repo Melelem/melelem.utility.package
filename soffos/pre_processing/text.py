@@ -1,4 +1,5 @@
 import typing as t
+from dataclasses import dataclass
 import string
 import json
 import re
@@ -77,7 +78,8 @@ PROFANITY_PATTERNS = LazyLoader(load_profanity_patterns)
 # Data classes and processing functions.
 # --------------------------------------------------------------------------------------------------
 
-class TextSpan(t.NamedTuple):
+@dataclass(frozen=True)
+class TextSpan:
     text: str
     span: t.Tuple[int, int]
 
