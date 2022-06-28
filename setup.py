@@ -5,8 +5,8 @@ import argparse
 # Set the version to be the 24hr, UTC+0 datetime stamp:
 #   1. by hand (see: https://www.utctime.net/).
 #   2. run this script with version arg ('python setup.py -v').
-YEAR, MONTH, DAY = 22, 6, 24  # date
-HOUR, MINUTE, SECOND = 9, 34, 35  # time
+YEAR, MONTH, DAY = 22, 6, 28  # date
+HOUR, MINUTE, SECOND = 7, 46, 31  # time
 
 
 arg_parser = argparse.ArgumentParser()
@@ -66,7 +66,9 @@ else:
         include_package_data=True,
         data_files=[
             (str(DATA_DIR), [
-                'soffos/data/contractions.json'
+                'soffos/data/contractions.json',
+                'soffos/data/profanities.json',
+                'soffos/data/character_substitutions.json'
             ])
         ],
         python_requires='==3.7.*'

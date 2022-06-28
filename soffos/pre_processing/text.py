@@ -11,6 +11,10 @@ from ..utilities import LazyLoader
 from .. import DATA_DIR
 
 
+# --------------------------------------------------------------------------------------------------
+# Global variables.
+# --------------------------------------------------------------------------------------------------
+
 def load_stopwords() -> t.Dict[str, t.Set[str]]:
     # Get stopwords for each supported language.
     nltk.download('stopwords', download_dir=DATA_DIR.joinpath('nltk'))
@@ -26,9 +30,52 @@ def load_contractions() -> t.Dict[str, str]:
         return json.load(contractions_file)
 
 
+def load_char_substitutions() -> t.Dict[str, t.Set[str]]:
+    char_substitutions_path = DATA_DIR.joinpath('character_substitutions.json')
+    with open(char_substitutions_path, 'r', encoding='utf-8') as char_substitutions_file:
+        return {
+            char.upper(): set(substitutions)
+            for char, substitutions in json.load(char_substitutions_file).items()
+        }
+
+
+def load_char_substitution_patterns():
+    return {
+        char: r'(?:{})'.format('|'.join([char, char.lower()] + list(map(re.escape, subs))))
+        for char, subs in CHAR_SUBSTITUTIONS.lazy_load().items()
+    }
+
+
+def load_profanities() -> t.Set[str]:
+    profanities_path = DATA_DIR.joinpath('profanities.json')
+    with open(profanities_path, 'r', encoding='utf-8') as profanities_file:
+        return set(json.load(profanities_file))
+
+
+def load_profanity_patterns():
+    profanity_patterns: t.Set[str] = set()
+    for profanity in PROFANITIES.lazy_load():
+        char_patterns = []
+        for char in profanity:
+            char_pattern = CHAR_SUBSTITUTION_PATTERNS.lazy_load().get(char.upper())
+            if char_pattern is None:
+                char_pattern = r' +' if char == ' ' else char
+            char_patterns.append(char_pattern)
+        profanity_patterns.add(''.join(char_patterns))
+    return profanity_patterns
+
+
 STOPWORDS = LazyLoader(load_stopwords)
 CONTRACTIONS = LazyLoader(load_contractions)
+CHAR_SUBSTITUTIONS = LazyLoader(load_char_substitutions)
+CHAR_SUBSTITUTION_PATTERNS = LazyLoader(load_char_substitution_patterns)
+PROFANITIES = LazyLoader(load_profanities)
+PROFANITY_PATTERNS = LazyLoader(load_profanity_patterns)
 
+
+# --------------------------------------------------------------------------------------------------
+# Data classes and processing functions.
+# --------------------------------------------------------------------------------------------------
 
 class TextSpan(t.NamedTuple):
     text: str
@@ -89,6 +136,14 @@ def split_stopwords(
         ))
 
     return text_spans
+
+
+def get_profanities(text: str):
+    return [
+        TextSpan(text=match.group(), span=match.span())
+        for profanity_pattern in PROFANITY_PATTERNS.lazy_load()
+        for match in re.finditer(profanity_pattern, text)
+    ]
 
 
 def remove_punctuations(text: str):
