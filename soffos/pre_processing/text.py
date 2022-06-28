@@ -62,7 +62,8 @@ def load_profanity_patterns():
             if char_pattern is None:
                 char_pattern = r' +' if char == ' ' else char
             char_patterns.append(char_pattern)
-        profanity_patterns.add(''.join(char_patterns))
+        profanity_pattern = r'\b{}\b'.format(''.join(char_patterns))
+        profanity_patterns.add(profanity_pattern)
     return profanity_patterns
 
 

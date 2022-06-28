@@ -57,3 +57,7 @@ class Tests(TestCase):
         # Irregular spacing.
         text_spans = get_profanities('dry     hump')
         self.assertListEqual(text_spans, [TextSpan(text='dry     hump', span=(0, 12))])
+
+        # Conjunction. NOTE: 'ass' should not be matched
+        text_spans = get_profanities('asshole')
+        self.assertListEqual(text_spans, [TextSpan(text='asshole', span=(0, 7))])
