@@ -95,6 +95,27 @@ class TextSpan:
     def span_end(self):
         return self.span[1]
 
+    @classmethod
+    def split(cls, text: str, spans: t.List[t.Tuple[int, int]]):
+        spans.sort()
+        text_spans: t.List[cls] = []
+        for span_1, span_2 in zip([None] + spans, spans + [None]):
+            if span_1 is None:
+                span_start = 0
+                span_end = span_2[0]
+            elif span_2 is None:
+                span_start = span_1[1]
+                span_end = len(text)
+            else:
+                span_start = span_1[1]
+                span_end = span_2[0]
+            if span_start != span_end:
+                text_spans.append(cls(
+                    text=text[span_start:span_end],
+                    span=(span_start, span_end)
+                ))
+        return text_spans
+
 
 def split_punctuations(text: str, span_offset: int = 0):
     pattern = r'[^' + string.punctuation + r']+'

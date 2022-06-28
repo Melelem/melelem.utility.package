@@ -8,7 +8,17 @@ from soffos.pre_processing.text import (
 )
 
 
-class TextTests(TestCase):
+class TextSpanTests(TestCase):
+    def test_split(self):
+        text = 'The dog is derived from an ancient, extinct wolf.'
+        text_spans = TextSpan.split(text, spans=[(24, 26), (0, 3)])
+        self.assertListEqual(text_spans, [
+            TextSpan(text=' dog is derived from ', span=(3, 24)),
+            TextSpan(text=' ancient, extinct wolf.', span=(26, len(text)))
+        ])
+
+
+class Tests(TestCase):
     def test_split_punctuations(self):
         text = 'The `dog` is derived from an ancient, extinct wolf.'
         text_spans = split_punctuations(text)
