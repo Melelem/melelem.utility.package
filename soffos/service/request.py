@@ -24,7 +24,14 @@ class ProfanityModelService(RetryWebClient):
             url=get_service_url('SOFFOS_SERVICE_MODEL_PROFANITY')
         )
 
+class QATransformersModelService(RetryWebClient):
 
+    def __init__(self, context:str,question: str):
+        super().__init__(
+            payload={'context':context,'question': question},
+            url=get_service_url('SOFFOS_SERVICE_MODEL_QA_TRANSFORMERS')
+        )
+        
 class BertModelService(RetryWebClient):
     def __init__(
         self,
