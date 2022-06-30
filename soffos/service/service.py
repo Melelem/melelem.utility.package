@@ -24,9 +24,6 @@ class Service:
     """
 
     name: str = 'ServiceName'
-    Model = Model
-    Field = Field
-    ValidationError = ValidationError
 
     class Data:
         pass
