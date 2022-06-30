@@ -6,8 +6,6 @@ import re
 import os
 
 from bs4 import BeautifulSoup
-from nltk.corpus import stopwords
-import nltk
 
 from ..utilities import LazyLoader
 from .. import DATA_DIR
@@ -17,15 +15,15 @@ from .. import DATA_DIR
 # Global variables.
 # --------------------------------------------------------------------------------------------------
 
-def load_stopwords() -> t.Dict[str, t.Set[str]]:
-    # Get stopwords for each supported language.
-    nltk_data = DATA_DIR.joinpath('nltk')
-    nltk.download('stopwords', download_dir=nltk_data)
-    os.environ.setdefault('NLTK_DATA', str(nltk_data))
-    return {
-        lang: set(stopwords.words(lang))
-        for lang in stopwords.fileids()
-    }
+def load_stopwords():
+    """Get stopwords for each supported language."""
+    stopwords: t.Dict[str, t.Set[str]] = {}
+    stopwords_path = DATA_DIR.joinpath('stopwords')
+    for file_name in os.listdir(stopwords_path):
+        file_path = stopwords_path.joinpath(file_name)
+        with open(file_path, 'r', encoding='utf-8') as file:
+            stopwords[file_name] = set(file.read().splitlines())
+    return stopwords
 
 
 def load_contractions() -> t.Dict[str, str]:

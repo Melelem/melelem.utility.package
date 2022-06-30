@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from soffos.pre_processing.text import (
+    load_stopwords,
     TextSpan,
     split_punctuations,
     split_stopwords,
@@ -19,6 +20,10 @@ class TextSpanTests(TestCase):
 
 
 class Tests(TestCase):
+    def test_load_stopwords(self):
+        stopwords = load_stopwords()
+        self.assertIsInstance(stopwords, dict)
+
     def test_split_punctuations(self):
         text = 'The `dog` is derived from an ancient, extinct wolf.'
         text_spans = split_punctuations(text)

@@ -39,6 +39,7 @@ if known_args.version:
 else:
     from pkg_resources import parse_requirements
     from setuptools import setup, find_packages
+    import os
 
     from soffos import DATA_DIR
 
@@ -47,6 +48,12 @@ else:
 
     with open('requirements.txt', 'r', encoding='utf-8') as requirements:
         install_requires = [str(r) for r in parse_requirements(requirements)]
+
+    # Walk through data directory and get relative file paths.
+    data_files, root_dir = [], os.path.dirname(__file__)
+    for (dir_path, dir_names, file_names) in os.walk(DATA_DIR):
+        rel_data_dir = os.path.relpath(dir_path, root_dir)
+        data_files += [os.path.join(rel_data_dir, file_name) for file_name in file_names]
 
     setup(
         name='soffos',
@@ -64,12 +71,6 @@ else:
         packages=find_packages(exclude=['tests', 'tests.*']),
         install_requires=install_requires,
         include_package_data=True,
-        data_files=[
-            (str(DATA_DIR), [
-                'soffos/data/contractions.json',
-                'soffos/data/profanities.json',
-                'soffos/data/character_substitutions.json'
-            ])
-        ],
+        data_files=[(str(DATA_DIR), data_files)],
         python_requires='==3.7.*'
     )
