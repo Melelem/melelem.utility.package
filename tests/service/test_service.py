@@ -1,11 +1,11 @@
 from unittest import TestCase
 
-from soffos.service import Service, DataModel, DataField, DataValidationError
+from soffos.service import Service, Model, Field, ValidationError
 
 
 class TextCleaningService(Service):
-    class Data(DataModel):
-        text: str = DataField()
+    class Data(Model):
+        text: str = Field()
 
     def run(self, data: Data):
         return data.text.strip()
@@ -22,7 +22,7 @@ class ServiceTests(TestCase):
         self.assertEqual(data.text, text)
 
     def test_validate__unknown_field(self):
-        with self.assertRaises(DataValidationError):
+        with self.assertRaises(ValidationError):
             self.service.validate(number=1)
 
     def test_serve(self):

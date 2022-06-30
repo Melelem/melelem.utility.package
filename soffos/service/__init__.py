@@ -1,2 +1,2 @@
-from .service import Service, DataModel, DataField, DataValidationError
+from .service import Service, Model, Field, ValidationError
 from . import request

@@ -7,9 +7,9 @@ Purpose: Base classes for services
 import logging
 
 # pylint: disable=unused-import,no-name-in-module
-from pydantic import BaseModel as DataModel
-from pydantic import Field as DataField
-from pydantic import ValidationError as DataValidationError
+from pydantic import BaseModel as Model
+from pydantic import Field
+from pydantic import ValidationError
 
 
 class Service:
