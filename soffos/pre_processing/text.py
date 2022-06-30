@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import string
 import json
 import re
+import os
 
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
@@ -18,7 +19,9 @@ from .. import DATA_DIR
 
 def load_stopwords() -> t.Dict[str, t.Set[str]]:
     # Get stopwords for each supported language.
-    nltk.download('stopwords', download_dir=DATA_DIR.joinpath('nltk'))
+    nltk_data = DATA_DIR.joinpath('nltk')
+    nltk.download('stopwords', download_dir=nltk_data)
+    os.environ.setdefault('NLTK_DATA', str(nltk_data))
     return {
         lang: set(stopwords.words(lang))
         for lang in stopwords.fileids()
