@@ -1,38 +1,59 @@
 import typing as t
 
-from ..settings import get_service_url
+from ..settings import get_service_url, DEBUG
 from ..web import RetryWebClient
 
 
-class NERModelService(RetryWebClient):
+class _Session(RetryWebClient):
+    name: str
+    path = ''
+
+    def __init__(self, payload):
+        if DEBUG:
+            payload = {
+                'name': self.name,
+                'request': payload
+            }
+            if self.path:
+                payload['path'] = self.path
+            url = 'https://dev-api.soffos.ai/api/service/'
+        else:
+            url = get_service_url('SOFFOS_SERVICE_MODEL_BERT')
+        super().__init__(payload, url)
+
+    def send(self):
+        return super().send()['response']
+
+
+class NERModelService(_Session):
+    name = 'SOFFOS_SERVICE_MODEL_NER_ONTONOTES'
+
     def __init__(self, text: str):
-        super().__init__(
-            payload={'text': text},
-            url=get_service_url('SOFFOS_SERVICE_MODEL_NER_ONTONOTES')
-        )
+        super().__init__(payload={'text': text})
 
 
-class ProfanityModelService(RetryWebClient):
+class ProfanityModelService(_Session):
     """
     Profanity model service. Activates remote service with neural network
     processing capabilities.
     """
 
+    name = 'SOFFOS_SERVICE_MODEL_PROFANITY'
+
     def __init__(self, strings: t.List[str]):
-        super().__init__(
-            payload={'strings': strings},
-            url=get_service_url('SOFFOS_SERVICE_MODEL_PROFANITY')
-        )
+        super().__init__(payload={'strings': strings})
 
-class QATransformersModelService(RetryWebClient):
 
-    def __init__(self, context:str,question: str):
-        super().__init__(
-            payload={'context':context,'question': question},
-            url=get_service_url('SOFFOS_SERVICE_MODEL_QA_TRANSFORMERS')
-        )
-        
-class BertModelService(RetryWebClient):
+class QATransformersModelService(_Session):
+    name = 'SOFFOS_SERVICE_MODEL_QA_TRANSFORMERS'
+
+    def __init__(self, context: str, question: str):
+        super().__init__(payload={'context': context, 'question': question})
+
+
+class BertModelService(_Session):
+    name = 'SOFFOS_SERVICE_MODEL_BERT'
+
     def __init__(
         self,
         strs: t.List[str],
@@ -47,8 +68,4 @@ class BertModelService(RetryWebClient):
             payload['truncation'] = truncation
         if padding is not None:
             payload['padding'] = padding
-
-        super().__init__(
-            payload=payload,
-            url=get_service_url('SOFFOS_SERVICE_MODEL_BERT')
-        )
+        super().__init__(payload)

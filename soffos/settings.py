@@ -18,7 +18,6 @@ def get_service_url(name: str):
     if re.search(r'[^A-Z0-9_]+', name):
         raise NameError('Name contains invalid characters.')
 
-    host_key, port_key = f'{name}_SERVICE_HOST', f'{name}_SERVICE_PORT'
-    host = os.environ.get(host_key, 'localhost') if DEBUG else os.environ[host_key]
-    port = os.environ.get(port_key, '5000') if DEBUG else os.environ[port_key]
+    host = os.environ[f'{name}_SERVICE_HOST']
+    port = os.environ[f'{name}_SERVICE_PORT']
     return f'http://{host}:{port}/'
