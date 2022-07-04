@@ -18,6 +18,9 @@ class LazyLoaderTests(TestCase):
         value = self.lazy_loader.lazy_load()
         self.assertEqual(value, self.value)
 
+        value = self.lazy_loader()
+        self.assertEqual(value, self.value)
+
     def test_lazy_load__called_once(self):
         with patch.object(self.lazy_loader, '_load') as _load:
             _load.return_value = self.value
