@@ -15,6 +15,10 @@ from .. import DATA_DIR
 # Global variables.
 # --------------------------------------------------------------------------------------------------
 
+punct = r'[{}]'.format(string.punctuation)
+not_punct = r'[^{}]'.format(string.punctuation)
+
+
 def load_stopwords():
     """Get stopwords for each supported language."""
     stopwords: t.Dict[str, t.Set[str]] = {}
@@ -68,12 +72,49 @@ def load_profanity_patterns():
     return profanity_patterns
 
 
+def load_abbreviations() -> t.Dict[str, str]:
+    path = DATA_DIR.joinpath('abbreviations.json')
+    with open(path, 'r', encoding='utf-8') as file:
+        return json.load(file)
+
+
+def load_known_abbreviations_pattern():
+    pattern = '|'.join(map(re.escape, ABBREVIATIONS()))
+    pattern = pattern.replace(r'\.', r'\.?')
+    return r'\b(?:{})'.format(pattern)
+
+
+def load_unknown_abbreviations_pattern():
+    return ''.join([
+        # First letter.
+        # - must be capital
+        # - must be at start of line or have a space before.
+        r'(?:(?<=^)|(?<= ))[A-Z]',
+        # Optional period after first letter.
+        r'\.?'
+        # Middle letters and optional periods.
+        r'(?:[a-zA-Z]*\.?)*',
+        # Last letter.
+        # - must be capital
+        # - must be at end of line or have a space after.
+        r'[A-Z](?:(?=\.?$)|(?=\.? )|(?=\.{punct}))'.format(punct=punct),
+        # Optional period after last letter.
+        # - must be at end of line
+        # -- or must have spaces and a lowercase letter.
+        # -- or must have an end-of-sentence punctuation.
+        r'\.?(?:(?=$)|(?= +[a-z])|(?={punct}))'.format(punct=punct)
+    ])
+
+
 STOPWORDS = LazyLoader(load_stopwords)
 CONTRACTIONS = LazyLoader(load_contractions)
 CHAR_SUBSTITUTIONS = LazyLoader(load_char_substitutions)
 CHAR_SUBSTITUTION_PATTERNS = LazyLoader(load_char_substitution_patterns)
 PROFANITIES = LazyLoader(load_profanities)
 PROFANITY_PATTERNS = LazyLoader(load_profanity_patterns)
+ABBREVIATIONS = LazyLoader(load_abbreviations)
+KNOWN_ABBREVIATIONS_PATTERN = LazyLoader(load_known_abbreviations_pattern)
+UNKNOWN_ABBREVIATIONS_PATTERN = LazyLoader(load_unknown_abbreviations_pattern)
 
 
 # --------------------------------------------------------------------------------------------------
@@ -117,6 +158,13 @@ class TextSpan:
                     span=(span_start, span_end)
                 ))
         return text_spans
+
+    @classmethod
+    def from_matches(cls, matches: t.Iterator[re.Match]):
+        return [
+            cls(text=match.group(), span=match.span())
+            for match in matches
+        ]
 
 
 def split_punctuations(text: str, span_offset: int = 0):
@@ -169,6 +217,22 @@ def get_profanities(text: str):
         for profanity_pattern in PROFANITY_PATTERNS.lazy_load()
         for match in re.finditer(profanity_pattern, text)
     ]
+
+
+def get_abbreviations(text: str):
+    # Match known abbreviations.
+    matches = re.finditer(KNOWN_ABBREVIATIONS_PATTERN(), text)
+    known_abbreviations = TextSpan.from_matches(matches)
+
+    # Match unknown abbreviations.
+    matches = re.finditer(UNKNOWN_ABBREVIATIONS_PATTERN(), text, flags=re.MULTILINE)
+    abbreviations = TextSpan.from_matches(matches)
+
+    # Get unknown abbreviations.
+    unknown_abbreviations = list(set(abbreviations) - set(known_abbreviations))
+    unknown_abbreviations.sort(key=lambda abbreviation: abbreviation.span)
+
+    return known_abbreviations, unknown_abbreviations
 
 
 def remove_punctuations(text: str):
