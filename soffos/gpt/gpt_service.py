@@ -25,9 +25,9 @@ class GPTService(Service):
         completion_char_count = calculate_chars_count_from_tokens(request_data["max_tokens"])
         text_char_count = len(request_data["text"])    
 
-        self.prompt=self.load_prompt(request_data)
+        prompt=self.load_prompt(request_data)
 
-        if self.prompt.char_count + text_char_count + completion_char_count > max_char_count:
+        if prompt.char_count + text_char_count + completion_char_count > max_char_count:
             raise ValueError(f'The combined length of prompt, provided text and provided max_tokens should not exceed {max_char_count} characters for the engine: {request_data["engine"]}. Prompt length: ~{prompt.char_count}, provided text: ~{text_char_count}, provided max_tokens: {request_data["max_tokens"]} = ~{completion_char_count} characters.')
    
     def craft_prompt(self, text: str ,prompt:Prompt,end_str:str):
