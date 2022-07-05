@@ -115,16 +115,19 @@ PROFANITY_PATTERNS = LazyLoader(load_profanity_patterns)
 ABBREVIATIONS = LazyLoader(load_abbreviations)
 KNOWN_ABBREVIATIONS_PATTERN = LazyLoader(load_known_abbreviations_pattern)
 UNKNOWN_ABBREVIATIONS_PATTERN = LazyLoader(load_unknown_abbreviations_pattern)
-
+URL_PATTERN = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
 
 # --------------------------------------------------------------------------------------------------
 # Data classes and processing functions.
 # --------------------------------------------------------------------------------------------------
 
+Span = t.Tuple[int, int]
+
+
 @dataclass(frozen=True)
 class TextSpan:
     text: str
-    span: t.Tuple[int, int]
+    span: Span
 
     @property
     def length(self):
@@ -235,6 +238,11 @@ def get_abbreviations(text: str):
     return known_abbreviations, unknown_abbreviations
 
 
+def get_urls(text: str):
+    matches = re.finditer(URL_PATTERN, text)
+    return TextSpan.from_matches(matches)
+
+
 def remove_punctuations(text: str):
     return text.translate(str.maketrans('', '', string.punctuation))
 
@@ -295,7 +303,7 @@ def replace_emails(text: str, replacement: str = 'email'):
 
 
 def replace_urls(text: str, replacement: str = 'url'):
-    return re.sub(r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))", replacement, text)
+    return re.sub(URL_PATTERN, replacement, text)
 
 
 def replace_newlines(text: str, replacement: str = ' '):

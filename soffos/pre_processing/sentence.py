@@ -1,17 +1,8 @@
 import typing as t
+from functools import reduce
 import re
 
-from .text import TextSpan
-
-
-# REGEX patterns used for text processing
-ALPHABETS = r'([A-Za-z])'
-PREFIXES = r'(Mr|St|Mrs|Ms|Dr)[.]'
-SUFFIXES = r'(Inc|Ltd|Jr|Sr|Co)'
-STARTERS = r'(Mr|Mrs|Ms|Dr|He\s|She\s|It\s|They\s|Their\s' \
-    r'|Our\s|We\s|But\s|However\s|That\s|This\s|Wherever)'
-ACRONYMS = r'([A-Z][.][A-Z][.](?:[A-Z][.])?)'
-WEBSITES = r'[.](com|net|org|io|gov)'
+from .text import TextSpan, Span, get_abbreviations, get_urls
 
 
 class Sentence(TextSpan):
@@ -19,66 +10,45 @@ class Sentence(TextSpan):
     def is_title(self):
         return self.text.istitle()
 
+    @staticmethod
+    def _reduce_non_break_spans(*text_span_lists: t.List[TextSpan]):
+        def get_spans(spans: t.List[Span], text_spans: t.List[TextSpan]):
+            return spans + [text_span.span for text_span in text_spans]
+        return reduce(get_spans, text_span_lists, [])
+
+    @staticmethod
+    def _get_break_indicies(text: str, non_break_spans: t.List[Span]):
+        break_indicies: t.List[int] = []
+        for match in re.finditer(r'[.!?]', text):
+            i = match.span()[0]
+            if all(i < span[0] or i > span[1] for span in non_break_spans):
+                break_indicies.append(i)
+        return break_indicies
+
+    @staticmethod
+    def _get_split_spans(text: str, break_indicies: t.List[int]):
+        split_spans: t.List[Span] = []
+        for i in break_indicies:
+            i += 1
+            span = (i, i)
+            match = re.match(r'\s+', text[i:])
+            if match:
+                span = match.span()
+                span = (i + span[0], i + span[1])
+            split_spans.append(span)
+        return split_spans
+
     @classmethod
-    def from_text(cls, text: str, span_offset: int = 0):
-        """
-        Splits a given text into a list of sentences
-        """
-        text = ' ' + text + '  '
-        text = text.replace('\n', ' ')
-        text = re.sub(PREFIXES, '\\1<prd>', text)
-        text = re.sub(WEBSITES, '<prd>\\1', text)
+    def from_text(cls, text: str):
+        # Get non break text spans.
+        known_abbreviations, unknown_abbreviations = get_abbreviations(text)
+        urls = get_urls(text)
 
-        if 'Ph.D' in text:
-            text = text.replace('Ph.D.', 'Ph<prd>D<prd>')
-
-        text = re.sub(r'\s' + ALPHABETS + '[.] ', ' \\1<prd> ', text)
-        text = re.sub(ACRONYMS + ' ' + STARTERS, '\\1<stop> \\2', text)
-        text = re.sub(ALPHABETS + '[.]' + ALPHABETS + '[.]' + ALPHABETS + '[.]',
-                      '\\1<prd>\\2<prd>\\3<prd>', text)
-        text = re.sub(ALPHABETS + '[.]' + ALPHABETS +
-                      '[.]', '\\1<prd>\\2<prd>', text)
-        text = re.sub(' ' + SUFFIXES + '[.] ' + STARTERS, ' \\1<stop> \\2', text)
-        text = re.sub(' ' + SUFFIXES + '[.]', ' \\1<prd>', text)
-        text = re.sub(' ' + ALPHABETS + '[.]', ' \\1<prd>', text)
-
-        if '”' in text:
-            text = text.replace('.”', '”.')
-        if '"' in text:
-            text = text.replace('."', '".')
-        if '!' in text:
-            text = text.replace('!"', '"!')
-        if '?' in text:
-            text = text.replace('?"', '"?')
-
-        text = text.replace('.', '.<stop>')
-        text = text.replace('?', '?<stop>')
-        text = text.replace('!', "!<stop>")
-        text = text.replace('<prd>', '.')
-
-        # sentences = text.split('<stop>')
-        # sentences = sentences[:-1]
-        # sentences = [s.strip() for s in sentences]
-
-        sentences: t.List[cls] = []
-        last_match_span_end = 0
-        for match in re.finditer(r'(<stop>)?[ ]*(.+?)(?=<stop>)', text):
-            span = match.span()
-            sentence = cls(
-                text=match.group(2),
-                span=(span_offset + span[0], span_offset + span[1])
-            )
-            last_match_span_end = sentence.span[1]
-            sentences.append(sentence)
-        if last_match_span_end < len(text):
-            text = text[last_match_span_end:]\
-                .replace('<stop>', '')\
-                .strip()
-            if text:
-                sentence = cls(
-                    text=text,
-                    span=(span_offset + last_match_span_end, span_offset + len(text))
-                )
-                sentences.append(sentence)
-
-        return sentences
+        non_break_spans = cls._reduce_non_break_spans(
+            known_abbreviations,
+            unknown_abbreviations,
+            urls
+        )
+        break_indicies = cls._get_break_indicies(text, non_break_spans)
+        split_spans = cls._get_split_spans(text, break_indicies)
+        return cls.split(text, split_spans)
