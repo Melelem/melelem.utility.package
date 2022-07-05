@@ -16,8 +16,20 @@
   "Prof.": "Professor",
   "Rev.": "Reverend",
   "Capt.": "Captain",
+  "Cpt.": "Captain",
   "Mt.": "Mountain",
+  "Lt.": "Lieutenant",
   "Ph. D.": "Doctor of Philosophy",
   "Ph.D.": "Doctor of Philosophy",
-  "M.D.": "Doctor of Medicine"
+  "M.D.": "Doctor of Medicine",
+  "Inc.": "Incorporated",
+  "Ltd.": "Limited",
+  "Co.": "Company",
+  "e.g.": "for example",
+  "i.e.": "that is",
+  "a.m.": "before noon",
+  "p.m.": "after noon",
+  "ibid.": "in the same place",
+  "et al.": "and others",
+  "etc.": "and so forth"
 }
