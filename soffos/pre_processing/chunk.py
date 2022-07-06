@@ -14,16 +14,16 @@ class Chunk:
         return ' '.join(sentence.text for sentence in self.sentences)
 
     @property
-    def original_span_start(self):
+    def span_start(self):
         return self.sentences[0].span_start
 
     @property
-    def original_span_end(self):
+    def span_end(self):
         return self.sentences[-1].span_end
 
     @property
-    def original_span(self):
-        return self.original_span_start, self.original_span_end
+    def span(self):
+        return self.span_start, self.span_end
 
     @classmethod
     def from_text(cls, text: str, max_chars: int, sentence_overlap: int = 0):
