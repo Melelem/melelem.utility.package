@@ -1,27 +1,26 @@
 from unittest import TestCase
 
-from soffos.pre_processing import TextSpan
-from soffos.pre_processing.profanity import get_profanities
+from soffos.pre_processing.profanity import Profanity
 
 
-class Tests(TestCase):
-    def test_get_profanities(self):
-        # Normal casing.
-        text_spans = get_profanities('He is a bitch, she said.')
-        self.assertListEqual(text_spans, [TextSpan(text='bitch', span=(8, 13))])
+class ProfanityTests(TestCase):
+    def test_from_text__normal_casing(self):
+        text_spans = Profanity.from_text('He is a bitch, she said.')
+        self.assertListEqual(text_spans, [Profanity(text='bitch', span=(8, 13))])
 
-        # Mixed casing.
-        text_spans = get_profanities('He is a BitCh, she said.')
-        self.assertListEqual(text_spans, [TextSpan(text='BitCh', span=(8, 13))])
+    def test_from_text__mixed_casing(self):
+        text_spans = Profanity.from_text('He is a BitCh, she said.')
+        self.assertListEqual(text_spans, [Profanity(text='BitCh', span=(8, 13))])
 
-        # Character substituion.
-        text_spans = get_profanities('He is a b!tCh, she said.')
-        self.assertListEqual(text_spans, [TextSpan(text='b!tCh', span=(8, 13))])
+    def test_from_text__char_substitution(self):
+        text_spans = Profanity.from_text('He is a b!tCh, she said.')
+        self.assertListEqual(text_spans, [Profanity(text='b!tCh', span=(8, 13))])
 
-        # Irregular spacing.
-        text_spans = get_profanities('dry     hump')
-        self.assertListEqual(text_spans, [TextSpan(text='dry     hump', span=(0, 12))])
+    def test_from_text__irregular_spacing(self):
+        text_spans = Profanity.from_text('dry     hump')
+        self.assertListEqual(text_spans, [Profanity(text='dry     hump', span=(0, 12))])
 
-        # Conjunction. NOTE: 'ass' should not be matched
-        text_spans = get_profanities('asshole')
-        self.assertListEqual(text_spans, [TextSpan(text='asshole', span=(0, 7))])
+    def test_from_text__conjunction(self):
+        # NOTE: 'ass' should not be matched
+        text_spans = Profanity.from_text('asshole')
+        self.assertListEqual(text_spans, [Profanity(text='asshole', span=(0, 7))])

@@ -3,9 +3,9 @@ from functools import reduce
 import re
 
 from .text import TextSpan, Span
-from .abbreviation import get_abbreviations
+from .abbreviation import Abbreviation
 from .email import Email
-from .url import get_urls
+from .url import Url
 
 
 class Sentence(TextSpan):
@@ -50,8 +50,8 @@ class Sentence(TextSpan):
         :return: List of sentence spans
         """
         # Get non break text spans.
-        known_abbreviations, unknown_abbreviations = get_abbreviations(text)
-        urls = get_urls(text)
+        known_abbreviations, unknown_abbreviations = Abbreviation.from_text(text)
+        urls = Url.from_text(text)
         emails = Email.from_text(text)
 
         non_break_spans = cls._reduce_non_break_spans(

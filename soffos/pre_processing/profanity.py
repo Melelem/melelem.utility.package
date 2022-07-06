@@ -31,9 +31,11 @@ PROFANITIES = LazyLoader(_load_profanities)
 PROFANITY_PATTERNS = LazyLoader(_load_profanity_patterns)
 
 
-def get_profanities(text: str):
-    return [
-        TextSpan(text=match.group(), span=match.span())
-        for profanity_pattern in PROFANITY_PATTERNS()
-        for match in re.finditer(profanity_pattern, text)
-    ]
+class Profanity(TextSpan):
+    @classmethod
+    def from_text(cls, text: str):
+        return cls.from_matches([
+            match
+            for profanity_pattern in PROFANITY_PATTERNS()
+            for match in re.finditer(profanity_pattern, text)
+        ])

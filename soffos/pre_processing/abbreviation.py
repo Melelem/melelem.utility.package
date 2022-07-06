@@ -46,17 +46,19 @@ KNOWN_ABBREVIATIONS_PATTERN = LazyLoader(_load_known_abbreviations_pattern)
 UNKNOWN_ABBREVIATIONS_PATTERN = LazyLoader(_load_unknown_abbreviations_pattern)
 
 
-def get_abbreviations(text: str):
-    # Match known abbreviations.
-    matches = re.finditer(KNOWN_ABBREVIATIONS_PATTERN(), text)
-    known_abbreviations = TextSpan.from_matches(matches)
+class Abbreviation(TextSpan):
+    @classmethod
+    def from_text(cls, text: str):
+        # Match known abbreviations.
+        matches = re.finditer(KNOWN_ABBREVIATIONS_PATTERN(), text)
+        known_abbreviations = cls.from_matches(matches)
 
-    # Match unknown abbreviations.
-    matches = re.finditer(UNKNOWN_ABBREVIATIONS_PATTERN(), text, flags=re.MULTILINE)
-    abbreviations = TextSpan.from_matches(matches)
+        # Match unknown abbreviations.
+        matches = re.finditer(UNKNOWN_ABBREVIATIONS_PATTERN(), text, flags=re.MULTILINE)
+        abbreviations = cls.from_matches(matches)
 
-    # Get unknown abbreviations.
-    unknown_abbreviations = list(set(abbreviations) - set(known_abbreviations))
-    unknown_abbreviations.sort(key=lambda abbreviation: abbreviation.span)
+        # Get unknown abbreviations.
+        unknown_abbreviations = list(set(abbreviations) - set(known_abbreviations))
+        unknown_abbreviations.sort(key=lambda abbreviation: abbreviation.span)
 
-    return known_abbreviations, unknown_abbreviations
+        return known_abbreviations, unknown_abbreviations
