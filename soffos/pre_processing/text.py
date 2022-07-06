@@ -289,7 +289,7 @@ def remove_non_ascii_chars(text: str):
 
 def get_language(text: str):
     """Detect language based on the presence of stop words."""
-    words = set(nltk.wordpunct_tokenize(text.lower()))
+    words = set(text.lower().split())
     lang_stopword_counts = {
         lang: len(words & stopwords)
         for lang, stopwords in STOPWORDS.lazy_load().items()
