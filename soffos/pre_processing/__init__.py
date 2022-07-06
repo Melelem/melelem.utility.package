@@ -1,4 +1,5 @@
 from .abbreviation import *
+from .chunk import *
 from .contraction import *
 from .email import *
 from .html import *
