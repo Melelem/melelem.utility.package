@@ -9,7 +9,5 @@ class Paragraph(TextSpan):
         """
         Splits a given text into a list of paragraphs
         """
-        return [
-            cls(text=match.group(), span=match.span())
-            for match in re.finditer(r'[\S ]+', text)
-        ]
+        matches = re.finditer(r'[\S ]+', text)
+        return cls.from_matches(matches)
