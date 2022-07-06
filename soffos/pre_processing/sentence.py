@@ -4,6 +4,7 @@ import re
 
 from .text import TextSpan, Span
 from .abbreviation import get_abbreviations
+from .email import Email
 from .url import get_urls
 
 
@@ -51,11 +52,13 @@ class Sentence(TextSpan):
         # Get non break text spans.
         known_abbreviations, unknown_abbreviations = get_abbreviations(text)
         urls = get_urls(text)
+        emails = Email.from_text(text)
 
         non_break_spans = cls._reduce_non_break_spans(
             known_abbreviations,
             unknown_abbreviations,
-            urls
+            urls,
+            emails
         )
         break_indicies = cls._get_break_indicies(text, non_break_spans)
         split_spans = cls._get_split_spans(text, break_indicies)

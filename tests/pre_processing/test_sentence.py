@@ -42,3 +42,11 @@ class SentenceTests(TestCase):
             Sentence(text='Want to learn about NLP?', span=(0, 24)),
             Sentence(text='Visit https://www.soffos.ai/ for info.', span=(25, 63))
         ])
+    
+    def test_from_text__emails(self):
+        text = 'Want to learn about NLP? Contact john.doe@soffos.ai for info.'
+        sentences = Sentence.from_text(text)
+        self.assertListEqual(sentences, [
+            Sentence(text='Want to learn about NLP?', span=(0, 24)),
+            Sentence(text='Contact john.doe@soffos.ai for info.', span=(25, 61))
+        ])
