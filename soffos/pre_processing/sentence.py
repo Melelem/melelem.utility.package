@@ -2,7 +2,9 @@ import typing as t
 from functools import reduce
 import re
 
-from .text import TextSpan, Span, get_abbreviations, get_urls
+from .text import TextSpan, Span
+from .abbreviation import get_abbreviations
+from .url import get_urls
 
 
 class Sentence(TextSpan):
