@@ -51,7 +51,14 @@ class TextSpan:
         return self.span[1]
 
     @classmethod
-    def split(cls, text: str, spans: t.List[Span]):
+    def split(cls, text: str, spans: t.List[Span], span_offset: int = 0):
+        """Split text on the spans provided. The surrounding text_spans are returned.
+
+        :param text: The text to split
+        :param spans: Lists where the text is split
+        :param span_offset: Offset all spans returned (useful if text is subtext), defaults to 0
+        :return: The surrounding text spans
+        """
         spans.sort()
         text_spans: t.List[cls] = []
         for span_1, span_2 in zip([None] + spans, spans + [None]):
@@ -67,7 +74,7 @@ class TextSpan:
             if span_start != span_end:
                 text_spans.append(cls(
                     text=text[span_start:span_end],
-                    span=(span_start, span_end)
+                    span=(span_offset + span_start, span_offset + span_end)
                 ))
         return text_spans
 

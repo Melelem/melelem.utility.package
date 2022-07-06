@@ -41,7 +41,13 @@ class Sentence(TextSpan):
         return split_spans
 
     @classmethod
-    def from_text(cls, text: str):
+    def from_text(cls, text: str, span_offset: int = 0):
+        """Split text into sentences by identifying sentence-breaking punctuations.
+
+        :param text: The text to split into sentences
+        :param span_offset: Offset all spans returned (useful if text is subtext), defaults to 0
+        :return: List of sentence spans
+        """
         # Get non break text spans.
         known_abbreviations, unknown_abbreviations = get_abbreviations(text)
         urls = get_urls(text)
@@ -53,4 +59,4 @@ class Sentence(TextSpan):
         )
         break_indicies = cls._get_break_indicies(text, non_break_spans)
         split_spans = cls._get_split_spans(text, break_indicies)
-        return cls.split(text, split_spans)
+        return cls.split(text, split_spans, span_offset)
