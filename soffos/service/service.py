@@ -8,8 +8,7 @@ import logging
 
 # pylint: disable=no-name-in-module
 from pydantic import BaseModel as Model
-from pydantic import Field
-from pydantic import ValidationError
+from pydantic import Field, ValidationError, validator
 
 
 class Service:
