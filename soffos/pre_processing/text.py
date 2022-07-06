@@ -142,7 +142,7 @@ class TextSpan:
         return self.span[1]
 
     @classmethod
-    def split(cls, text: str, spans: t.List[t.Tuple[int, int]]):
+    def split(cls, text: str, spans: t.List[Span]):
         spans.sort()
         text_spans: t.List[cls] = []
         for span_1, span_2 in zip([None] + spans, spans + [None]):
