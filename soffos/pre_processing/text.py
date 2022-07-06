@@ -87,8 +87,9 @@ class TextSpan:
 
 
 def split_punctuations(text: str, span_offset: int = 0):
+    pattern = r'{not_punct}+'.format(not_punct=not_punct)
     text_spans: t.List[TextSpan] = []
-    for match in re.finditer(not_punct + r'+', text):
+    for match in re.finditer(pattern, text):
         span = match.span()
         text_spans.append(TextSpan(
             text=match.group(),
