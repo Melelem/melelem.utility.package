@@ -47,12 +47,12 @@ class Service:
         """
         pass
 
-    def validate(self, **kwargs):
-        return self.Data(**kwargs)
+    def validate(self, **data):
+        return self.Data(**data)
 
     def run(self, data: Data):
         raise NotImplementedError()
 
-    def serve(self, **kwargs):
-        data = self.validate(**kwargs)
-        return self.run(data)
+    def serve(self, **data):
+        validated_data = self.validate(**data)
+        return self.run(validated_data)
