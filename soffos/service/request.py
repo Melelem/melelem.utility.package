@@ -24,22 +24,20 @@ class _Session(RetryWebClient):
     def send(self):
         return super().send()['response']
 
-class GPT3ModelService(_Session):
-    """
-    GPTModelService. Activates remote service with neural network
-    processing capabilities.
-    """
-    name = 'SOFFOS_SERVICE_MODEL_GPT_3'
 
-    def __init__(self, text: str, stop: str, max_tokens: int, engine: str=None):
+class GPT3Service(_Session):
+    name = 'SOFFOS_SERVICE_GPT3'
+    path = 'generate'
+
+    def __init__(self, prompt: str, stop: str, max_tokens: int, engine: str = None):
         super().__init__(
             payload={
-                'prompt': text, 
-                'stop': stop, 
-                "engine": engine,
-                "max_tokens": max_tokens
+                'prompt': prompt,
+                'stop': stop,
+                'engine': engine,
+                'max_tokens': max_tokens
             }
-        )   
+        )
 
 
 class NERModelService(_Session):
@@ -50,11 +48,6 @@ class NERModelService(_Session):
 
 
 class ProfanityModelService(_Session):
-    """
-    Profanity model service. Activates remote service with neural network
-    processing capabilities.
-    """
-
     name = 'SOFFOS_SERVICE_MODEL_PROFANITY'
 
     def __init__(self, strings: t.List[str]):
