@@ -20,25 +20,25 @@ def _load_known_abbreviations_pattern():
 
 
 def _load_unknown_abbreviations_pattern():
-    return ''.join([
+    return (
         # First letter.
         # - must be capital
         # - must be at start of line or have a space before.
-        r'(?:(?<=^)|(?<= ))[A-Z]',
+        r'(?:(?<=^)|(?<= ))[A-Z]'
         # Optional period after first letter.
         r'\.?'
         # Middle letters and optional periods.
-        r'(?:[a-zA-Z]*\.?)*',
+        r'(?:[a-zA-Z]*\.?)*'
         # Last letter.
         # - must be capital
         # - must be at end of line or have a space after.
-        r'[A-Z](?:(?=\.?$)|(?=\.? )|(?=\.{punct}))'.format(punct=punct),
+        r'[A-Z](?:(?=\.?$)|(?=\.? )|(?=\.{punct}))'
         # Optional period after last letter.
         # - must be at end of line
         # -- or must have spaces and a lowercase letter.
         # -- or must have an end-of-sentence punctuation.
-        r'\.?(?:(?=$)|(?= +[a-z])|(?={punct}))'.format(punct=punct)
-    ])
+        r'\.?(?:(?=$)|(?= +[a-z])|(?={punct}))'
+    ).format(punct=punct)
 
 
 ABBREVIATIONS = LazyLoader(_load_abbreviations)
