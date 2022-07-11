@@ -22,7 +22,10 @@ class _Session(RetryWebClient):
         super().__init__(payload, url)
 
     def send(self):
-        return super().send()['response']
+        response = super().send()
+        if DEBUG:
+            response = response['response']
+        return response
 
 
 class GPT3Service(_Session):
