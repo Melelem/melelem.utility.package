@@ -18,7 +18,7 @@ class _Session(RetryWebClient):
                 payload['path'] = self.path
             url = 'https://dev-api.soffos.ai/api/service/'
         else:
-            url = get_service_url(self.name)
+            url = get_service_url(self.name) + self.path
         super().__init__(payload, url)
 
     def send(self):
