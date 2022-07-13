@@ -82,3 +82,26 @@ class BertModelService(_Session):
         if padding is not None:
             payload['padding'] = padding
         super().__init__(payload)
+
+
+class QnAGenerationService(_Session):
+    name = 'SOFFOS_SERVICE_QNA_GENERATION'
+
+    def __init__(
+        self,
+        text: str,
+        max_tokens: int = None,
+        engine: str = None,
+        chunk_max_sentences: int = None,
+        chunk_sentence_overlap: int = None
+    ):
+        payload = {'text': text}
+        if max_tokens is not None:
+            payload['max_tokens'] = max_tokens
+        if engine is not None:
+            payload['engine'] = engine
+        if chunk_max_sentences is not None:
+            payload['chunk_max_sentences'] = chunk_max_sentences
+        if chunk_sentence_overlap is not None:
+            payload['chunk_sentence_overlap'] = chunk_sentence_overlap
+        super().__init__(payload)
