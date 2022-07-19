@@ -53,13 +53,19 @@ class Sentence(TextSpan):
         known_abbreviations, unknown_abbreviations = Abbreviation.from_text(text)
         urls = Url.from_text(text)
         emails = Email.from_text(text)
-
         non_break_spans = cls._reduce_non_break_spans(
             known_abbreviations,
             unknown_abbreviations,
             urls,
             emails
         )
+
         break_indicies = cls._get_break_indicies(text, non_break_spans)
-        split_spans = cls._get_split_spans(text, break_indicies)
-        return cls.split(text, split_spans, span_offset)
+        if break_indicies:
+            split_spans = cls._get_split_spans(text, break_indicies)
+            return cls.split(text, split_spans, span_offset)
+        else:
+            return [cls(
+                text=text,
+                span=(span_offset, span_offset + len(text))
+            )]

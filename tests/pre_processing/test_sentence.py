@@ -27,6 +27,13 @@ class SentenceTests(TestCase):
             ))
         self.assertListEqual(sentences, expected_sentences)
 
+    def test_from_text__no_breaks(self):
+        text = 'This sentence has no breaks'
+        sentences = Sentence.from_text(text)
+        self.assertListEqual(sentences, [
+            Sentence(text=text, span=(0, len(text)))
+        ])
+
     def test_from_text__abbreviations(self):
         text = 'Hello Dr. Susan! Have you read about the new A.B.C. research?'
         sentences = Sentence.from_text(text)
@@ -42,7 +49,7 @@ class SentenceTests(TestCase):
             Sentence(text='Want to learn about NLP?', span=(0, 24)),
             Sentence(text='Visit https://www.soffos.ai/ for info.', span=(25, 63))
         ])
-    
+
     def test_from_text__emails(self):
         text = 'Want to learn about NLP? Contact john.doe@soffos.ai for info.'
         sentences = Sentence.from_text(text)

@@ -74,3 +74,8 @@ class ChunkTests(TestCase):
                 Sentence(text='Five.', span=(23, 28))
             ])
         ])
+
+    def test_from_text__no_chunks(self):
+        text = 'He went to the park'
+        chunks = Chunk.from_text(text, max_characters=1)
+        self.assertListEqual(chunks, [])
