@@ -12,6 +12,15 @@
       "presentation": {
         "hidden": true
       }
+    },
+    {
+      "name": "Update Version",
+      "type": "python",
+      "request": "launch",
+      "program": "setup.py",
+      "args": [
+        "--version"
+      ]
     }
   ]
 }
