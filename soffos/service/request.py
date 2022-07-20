@@ -105,3 +105,13 @@ class QnAGenerationService(_Session):
         if chunk_sentence_overlap is not None:
             payload['chunk_sentence_overlap'] = chunk_sentence_overlap
         super().__init__(payload)
+
+
+class StringSimilarityService(_Session):
+    name = 'SOFFOS_SERVICE_STRING_SIMILARITY'
+
+    def __init__(self, a: str, b: t.List[str], threshold: float = None):
+        payload = {'a': a, 'b': b}
+        if threshold is not None:
+            payload['threshold'] = threshold
+        super().__init__(payload)
