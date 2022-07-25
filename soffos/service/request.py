@@ -2,6 +2,7 @@ import typing as t
 
 from ..settings import get_service_url, DEBUG
 from ..web import RetryWebClient
+from ..pre_processing import Chunk
 
 
 class _Session(RetryWebClient):
@@ -89,13 +90,18 @@ class QnAGenerationService(_Session):
 
     def __init__(
         self,
-        text: str,
+        text: str = None,
+        chunks: t.List[Chunk] = None,
         max_tokens: int = None,
         engine: str = None,
         chunk_max_sentences: int = None,
         chunk_sentence_overlap: int = None
     ):
-        payload = {'text': text}
+        payload = {}
+        if text is not None:
+            payload['text'] = text
+        if chunks is not None:
+            payload['chunks'] = chunks
         if max_tokens is not None:
             payload['max_tokens'] = max_tokens
         if engine is not None:
