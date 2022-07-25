@@ -50,6 +50,15 @@ class TextSpan:
     def span_end(self):
         return self.span[1]
 
+    @property
+    def words(self):
+        words = re.split(r'\W+', self.text)
+        if words:
+            words = words[1 if words[0] == '' else 0:]
+        if words:
+            words = words[:-1 if words[-1] == '' else len(words)]
+        return words
+
     @classmethod
     def split(cls, text: str, spans: t.List[Span], span_offset: int = 0):
         """Split text on the spans provided. The surrounding text_spans are returned.

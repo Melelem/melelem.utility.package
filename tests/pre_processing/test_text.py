@@ -9,6 +9,23 @@ from soffos.pre_processing.text import (
 
 
 class TextSpanTests(TestCase):
+    def test_words(self):
+        text = ' Hi. Hello, how     are you? I like them - apples!!'
+        words = TextSpan(text=text, span=(0, len(text))).words
+        self.assertListEqual(words, [
+            'Hi', 'Hello', 'how', 'are', 'you', 'I', 'like', 'them', 'apples'
+        ])
+    
+    def test_words__one_word(self):
+        text = ' Hello.   '
+        words = TextSpan(text=text, span=(0, len(text))).words
+        self.assertListEqual(words, ['Hello'])
+    
+    def test_words__no_words(self):
+        text = '    '
+        words = TextSpan(text=text, span=(0, len(text))).words
+        self.assertListEqual(words, [])
+
     def test_split(self):
         text = 'The dog is derived from an ancient, extinct wolf.'
         text_spans = TextSpan.split(text, spans=[(24, 26), (0, 3)])

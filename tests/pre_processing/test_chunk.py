@@ -22,6 +22,21 @@ class ChunkTests(TestCase):
             ])
         ])
 
+    def test_from_text__max_words(self):
+        text = 'One. Two. Three. Four. Five.'
+        chunks = Chunk.from_text(text, max_words=3)
+        self.assertListEqual(chunks, [
+            Chunk(sentences=[
+                Sentence(text='One.', span=(0, 4)),
+                Sentence(text='Two.', span=(5, 9)),
+                Sentence(text='Three.', span=(10, 16)),
+            ]),
+            Chunk(sentences=[
+                Sentence(text='Four.', span=(17, 22)),
+                Sentence(text='Five.', span=(23, 28))
+            ])
+        ])
+
     def test_from_text__max_characters(self):
         text = 'One. Two. Three. Four. Five.'
         chunks = Chunk.from_text(text, max_characters=4)
