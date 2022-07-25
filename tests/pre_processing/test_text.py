@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from soffos.pre_processing.text import (
     TextSpan,
+    remove_possessions,
     split_punctuations,
     normalize_chars,
     normalize_whitespaces
@@ -15,12 +16,12 @@ class TextSpanTests(TestCase):
         self.assertListEqual(words, [
             'Hi', 'Hello', 'how', 'are', 'you', 'I', 'like', 'them', 'apples'
         ])
-    
+
     def test_words__one_word(self):
         text = ' Hello.   '
         words = TextSpan(text=text, span=(0, len(text))).words
         self.assertListEqual(words, ['Hello'])
-    
+
     def test_words__no_words(self):
         text = '    '
         words = TextSpan(text=text, span=(0, len(text))).words
@@ -36,6 +37,13 @@ class TextSpanTests(TestCase):
 
 
 class Tests(TestCase):
+    def test_remove_possessions(self):
+        text = remove_possessions('Mary\'s dog.')
+        self.assertEqual(text, 'Mary dog.')
+
+        text = remove_possessions('Mary\'s')
+        self.assertEqual(text, 'Mary')
+
     def test_split_punctuations(self):
         text = 'The `dog` is derived from an ancient, extinct wolf.'
         text_spans = split_punctuations(text)

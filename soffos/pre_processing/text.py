@@ -112,6 +112,10 @@ def remove_punctuations(text: str):
     return text.translate(str.maketrans('', '', string.punctuation))
 
 
+def remove_possessions(text: str):
+    return re.sub(r'(?<=\w)\'s', '', text)
+
+
 def replace_newlines(text: str, replacement: str = ' '):
     return re.sub(r'[\r|\n|\r\n]+', replacement, text)
 
