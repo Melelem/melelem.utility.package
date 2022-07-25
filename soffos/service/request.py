@@ -1,4 +1,5 @@
 import typing as t
+from dataclasses import asdict
 
 from ..settings import get_service_url, DEBUG
 from ..web import RetryWebClient
@@ -101,7 +102,7 @@ class QnAGenerationService(_Session):
         if text is not None:
             payload['text'] = text
         if chunks is not None:
-            payload['chunks'] = chunks
+            payload['chunks'] = [asdict(chunk) for chunk in chunks]
         if max_tokens is not None:
             payload['max_tokens'] = max_tokens
         if engine is not None:
