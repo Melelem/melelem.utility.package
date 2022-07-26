@@ -18,37 +18,41 @@ def _load_stopwords():
     return stopwords
 
 
+def _load_stopwords_patterns():
+    return {
+        language: r'\b({})\b'.format('|'.join(map(re.escape, stopwords)))
+        for language, stopwords in STOPWORDS().items()
+    }
+
+
 STOPWORDS = LazyLoader(_load_stopwords)
+STOPWORDS_PATTERNS = LazyLoader(_load_stopwords_patterns)
 
 
-def split_stopwords(
-    text: str,
-    language: str = 'english',
-    ignore_case: bool = True,
-    span_offset: int = 0
-):
-    stopwords = STOPWORDS()[language.lower()]
-    pattern = r'\b(' + '|'.join(map(re.escape, stopwords)) + r')\b'
+class Stopword(TextSpan):
+    @classmethod
+    def from_text(
+        cls,
+        text: str,
+        language: str = 'english',
+        ignore_case: bool = True,
+        span_offset: int = 0
+    ):
+        pattern = STOPWORDS_PATTERNS()[language.lower()]
+        matches = re.finditer(pattern, text, flags=re.IGNORECASE if ignore_case else None)
+        return cls.from_matches(matches, span_offset)
 
-    index = 0
-    text_spans: t.List[TextSpan] = []
-    for match in re.finditer(pattern, text, flags=re.IGNORECASE if ignore_case else None):
-        span = match.span()
-        if span[0] > 0:
-            text_spans.append(TextSpan(
-                text=text[index:span[0]],
-                span=(span_offset + index, span_offset + span[0])
-            ))
-        index = span[1]
-
-    text_length = len(text)
-    if index < text_length:
-        text_spans.append(TextSpan(
-            text=text[index:text_length],
-            span=(span_offset + index, span_offset + text_length)
-        ))
-
-    return text_spans
+    @classmethod
+    def split_text(
+        cls,
+        text: str,
+        language: str = 'english',
+        ignore_case: bool = True,
+        span_offset: int = 0
+    ):
+        stopwords = cls.from_text(text, language, ignore_case)
+        spans = [stopword.span for stopword in stopwords]
+        return TextSpan.split(text, spans, span_offset)
 
 
 def get_language(text: str):
