@@ -4,7 +4,8 @@ import re
 
 from ..utilities import LazyLoader
 from .. import DATA_DIR
-from .text import TextSpan, punct
+from .text import TextSpan
+from .punctuation import punct
 
 
 def _load_abbreviations() -> t.Dict[str, str]:

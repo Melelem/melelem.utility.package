@@ -1,6 +1,5 @@
 import typing as t
 from dataclasses import dataclass
-import string
 import json
 import re
 
@@ -27,8 +26,6 @@ def _load_char_substitution_patterns():
 CHAR_SUBSTITUTIONS = LazyLoader(_load_char_substitutions)
 CHAR_SUBSTITUTION_PATTERNS = LazyLoader(_load_char_substitution_patterns)
 
-punct = r'[{}]'.format(string.punctuation)
-not_punct = r'[^{}]'.format(string.punctuation)
 
 Span = t.Tuple[int, int]
 
@@ -121,23 +118,6 @@ class TextSpan:
             )
             for match in matches
         ]
-
-
-def split_punctuations(text: str, span_offset: int = 0):
-    pattern = r'{not_punct}+'.format(not_punct=not_punct)
-    text_spans: t.List[TextSpan] = []
-    for match in re.finditer(pattern, text):
-        span = match.span()
-        text_spans.append(TextSpan(
-            text=match.group(),
-            span=(span_offset + span[0], span_offset + span[1])
-        ))
-
-    return text_spans
-
-
-def remove_punctuations(text: str):
-    return text.translate(str.maketrans('', '', string.punctuation))
 
 
 def remove_possessions(text: str):

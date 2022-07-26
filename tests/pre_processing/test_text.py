@@ -3,9 +3,7 @@ from unittest import TestCase
 from soffos.pre_processing.text import (
     TextSpan,
     remove_possessions,
-    split_punctuations,
-    normalize_chars,
-    normalize_whitespaces
+    normalize_chars
 )
 
 
@@ -59,18 +57,6 @@ class Tests(TestCase):
 
         text = remove_possessions('Mary\'s')
         self.assertEqual(text, 'Mary')
-
-    def test_split_punctuations(self):
-        text = 'The `dog` is derived from an ancient, extinct wolf.'
-        text_spans = split_punctuations(text)
-
-        expected_text_spans = []
-        for subtext in ['The ', 'dog', ' is derived from an ancient', ' extinct wolf']:
-            index = text.index(subtext)
-            expected_text_spans.append(TextSpan(
-                text=subtext, span=(index, index + len(subtext))
-            ))
-        self.assertListEqual(text_spans, expected_text_spans)
 
     def test_normalize_chars(self):
         characters = {

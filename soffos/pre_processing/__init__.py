@@ -5,6 +5,7 @@ from .email import *
 from .html import *
 from .paragraph import *
 from .profanity import *
+from .punctuation import *
 from .sentence import *
 from .stopword import *
 from .text import *
