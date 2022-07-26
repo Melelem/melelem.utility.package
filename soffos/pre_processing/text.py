@@ -88,9 +88,12 @@ class TextSpan:
         return text_spans
 
     @classmethod
-    def from_matches(cls, matches: t.Iterator[re.Match]):
+    def from_matches(cls, matches: t.Iterator[re.Match], span_offset: int = 0):
         return [
-            cls(text=match.group(), span=match.span())
+            cls(
+                text=match.group(),
+                span=(span_offset + match.span()[0], span_offset + match.span()[1])
+            )
             for match in matches
         ]
 
