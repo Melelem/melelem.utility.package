@@ -19,14 +19,11 @@ class Sentence(TextSpan):
             return spans + [text_span.span for text_span in text_spans]
         return reduce(get_spans, text_span_lists, [])
 
-    @staticmethod
-    def _get_break_indicies(text: str, non_break_spans: t.List[Span]):
-        break_indicies: t.List[int] = []
-        for match in re.finditer(r'[.!?]', text):
-            i = match.span()[0]
-            if all(i < span[0] or i > span[1] for span in non_break_spans):
-                break_indicies.append(i)
-        return break_indicies
+    @classmethod
+    def _get_break_indicies(cls, text: str, non_break_spans: t.List[Span]):
+        break_spans = [match.span() for match in re.finditer(r'[.!?]', text)]
+        break_spans = cls.get_non_overlapping_spans(non_break_spans, break_spans)
+        return [span[0] for span in break_spans]
 
     @staticmethod
     def _get_split_spans(text: str, break_indicies: t.List[int]):

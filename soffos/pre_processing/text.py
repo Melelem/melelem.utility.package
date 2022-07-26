@@ -119,6 +119,18 @@ class TextSpan:
             for match in matches
         ]
 
+    @staticmethod
+    def get_non_overlapping_spans(spans: t.List[Span], possibly_overlapping_spans: t.List[Span]):
+        return [
+            possibly_overlapping_span
+            for possibly_overlapping_span in possibly_overlapping_spans
+            if all(
+                possibly_overlapping_span[0] >= span[1]
+                or possibly_overlapping_span[1] <= span[0]
+                for span in spans
+            )
+        ]
+
 
 def remove_possessions(text: str):
     return re.sub(r'(?<=\w)\'s', '', text)

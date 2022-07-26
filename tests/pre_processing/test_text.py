@@ -49,6 +49,13 @@ class TextSpanTests(TestCase):
             TextSpan(text=' ancient, extinct wolf.', span=(26, len(text)))
         ])
 
+    def test_get_non_overlapping_spans(self):
+        spans, other_spans = [(0, 5), (6, 10)], [(8, 12), (10, 15)]
+        non_overlapping_spans = TextSpan.get_non_overlapping_spans(spans, other_spans)
+        self.assertListEqual(non_overlapping_spans, [
+            (10, 15)
+        ])
+
 
 class Tests(TestCase):
     def test_remove_possessions(self):
