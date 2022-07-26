@@ -59,6 +59,30 @@ class TextSpan:
             words = words[:-1 if words[-1] == '' else len(words)]
         return words
 
+    @staticmethod
+    def merge_spans(spans: t.List[Span]):
+        spans = spans.copy()
+        merged_spans: t.List[Span] = []
+        while spans:
+            span = spans.pop(0)
+            span_index = 0
+            while span_index < len(spans):
+                next_span = spans[span_index]
+                if (
+                    next_span[0] <= span[0] <= next_span[1]
+                    or next_span[0] <= span[1] <= next_span[1]
+                ):
+                    span = (
+                        span[0] if span[0] <= next_span[0] else next_span[0],
+                        span[1] if span[1] >= next_span[1] else next_span[1]
+                    )
+                    spans.pop(span_index)
+                    span_index = 0
+                else:
+                    span_index += 1
+            merged_spans.append(span)
+        return merged_spans
+
     @classmethod
     def split(cls, text: str, spans: t.List[Span], span_offset: int = 0):
         """Split text on the spans provided. The surrounding text_spans are returned.
@@ -68,6 +92,7 @@ class TextSpan:
         :param span_offset: Offset all spans returned (useful if text is subtext), defaults to 0
         :return: The surrounding text spans
         """
+        spans = cls.merge_spans(spans)
         spans.sort()
         text_spans: t.List[cls] = []
         for span_1, span_2 in zip([None] + spans, spans + [None]):

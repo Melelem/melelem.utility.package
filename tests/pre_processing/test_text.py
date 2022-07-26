@@ -27,9 +27,25 @@ class TextSpanTests(TestCase):
         words = TextSpan(text=text, span=(0, len(text))).words
         self.assertListEqual(words, [])
 
+    def test_merge_spans(self):
+        spans = [
+            (0, 5),
+            (15, 20),
+            (4, 10),
+            (20, 25),
+            (26, 30),
+            (9, 12)
+        ]
+        merged_spans = TextSpan.merge_spans(spans)
+        self.assertListEqual(merged_spans, [
+            (0, 12),
+            (15, 25),
+            (26, 30)
+        ])
+
     def test_split(self):
         text = 'The dog is derived from an ancient, extinct wolf.'
-        text_spans = TextSpan.split(text, spans=[(24, 26), (0, 3)])
+        text_spans = TextSpan.split(text, spans=[(24, 26), (1, 3), (0, 2)])
         self.assertListEqual(text_spans, [
             TextSpan(text=' dog is derived from ', span=(3, 24)),
             TextSpan(text=' ancient, extinct wolf.', span=(26, len(text)))
