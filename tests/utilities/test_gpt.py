@@ -2,14 +2,14 @@ from unittest import TestCase
 
 from soffos.utilities.gpt import (
     calculate_remaining_prompt_length,
-    Engine
+    GPTEngine
 )
 
 
 class GptTests(TestCase):
     def test_calculate_remaining_prompt_length(self):
         remaining_prompt_length = calculate_remaining_prompt_length(
-            Engine.davinci,
+            GPTEngine.davinci,
             prompt_length=1000,
             completion_max_tokens=100
         )
