@@ -3,13 +3,18 @@ import logging
 import sys
 
 
-def configure_root_logger(
+def configure_logger(
+    logger: t.Union[logging.Logger, str] = None,
     level: str = 'INFO',
     fmt: str = '[%(asctime)s][%(process)d][%(thread)d][%(name)s][%(levelname)s] - %(message)s',
     fmt_style: str = '%',
     stream: t.TextIO = sys.stderr
 ):
-    logger = logging.getLogger()
+    logger = (
+        logger
+        if isinstance(logger, logging.Logger)
+        else logging.getLogger(logger)
+    )
     logger.setLevel(level)
 
     formatter = logging.Formatter(fmt, style=fmt_style)
