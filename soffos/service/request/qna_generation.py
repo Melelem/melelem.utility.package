@@ -30,7 +30,7 @@ class QnAGenerationService(_Session):
         super().__init__(payload)
 
     class Response(BaseModel):
-        qna_list: t.Dict[str, t.Any]
+        qna_list: t.List[t.Dict[str, t.Any]]
         usage_overview: t.Dict[str, t.Any]
         chunks: t.List[Chunk]
 
