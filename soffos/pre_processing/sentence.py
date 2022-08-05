@@ -20,22 +20,34 @@ class Sentence(TextSpan):
         return reduce(get_spans, text_span_lists, [])
 
     @classmethod
-    def _get_break_indicies(cls, text: str, non_break_spans: t.List[Span]):
-        break_spans = [match.span() for match in re.finditer(r'[.!?]', text)]
-        break_spans = cls.get_non_overlapping_spans(non_break_spans, break_spans)
-        return [span[0] for span in break_spans]
+    def _get_break_spans(cls, text: str, non_break_spans: t.List[Span]):
+        punct_break_spans = [match.span() for match in re.finditer(r'[.!?]', text)]
+        punct_break_spans = cls.get_non_overlapping_spans(non_break_spans, punct_break_spans)
+        punct_break_spans = cls.merge_spans(punct_break_spans)
 
-    @staticmethod
-    def _get_split_spans(text: str, break_indicies: t.List[int]):
-        split_spans: t.List[Span] = []
-        for i in break_indicies:
-            i += 1
-            span = (i, i)
-            match = re.match(r'\s+', text[i:])
+        line_break_spans = [match.span() for match in re.finditer(r'[\r\n\t\f]+', text)]
+        line_break_spans = cls.get_non_overlapping_spans(non_break_spans, line_break_spans)
+
+        return punct_break_spans, line_break_spans
+
+    @classmethod
+    def _get_split_spans(
+        cls,
+        text: str,
+        punct_break_spans: t.List[Span],
+        line_break_spans: t.List[Span]
+    ):
+        split_spans = line_break_spans.copy()
+        for (_, span_end) in punct_break_spans:
+            match = re.match(r'\s+', text[span_end:])
             if match:
                 span = match.span()
-                span = (i + span[0], i + span[1])
-            split_spans.append(span)
+                span = (span_end + span[0], span_end + span[1])
+                split_spans.append(span)
+                split_spans = cls.merge_spans(split_spans)
+            else:
+                span = (span_end, span_end)
+                split_spans.append(span)
         return split_spans
 
     @classmethod
@@ -57,9 +69,9 @@ class Sentence(TextSpan):
             emails
         )
 
-        break_indicies = cls._get_break_indicies(text, non_break_spans)
-        if break_indicies:
-            split_spans = cls._get_split_spans(text, break_indicies)
+        punct_break_spans, line_break_spans = cls._get_break_spans(text, non_break_spans)
+        if punct_break_spans or line_break_spans:
+            split_spans = cls._get_split_spans(text, punct_break_spans, line_break_spans)
             return cls.split(text, split_spans, span_offset)
         else:
             return [cls(

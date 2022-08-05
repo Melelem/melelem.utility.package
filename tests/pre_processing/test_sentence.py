@@ -34,6 +34,47 @@ class SentenceTests(TestCase):
             Sentence(text=text, span=(0, len(text)))
         ])
 
+    def test_from_text__line_breaks(self):
+        text = 'Before line break\n\nAfter line break'
+        sentences = Sentence.from_text(text)
+        self.assertListEqual(sentences, [
+            Sentence(text='Before line break', span=(0, 17)),
+            Sentence(text='After line break', span=(19, 35))
+        ])
+
+    def test_from_text__punct_breaks(self):
+        text = 'She is now a doctor. She just graduated!'
+        sentences = Sentence.from_text(text)
+        self.assertListEqual(sentences, [
+            Sentence(text='She is now a doctor.', span=(0, 20)),
+            Sentence(text='She just graduated!', span=(21, 40))
+        ])
+
+    def test_from_text__punct_breaks_without_spaces(self):
+        text = 'She is now a doctor.She just graduated!'
+        sentences = Sentence.from_text(text)
+        self.assertListEqual(sentences, [
+            Sentence(text='She is now a doctor.', span=(0, 20)),
+            Sentence(text='She just graduated!', span=(20, 39))
+        ])
+
+    def test_from_text__multiple_punct_breaks(self):
+        text = 'I don\'t know... Do you?? You do!?!'
+        sentences = Sentence.from_text(text)
+        self.assertListEqual(sentences, [
+            Sentence(text='I don\'t know...', span=(0, 15)),
+            Sentence(text='Do you??', span=(16, 24)),
+            Sentence(text='You do!?!', span=(25, 34))
+        ])
+
+    def test_from_text__punct_and_line_breaks(self):
+        text = 'Before breaks.\nAfter breaks.'
+        sentences = Sentence.from_text(text)
+        self.assertListEqual(sentences, [
+            Sentence(text='Before breaks.', span=(0, 14)),
+            Sentence(text='After breaks.', span=(15, 28))
+        ])
+
     def test_from_text__abbreviations(self):
         text = 'Hello Dr. Susan! Have you read about the new A.B.C. research?'
         sentences = Sentence.from_text(text)
