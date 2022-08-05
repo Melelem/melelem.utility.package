@@ -43,11 +43,9 @@ class Sentence(TextSpan):
             if match:
                 span = match.span()
                 span = (span_end + span[0], span_end + span[1])
-                split_spans.append(span)
-                split_spans = cls.merge_spans(split_spans)
             else:
                 span = (span_end, span_end)
-                split_spans.append(span)
+            split_spans.append(span)
         return split_spans
 
     @classmethod

@@ -91,7 +91,6 @@ class TextSpan:
         :return: The surrounding text spans
         """
         spans = cls.merge_spans(spans)
-        spans.sort()
         text_spans: t.List[cls] = []
         for span_1, span_2 in zip([None] + spans, spans + [None]):
             if span_1 is None:
