@@ -27,12 +27,12 @@ class TextSpanTests(TestCase):
 
     def test_merge_spans(self):
         spans = [
-            (0, 5),
             (15, 20),
             (4, 10),
             (20, 25),
             (26, 30),
-            (9, 12)
+            (9, 12),
+            (0, 5)
         ]
         merged_spans = TextSpan.merge_spans(spans)
         self.assertListEqual(merged_spans, [

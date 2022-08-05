@@ -78,6 +78,7 @@ class TextSpan:
                 else:
                     span_index += 1
             merged_spans.append(span)
+        merged_spans.sort()
         return merged_spans
 
     @classmethod
