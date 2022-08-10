@@ -3,7 +3,7 @@ from ...settings import get_service_url, DEBUG
 from ...web import RetryWebClient
 
 
-class _Session(RetryWebClient):
+class ServiceRequestSession(RetryWebClient):
     name: str
     path = ''
 

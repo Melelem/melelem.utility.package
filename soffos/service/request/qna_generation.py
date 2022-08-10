@@ -3,12 +3,12 @@ import typing as t
 from pydantic import BaseModel
 
 from ...pre_processing import Chunk
-from ._base import _Session
+from ._base import ServiceRequestSession
 
 
 # TODO: Abstract this class into base class.
-class QnAGenerationService(_Session):
-    name = 'SOFFOS_SERVICE_QNA_GENERATION'
+class QnAGenerationService(ServiceRequestSession):
+    name = 'soffos-service-qna-generation'
 
     def __init__(
         self,
