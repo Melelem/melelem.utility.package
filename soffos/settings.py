@@ -24,7 +24,6 @@ def get_service_url(name: str):
     K8S_CONFIG()
 
     services: client.V1ServiceList = K8S().list_service_for_all_namespaces(
-        watch=False,
         field_selector='metadata.name=' + name
     )
     if not services.items:
