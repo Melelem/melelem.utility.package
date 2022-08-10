@@ -1,20 +1,32 @@
 from unittest import TestCase
-from unittest.mock import patch
-import os
+from unittest.mock import patch, Mock
+
+from kubernetes import client
 
 from soffos.settings import (
-    get_service_url
+    get_service_url,
+    K8S_CONFIG
 )
 
 
 class Tests(TestCase):
-    def test_get_service_url(self):
-        name, host, port = 'X', 'api.soffos.ai', '80'
-        env_vars = {f'{name}_SERVICE_HOST': host, f'{name}_SERVICE_PORT': port}
-        with patch.dict(os.environ, env_vars):
+    @patch.object(K8S_CONFIG, 'lazy_load')
+    def test_get_service_url(self, k8s_config: Mock):
+        name, cluster_ip, port = 'soffos-service-example', '0.0.0.0', 80
+        with patch.object(
+            client.CoreV1Api,
+            'list_service_for_all_namespaces',
+            return_value=client.V1ServiceList(items=[
+                client.V1Service(spec=client.V1ServiceSpec(
+                    cluster_ip=cluster_ip,
+                    ports=[client.V1ServicePort(port=port)]
+                ))
+            ])
+        ) as k8s__list_service_for_all_namespaces:
             url = get_service_url(name)
-            self.assertEqual(url, f'http://{host}:{port}/')
-
-    def test_get_service_url__invalid_name(self):
-        with self.assertRaises(NameError):
-            get_service_url('SOFFOS-SERVICE')
+            k8s__list_service_for_all_namespaces.assert_called_once_with(
+                watch=False,
+                field_selector='metadata.name=' + name
+            )
+        k8s_config.assert_called_once()
+        self.assertEqual(url, f'http://{cluster_ip}:{port}/')
