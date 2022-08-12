@@ -15,7 +15,7 @@ class ServiceRequestSession(RetryWebClient):
             }
             if self.path:
                 payload['path'] = self.path
-            url = 'https://dev-api.soffos.ai/api/service/'
+            url = 'https://dev-api.soffos.ai/service/'
         else:
             url = get_service_url(self.name) + self.path
         super().__init__(payload, url)
