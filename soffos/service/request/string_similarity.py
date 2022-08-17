@@ -6,8 +6,13 @@ from ._base import ServiceRequestSession
 class StringSimilarityService(ServiceRequestSession):
     name = 'soffos-service-string-similarity'
 
-    def __init__(self, a: str, b: t.List[str], threshold: float = None):
-        payload = {'a': a, 'b': b}
+    def get_similarities(
+        self,
+        a: str,
+        b: t.List[str],
+        threshold: float = None
+    ):
+        json = {'a': a, 'b': b}
         if threshold is not None:
-            payload['threshold'] = threshold
-        super().__init__(payload)
+            json['threshold'] = threshold
+        return self.request(json)
