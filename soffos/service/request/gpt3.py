@@ -6,7 +6,7 @@ class GPT3Service(ServiceRequestSession):
     name = 'soffos-service-gpt3'
     Usage = t.Dict[str, t.Any]
 
-    def calculate_usage_overview(usages: t.List[Usage]):
+    def calculate_usage_overview(self, usages: t.List[Usage]):
         return {
             'prompt_tokens': sum(u['prompt_tokens'] for u in usages),
             'completion_tokens': sum(u['completion_tokens'] for u in usages),
