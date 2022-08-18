@@ -96,6 +96,8 @@ class ServiceRequestSession:
             # Get response bytes.
             if response_type == bytes:
                 return response.content
+            elif response_type == str:
+                return response.text
 
             # Get response json.
             response_json: t.Dict[str, t.Any] = response.json()
