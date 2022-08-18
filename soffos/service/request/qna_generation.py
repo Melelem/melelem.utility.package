@@ -32,4 +32,4 @@ class QnAGenerationService(ServiceRequestSession):
             json['chunk_max_sentences'] = chunk_max_sentences
         if chunk_sentence_overlap is not None:
             json['chunk_sentence_overlap'] = chunk_sentence_overlap
-        return self.request(json, response_cls=self.GenerateQnAListResponse)
+        return self.request(json, response_type=self.GenerateQnAListResponse)

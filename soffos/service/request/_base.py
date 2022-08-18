@@ -49,7 +49,7 @@ class ServiceRequestSession:
         path: str = None,
         timeout: float = None,
         headers: t.Dict[str, str] = None,
-        response_cls: t.Type[Response] = None
+        response_type: t.Type[Response] = None
     ) -> Response: ...
 
     def request(
@@ -58,7 +58,7 @@ class ServiceRequestSession:
         path: str = None,
         timeout: float = None,
         headers: t.Dict[str, str] = None,
-        response_cls: t.Type[Response] = None
+        response_type: t.Type[Response] = None
     ):
         try:
             # Build request.
@@ -93,12 +93,16 @@ class ServiceRequestSession:
                     pass
                 raise self.Error(json_dumps(error))
 
+            # Get response bytes.
+            if response_type == bytes:
+                return response.content
+
             # Get response json.
             response_json: t.Dict[str, t.Any] = response.json()
             response_json = response_json['response'] if DEBUG else response_json
 
             # Optional: create response object.
-            return response_cls(**response_json) if response_cls else response_json
+            return response_type(**response_json) if response_type else response_json
 
         # Re-raise known errors.
         except self.Error as ex:
