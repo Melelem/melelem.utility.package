@@ -201,10 +201,9 @@ class DocumentsService(ServiceRequestSession):
             _type_: List[str]
         """
         json = {
-            "client_id": client_id
+            "client_id": client_id,
+            "query": query
         }
-        if query:
-            json["query"] = query
         if document_ids:
             json["document_ids"] = document_ids
         if sparse_top_k:
