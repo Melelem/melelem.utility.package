@@ -6,7 +6,7 @@ import argparse
 #   1. by hand (see: https://www.utctime.net/).
 #   2. run this script with version arg ('python setup.py -v').
 YEAR, MONTH, DAY = 22, 8, 19  # date
-HOUR, MINUTE, SECOND = 13, 38, 26  # time
+HOUR, MINUTE, SECOND = 13, 40, 37  # time
 
 
 arg_parser = argparse.ArgumentParser()

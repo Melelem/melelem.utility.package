@@ -23,5 +23,4 @@ class TranslationService(ServiceRequestSession):
         return self.request(json=json)
 
     def detect(self, texts: List[str]):
-        return self.request(json={"texs": texts}, path="detect")
-        
+        return self.request(json={"texts": texts}, path="detect")
