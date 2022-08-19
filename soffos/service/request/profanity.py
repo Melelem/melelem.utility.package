@@ -1,7 +1,7 @@
 from ._base import ServiceRequestSession
 from typing import List
 
-class ProfanityModelService(ServiceRequestSession):
+class ProfanityService(ServiceRequestSession):
     name = 'soffos-service-profanity'
 
     def detect(self, strings: List[str]):

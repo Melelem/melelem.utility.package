@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 from typing import List
 
 
-class TransformerService(ServiceRequestSession):
+class TransformerModelService(ServiceRequestSession):
     name = "soffos-service-model-transformers"
 
     def classify_query(self, query: str):

@@ -1,7 +1,7 @@
 from ._base import ServiceRequestSession
 from typing import List
 
-class CorefService(ServiceRequestSession):
+class CorefModelService(ServiceRequestSession):
     name = "soffos-service-model-coref"
 
     def resolve(self, texts: List[str]):
