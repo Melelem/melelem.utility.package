@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from soffos.utilities.gpt import (
+from soffos.utilities.gpt3 import (
     calculate_remaining_prompt_length,
     GPTEngine
 )

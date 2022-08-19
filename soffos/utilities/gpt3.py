@@ -33,6 +33,16 @@ GPT_ENGINE_SPECS = {
     )
 }
 
+Usage = t.Dict[str, t.Any]
+
+def calculate_usage_overview(usages: t.List[Usage]):
+    return {
+        'prompt_tokens': sum(u['prompt_tokens'] for u in usages),
+        'completion_tokens': sum(u['completion_tokens'] for u in usages),
+        'total_tokens': sum(u['total_tokens'] for u in usages),
+        'total_cost_dollars': sum(u['cost_dollars'] for u in usages),
+        'calls': len(usages)
+    }
 
 def calculate_remaining_prompt_length(
     engine: GPTEngine,
