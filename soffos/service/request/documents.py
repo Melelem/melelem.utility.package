@@ -38,9 +38,9 @@ class DocumentsService(ServiceRequestSession):
         }
         if meta:
             json["meta"] = meta
-        if chunk_word_length:
+        if chunk_word_length is not None:
             json["chunk_word_length"] = chunk_word_length
-        if sent_overlap:
+        if sent_overlap is not None:
             json["sent_overlap"] = sent_overlap
 
         return self.request(json=json, path="document/ingest")
@@ -100,9 +100,9 @@ class DocumentsService(ServiceRequestSession):
 
         if document_ids:
             json["document_ids"] = document_ids
-        if sparse_top_k:
+        if sparse_top_k is not None:
             json["sparse_top_k"] = sparse_top_k
-        if dense_top_k:
+        if dense_top_k is not None:
             json["dense_top_k"] = dense_top_k
         if filters:
             json["filters"] = filters
@@ -204,17 +204,17 @@ class DocumentsService(ServiceRequestSession):
             "client_id": client_id,
             "query": query
         }
-        if document_ids:
+        if document_ids is not None:
             json["document_ids"] = document_ids
-        if sparse_top_k:
+        if sparse_top_k is not None:
             json["sparse_top_k"] = sparse_top_k
-        if dense_top_k:
+        if dense_top_k is not None:
             json["dense_top_k"] = dense_top_k
-        if filters:
+        if filters is not None:
             json["filters"] = filters
-        if date_from:
+        if date_from is not None:
             json["date_from"] = date_from
-        if date_until:
+        if date_until is not None:
             json["date_until"] = date_until
 
         return self.request(json=json, path="question/retrieve")

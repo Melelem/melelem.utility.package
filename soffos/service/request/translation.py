@@ -13,11 +13,11 @@ class TranslationService(ServiceRequestSession):
     ):
 
         json = {"texts": texts}
-        if target_language_code:
+        if target_language_code is not None:
             json["target_language_code"] = target_language_code
-        if source_language_code:
+        if source_language_code is not None:
             json["source_language_code"] = source_language_code
-        if auto_detect:
+        if auto_detect is not None:
             json["auto_detect"] = auto_detect
 
         return self.request(json=json)

@@ -40,17 +40,17 @@ class GPT3Service(ServiceRequestSession):
             'max_tokens': max_tokens
         }
 
-        if engine:
+        if engine is not None:
             json["engine"] = engine
-        if temperature:
+        if temperature is not None:
             json["temperature"] = temperature
-        if top_p:
+        if top_p is not None:
             json["top_p"] = top_p
-        if frequency_penalty:
+        if frequency_penalty is not None:
             json["frequency_penalty"] = frequency_penalty
-        if presence_penalty:
+        if presence_penalty is not None:
             json["presence_penalty"] = presence_penalty
-        if validate_prompt_content:
+        if validate_prompt_content is not None:
             json["validate_prompt_content"] = validate_prompt_content
 
         return self.request(json=json, path="generate")

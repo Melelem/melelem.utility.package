@@ -16,9 +16,9 @@ class SummarizationService(ServiceRequestSession):
             "text": text,
             "sent_length": sent_length
         }
-        if simplify:
+        if simplify is not None:
             json["simplify"] = simplify
-        if engine:
+        if engine is not None:
             json["engine"] = engine
         
         return self.request(json=json, path="abstractive")
@@ -35,4 +35,3 @@ class SummarizationService(ServiceRequestSession):
         }
         
         return self.request(json=json, path="extractive")
-        

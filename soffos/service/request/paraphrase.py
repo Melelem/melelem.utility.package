@@ -19,11 +19,11 @@ class ParaphraseService(ServiceRequestSession):
             "engine": engine
         }
 
-        if max_tokens:
+        if max_tokens is not None:
             json["max_tokens"] = max_tokens
-        if simplify:
+        if simplify is not None:
             json["simplify"] = simplify
-        if sentence_split:
+        if sentence_split is not None:
             json["sentence_split"] = sentence_split
         
         return self.request(json=json)
@@ -31,7 +31,7 @@ class ParaphraseService(ServiceRequestSession):
     def reload_paraphrase_prompt(self, filename: str = None):
 
         json = {}
-        if filename:
+        if filename is not None:
             json["filename"] = filename
 
         return self.request(json={"filename": filename}, path="prompt/paraphrase/reload")
@@ -39,7 +39,7 @@ class ParaphraseService(ServiceRequestSession):
     def reload_simplify_prompt(self, filename: str = None):
 
         json = {}
-        if filename:
+        if filename is not None:
             json["filename"] = filename
 
         return self.request(json={"filename": filename}, path="prompt/simplify/reload")

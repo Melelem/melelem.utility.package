@@ -15,7 +15,7 @@ class AnswerExtractionService(ServiceRequestSession):
             "question": question,
             "documents": documents
         }
-        if top_k:
+        if top_k is not None:
             json["top_k"] = top_k
 
         return self.request(json=json, path="answer")

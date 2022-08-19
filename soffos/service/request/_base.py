@@ -23,15 +23,15 @@ class ServiceRequestSession:
         retry_backoff_factor: float = 0.1,
         retry_status_forcelist: t.Set[int] = {429}
     ):
-        self._session = requests.Session()
+        # self._session = requests.Session()
 
         http_adapter = requests.adapters.HTTPAdapter(max_retries=Retry(
             total=retry_total,
             backoff_factor=retry_backoff_factor,
             status_forcelist=retry_status_forcelist
         ))
-        for prefix in {'http://', 'https://'}:
-            self._session.mount(prefix, http_adapter)
+        # for prefix in {'http://', 'https://'}:
+        #     self._session.mount(prefix, http_adapter)
 
     @t.overload
     def request(
@@ -76,13 +76,14 @@ class ServiceRequestSession:
                     url += path
 
             # Send request and get response.
-            response = self._session.request(
-                method='POST',
-                url=url,
-                timeout=timeout,
-                json=json,
-                headers=headers
-            )
+            with requests.Session() as session:
+                response = session.request(
+                    method='POST',
+                    url=url,
+                    timeout=timeout,
+                    json=json,
+                    headers=headers
+                )
 
             # Validate response is ok.
             if not response.ok:

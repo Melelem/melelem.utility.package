@@ -17,18 +17,17 @@ class QuestionAnsweringService(ServiceRequestSession):
     ):
 
         json = {"message": message}
-        if client_id:
+        if client_id is not None:
             json["client_id"] = client_id
-        if document_ids:
+        if document_ids is not None:
             json["document_ids"] = document_ids
-        if document_dicts:
+        if document_dicts is not None:
             json["document_dicts"] = document_dicts
-        if document_text:
+        if document_text is not None:
             json["document_text"] = document_text
-        if message_id:
+        if message_id is not None:
             json["qa_type"] = qa_type
-        if store_question:
+        if store_question is not None:
             json["store_question"]
 
         return self.request(json=json, path="answer")
-        
