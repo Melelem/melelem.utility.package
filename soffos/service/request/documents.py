@@ -176,7 +176,7 @@ class DocumentsService(ServiceRequestSession):
     def retrieve_questions(
         self,
         client_id: str,
-        query: Union[str, dict, None] = None,
+        query: Union[str, dict, None],
         document_ids: List[str] = None,
         sparse_top_k: int = None,
         dense_top_k: int = None,
