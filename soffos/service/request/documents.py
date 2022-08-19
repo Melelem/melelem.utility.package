@@ -68,7 +68,7 @@ class DocumentsService(ServiceRequestSession):
     def retrieve_documents(
         self,
         client_id: str,
-        query: Union[str, dict, None] = None,
+        query: Union[str, dict, None],
         document_ids: List[str] = None,
         sparse_top_k: int = None,
         dense_top_k: int = None,
@@ -81,7 +81,7 @@ class DocumentsService(ServiceRequestSession):
 
         Args:
             client_id (str): Client's ID.
-            query (Union[str, dict, None], optional): Query could be either a string or a dictionary containing the "cleaned_message" field as it is the output of the Query Parser service. It can also be None in the case of simple filtering. More validations happend on the service and instructions are given in the case of invalid combination of parameters. Defaults to None.
+            query (Union[str, dict, None]): Query could be either a string or a dictionary containing the "cleaned_message" field as it is the output of the Query Parser service. It can also be None in the case of simple filtering. More validations happend on the service and instructions are given in the case of invalid combination of parameters. Defaults to None.
             document_ids (List[str], optional): The IDs of the documents we wish to search. Defaults to None.
             sparse_top_k (int, optional): Number of maximum passages retrieved with keyword search. Defaults to None.
             dense_top_k (int, optional): Number of maximum passages retrieved with embedding search. Defaults to None.
@@ -94,10 +94,10 @@ class DocumentsService(ServiceRequestSession):
         """
 
         json = {
+            "query": query,
             "client_id": client_id
         }
-        if query:
-            json["query"] = query
+
         if document_ids:
             json["document_ids"] = document_ids
         if sparse_top_k:
