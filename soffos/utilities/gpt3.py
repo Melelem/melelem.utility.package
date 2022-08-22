@@ -35,6 +35,12 @@ GPT_ENGINE_SPECS = {
 
 Usage = t.Dict[str, t.Any]
 
+def tokens_to_chars(tokens: int):
+    return tokens*4
+
+def chars_to_tokens(chars: int):
+    return chars/4
+
 def calculate_usage_overview(usages: t.List[Usage]):
     return {
         'prompt_tokens': sum(u['prompt_tokens'] for u in usages),
