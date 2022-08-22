@@ -1,5 +1,6 @@
-import typing as t
 from enum import Enum
+import typing as t
+import re
 
 
 class GPTEngine(str, Enum):
@@ -29,8 +30,17 @@ class Prompt:
     def chars_to_tokens(self, chars: int):
         return chars/4
     
-    def format_text(self, text: str):
-        return self.text.format(__text__=text)
+    def format_text(self, replacements: t.Dict[str, str]):
+        text = self.text
+        for literal, replacement in replacements.items():
+            if not literal.startswith("{__") or not literal.endswith("__}"):
+                example = "{__replace__}"
+                raise ValueError(f"The literal string to be replaced \"{literal}\" is not following the required convention. Please provide a string enclosed with curlies and double underscores, for example: \"{example}\"")
+            if len([m for m in re.finditer(literal, text)]) > 1:
+                raise ValueError(f"The literal string to be replaced \"{literal}\" has been found multiple times in the prompt. Please format the prompt with unique placeholders.")
+            text = text.replace(literal, replacement)
+
+        return text
 
 GPT_ENGINE_SPECS = {
     GPTEngine.davinci: GPTEngineSpecifications(
