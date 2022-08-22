@@ -28,6 +28,9 @@ class Prompt:
     @classmethod
     def chars_to_tokens(self, chars: int):
         return chars/4
+    
+    def format_text(self, text: str):
+        return self.text.format(__text__=text)
 
 GPT_ENGINE_SPECS = {
     GPTEngine.davinci: GPTEngineSpecifications(
