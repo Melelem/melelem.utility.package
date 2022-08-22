@@ -22,11 +22,11 @@ class Prompt:
         self.token_count = self.chars_to_tokens(self.char_count)
 
     @classmethod
-    def tokens_to_chars(tokens: int):
+    def tokens_to_chars(self, tokens: int):
         return tokens*4
     
     @classmethod
-    def chars_to_tokens(chars: int):
+    def chars_to_tokens(self, chars: int):
         return chars/4
 
 GPT_ENGINE_SPECS = {
