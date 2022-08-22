@@ -3,9 +3,6 @@ from dataclasses import dataclass
 import json
 import re
 
-from .chunk import Chunk
-from .sentence import Sentence
-
 from ..utilities import LazyLoader
 from .. import DATA_DIR
 
@@ -180,40 +177,6 @@ def normalize_whitespaces(text: str):
 
     return text
 
-
-def remove_overlaps(chunks: t.List[t.Union[dict, Chunk]]) -> str:
-    """
-    This function is useful when pulling chunks from Elasticsearch and we want to 
-    remove the overlaps so that the text is concatenated and passed to services such as GPT-3
-    as one passage.
-
-    Args:
-        chunks (t.List[t.Union[dict, Chunk]]): List of dictionaries as they are retrieved from Elasticsearch, or Chunk objects.
-
-    Returns:
-        str: Joined de-overlapped text.
-    """
-    if isinstance(chunks[0], dict):
-        content_key = 'content' if 'content' in chunks[0] else 'text'
-        if 'meta' in chunks:
-            chunks = sorted(chunks, key=lambda x: x['meta']['chunk_id'], reverse=True)
-        text = ' '.join([c[content_key] for c in chunks])
-    else:
-        text = ' '.join(c.text for c in chunks)
-
-    sents = [s.text for s in Sentence.from_text(text)]
-    unique_sents = []
-    for s in sents:
-        if s not in unique_sents:
-            unique_sents.append(s)
-            
-    return ' '.join(unique_sents)
-
-def fix_truncated_text(answer: str):
-    valid_sents = [s.tex for s in Sentence.from_text(answer) if s[-1] in '.!?']
-    if valid_sents:
-        return ' '.join(valid_sents)
-    return answer
 
 def remove_question_mark(question: str):
     return question.replace('?', '')

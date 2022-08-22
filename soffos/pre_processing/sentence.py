@@ -76,3 +76,10 @@ class Sentence(TextSpan):
                 text=text,
                 span=(span_offset, span_offset + len(text))
             )]
+
+
+def fix_truncated_text(answer: str):
+    valid_sents = [s.tex for s in Sentence.from_text(answer) if s[-1] in '.!?']
+    if valid_sents:
+        return ' '.join(valid_sents)
+    return answer

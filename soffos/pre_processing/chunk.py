@@ -93,3 +93,32 @@ class Chunk:
             chunks.append(cls(sentences=chunk))
 
         return chunks
+
+
+def remove_overlaps(chunks: t.List[t.Union[dict, Chunk]]) -> str:
+    """
+    This function is useful when pulling chunks from Elasticsearch and we want to 
+    remove the overlaps so that the text is concatenated and passed to services such as GPT-3
+    as one passage.
+
+    Args:
+        chunks (t.List[t.Union[dict, Chunk]]): List of dictionaries as they are retrieved from Elasticsearch, or Chunk objects.
+
+    Returns:
+        str: Joined de-overlapped text.
+    """
+    if isinstance(chunks[0], dict):
+        content_key = 'content' if 'content' in chunks[0] else 'text'
+        if 'meta' in chunks:
+            chunks = sorted(chunks, key=lambda x: x['meta']['chunk_id'], reverse=True)
+        text = ' '.join([c[content_key] for c in chunks])
+    else:
+        text = ' '.join(c.text for c in chunks)
+
+    sents = [s.text for s in Sentence.from_text(text)]
+    unique_sents = []
+    for s in sents:
+        if s not in unique_sents:
+            unique_sents.append(s)
+
+    return ' '.join(unique_sents)
