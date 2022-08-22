@@ -31,6 +31,20 @@ class Prompt:
         return chars/4
     
     def format_text(self, replacements: t.Dict[str, str]):
+        """
+        Replaces the placeholders in the prompt with the required information.
+
+        Args:
+            replacements (t.Dict[str, str]): Dictionary with string literals to be replaced as keys
+            and the replacement strings as values.
+
+        Raises:
+            ValueError: If the literal string is not following the convention.
+            ValueError: If the literal string has been found more than once in the text.
+
+        Returns:
+            _type_: Propmpt's raw text with the replacements.
+        """
         text = self.text
         for literal, replacement in replacements.items():
             if not literal.startswith("{__") or not literal.endswith("__}"):
