@@ -13,6 +13,21 @@ class GPTEngineSpecifications(t.NamedTuple):
     price_per_1k_tokens: float
     max_tokens: int
 
+class Prompt:
+    def __init__(self, file_path):
+        with open(file_path, 'r', encoding='utf-8') as prompt_file:
+            self.text = prompt_file.read()
+        self.char_count = len(self.text)
+        self.word_count = len(self.text.split())
+        self.token_count = self.chars_to_tokens(self.char_count)
+
+    @classmethod
+    def tokens_to_chars(tokens: int):
+        return tokens*4
+    
+    @classmethod
+    def chars_to_tokens(chars: int):
+        return chars/4
 
 GPT_ENGINE_SPECS = {
     GPTEngine.davinci: GPTEngineSpecifications(
@@ -35,11 +50,6 @@ GPT_ENGINE_SPECS = {
 
 Usage = t.Dict[str, t.Any]
 
-def tokens_to_chars(tokens: int):
-    return tokens*4
-
-def chars_to_tokens(chars: int):
-    return chars/4
 
 def calculate_usage_overview(usages: t.List[Usage]):
     return {
