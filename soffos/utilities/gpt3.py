@@ -87,6 +87,32 @@ def calculate_usage_overview(usages: t.List[Usage]):
         'calls': len(usages)
     }
 
+#TODO: Implement an exact calculation using Transformer's GPT tokenizer and parametrize the option
+# to either use a rough calculation (fast) or exact (slower).
+def calculate_allowed_max_tokens(
+        engine: GPTEngine, 
+        prompt_len_chars: int,
+        request_data_len_chars: int = 0
+    ):
+    """
+    Calculate the maximum value that can be set for max_tokens when calling the GPT-3 service.
+    This is the difference of the final formatted prompt's length from the maximum
+    input length of the specific engine.
+    This is not required for services that we expect a very small completion and where max_tokens
+    can be set to a very low value.
+    This is very useful for services with long completions. By using this function to calculate
+    max_tokens, we effectively allow the model to generate up to the maximum number of tokens possible.
+    The request_data_len_chars parameter is optional to allow the use of this function both in validators
+    (where the prompt isn't yet formatted) and within the service itself where the prompt might be in its final form.
+
+    Args:
+        engine (GPTEngine): Engine being used.
+        prompt_len_chars (int): Character length of the prompt.
+        request_data_len_chars (int): Character length of anything that will be added to the prompt. When provided, the value for prompt_len_chars should be the length of the non-formatted prompt.
+    """
+
+    return (GPT_ENGINE_SPECS[engine].max_tokens * 4) - (prompt_len_chars + request_data_len_chars)
+
 def calculate_remaining_prompt_length(
     engine: GPTEngine,
     prompt_length: int,
