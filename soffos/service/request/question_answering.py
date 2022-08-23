@@ -1,3 +1,4 @@
+from re import S
 from ._base import ServiceRequestSession
 from typing import List, Dict, Any
 
@@ -12,6 +13,7 @@ class QuestionAnsweringService(ServiceRequestSession):
         document_dicts: List[Dict[str, Any]] = None,
         document_text: str = None,
         message_id: str = None,
+        session_id: str = None,
         qa_type: str = None,
         store_question: bool = None
     ):
@@ -27,6 +29,8 @@ class QuestionAnsweringService(ServiceRequestSession):
             json["document_text"] = document_text
         if message_id is not None:
             json["qa_type"] = qa_type
+        if session_id is not None:
+            json["session_id"] = session_id
         if store_question is not None:
             json["store_question"]
 
