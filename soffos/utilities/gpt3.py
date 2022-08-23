@@ -111,28 +111,8 @@ def calculate_allowed_max_tokens(
         request_data_len_chars (int): Character length of anything that will be added to the prompt. When provided, the value for prompt_len_chars should be the length of the non-formatted prompt.
     """
 
-
     return Prompt.chars_to_tokens(
         chars=Prompt.tokens_to_chars(
             GPT_ENGINE_SPECS[engine].max_tokens
         ) - (prompt_len_chars + request_data_len_chars)
-    )
-
-
-def calculate_remaining_prompt_length(
-    engine: GPTEngine,
-    prompt_length: int,
-    completion_max_tokens: int = 0
-):
-    """Calculate how many remaining characters are available in a prompt for a specific engine.
-
-    :param engine: The engine called.
-    :param prompt_length: The length of the base prompt.
-    :param completion_max_tokens: The number of tokens allowed for text completion, defaults to 0.
-    :return: The remaining number of characters you can include in the prompt for the engine.
-    """
-    return (
-        (GPT_ENGINE_SPECS[engine].max_tokens * 4)
-        - prompt_length
-        - (completion_max_tokens * 4)
     )
