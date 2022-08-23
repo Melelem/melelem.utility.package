@@ -9,7 +9,6 @@ class ParaphraseService(ServiceRequestSession):
         self,
         text: str,
         engine: str,
-        max_tokens: int = None,
         simplify: bool = None,
         sentence_split : int = None
     ):
@@ -19,8 +18,6 @@ class ParaphraseService(ServiceRequestSession):
             "engine": engine
         }
 
-        if max_tokens is not None:
-            json["max_tokens"] = max_tokens
         if simplify is not None:
             json["simplify"] = simplify
         if sentence_split is not None:
