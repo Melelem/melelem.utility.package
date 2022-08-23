@@ -111,7 +111,13 @@ def calculate_allowed_max_tokens(
         request_data_len_chars (int): Character length of anything that will be added to the prompt. When provided, the value for prompt_len_chars should be the length of the non-formatted prompt.
     """
 
-    return (GPT_ENGINE_SPECS[engine].max_tokens * 4) - (prompt_len_chars + request_data_len_chars)
+
+    return Prompt.chars_to_tokens(
+        chars=Prompt.tokens_to_chars(
+            GPT_ENGINE_SPECS[engine].max_tokens
+        ) - (prompt_len_chars + request_data_len_chars)
+    )
+
 
 def calculate_remaining_prompt_length(
     engine: GPTEngine,
