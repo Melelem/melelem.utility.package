@@ -9,7 +9,7 @@ class TransformerModelService(ServiceRequestSession):
         
         json = {"query": query}
 
-        return self.request(json=json, path="classify-query")
+        return self.request(json=json, path="classify-query")      
 
     def encode(self, texts: List[str], task: str = None):
 
@@ -18,3 +18,10 @@ class TransformerModelService(ServiceRequestSession):
             json["task"] = task
             
         return self.request(json=json, path="sentence-bert/encode")
+
+
+    def summarize_conversation(self,texts:List[str]):
+
+        json = {"texts": texts}
+        
+        return self.request(json=json, path="summarize_conversation")         
