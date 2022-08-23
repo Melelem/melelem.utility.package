@@ -72,5 +72,5 @@ else:
         install_requires=install_requires,
         include_package_data=True,
         data_files=[(str(DATA_DIR), data_files)],
-        python_requires='==3.7.*'
+        python_requires='>=3.7.*'
     )
