@@ -58,19 +58,19 @@ class Prompt:
 
 GPT_ENGINE_SPECS = {
     GPTEngine.davinci: GPTEngineSpecifications(
-        price_per_1k_tokens=0.06,
+        price_per_1k_tokens=0.02,
         max_tokens=4000
     ),
     GPTEngine.curie: GPTEngineSpecifications(
-        price_per_1k_tokens=0.006,
+        price_per_1k_tokens=0.002,
         max_tokens=2048
     ),
     GPTEngine.babbage: GPTEngineSpecifications(
-        price_per_1k_tokens=0.0012,
+        price_per_1k_tokens=0.0005,
         max_tokens=2048
     ),
     GPTEngine.ada: GPTEngineSpecifications(
-        price_per_1k_tokens=0.0008,
+        price_per_1k_tokens=0.0004,
         max_tokens=2048
     )
 }
