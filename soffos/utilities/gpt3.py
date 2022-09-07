@@ -103,7 +103,7 @@ def calculate_allowed_max_tokens(
     This is very useful for services with long completions. By using this function to calculate
     max_tokens, we effectively allow the model to generate up to the maximum number of tokens possible.
     The request_data_len_chars parameter is optional to allow the use of this function both in validators
-    (where the prompt isn't yet formatted) and within the service itself where the prompt might be in its final form.
+    (where the prompt isn't yet formatted) and within the service itself if the prompt is not yet at its final form.
 
     Args:
         engine (GPTEngine): Engine being used.
