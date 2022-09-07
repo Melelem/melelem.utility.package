@@ -15,7 +15,8 @@ class QuestionAnsweringService(ServiceRequestSession):
         message_id: str = None,
         session_id: str = None,
         qa_type: str = None,
-        store_question: bool = None
+        store_question: bool = None,
+        invoke_previous_questions: bool = None
     ):
 
         json = {"message": message}
@@ -32,6 +33,8 @@ class QuestionAnsweringService(ServiceRequestSession):
         if session_id is not None:
             json["session_id"] = session_id
         if store_question is not None:
-            json["store_question"]
+            json["store_question"] = store_question
+        if invoke_previous_questions is not None:
+            json["invoke_previous_questions"] = invoke_previous_questions
 
         return self.request(json=json, path="answer")
