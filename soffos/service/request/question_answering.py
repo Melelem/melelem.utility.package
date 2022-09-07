@@ -29,6 +29,8 @@ class QuestionAnsweringService(ServiceRequestSession):
         if document_text is not None:
             json["document_text"] = document_text
         if message_id is not None:
+            json["message_id"] = message_id
+        if qa_type is not None:
             json["qa_type"] = qa_type
         if session_id is not None:
             json["session_id"] = session_id
