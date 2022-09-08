@@ -57,7 +57,7 @@ class Sentence(TextSpan):
         :return: List of sentence spans
         """
         # Get non break text spans.
-        known_abbreviations, unknown_abbreviations = Abbreviation.from_text(text)
+        known_abbreviations, unknown_abbreviations = Abbreviation.from_text(text, for_segmentation=True)
         urls = Url.from_text(text)
         emails = Email.from_text(text)
         non_break_spans = cls._reduce_non_break_spans(
