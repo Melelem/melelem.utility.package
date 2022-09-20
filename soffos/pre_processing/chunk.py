@@ -1,3 +1,4 @@
+from __future__ import annotations
 import typing as t
 from dataclasses import dataclass
 
@@ -32,6 +33,7 @@ class Chunk:
         max_words: int = 0,
         max_sentences: int = 0,
         max_characters: int = 0,
+        max_func: t.Callable[[Chunk], bool] = None,
         sentence_overlap: int = 0
     ):
         """Split text into collections of sentences (chunks). Chunk sizes may be limited by their
@@ -42,11 +44,16 @@ class Chunk:
         :param max_words: Max number of words a chunk may contain, defaults to 0.
         :param max_sentences: Max number of sentences a chunk may contain, defaults to 0.
         :param max_characters: Max number of characters a chunk may contain, defaults to 0.
+        :param max_func: Callable which returns true on custom max condition, defaults to None.
         :param sentence_overlap: The number of sentences to overlap between chunks, defaults to 0.
         :return: A list of chunks.
         """
-        if all(max_value < 1 for max_value in [max_words, max_sentences, max_characters]):
-            raise ValueError('At least one of the max arguments must be >= 1.')
+        if not max_func and all(max_value < 1 for max_value in [
+            max_words, max_sentences, max_characters
+        ]):
+            raise ValueError(
+                'At least one of the max arguments must be >= 1 or provide a max function.'
+            )
 
         sentences = Sentence.from_text(text)
         sentence_count = len(sentences)
@@ -60,6 +67,8 @@ class Chunk:
                 max_characters and sentence.length > max_characters
             ) or (
                 max_words and len(sentence.words) > max_words
+            ) or (
+                max_func and max_func(cls(sentences=[sentence]))
             ):
                 sentence_index += 1
                 continue
@@ -75,6 +84,8 @@ class Chunk:
                 ) or (
                     max_words
                     and sum(len(s.words) for s in chunk + [next_sentence]) > max_words
+                ) or (
+                    max_func and max_func(cls(sentences=chunk + [next_sentence]))
                 ):
                     break
                 chunk.append(next_sentence)

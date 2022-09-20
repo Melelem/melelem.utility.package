@@ -64,6 +64,23 @@ class ChunkTests(TestCase):
             ])
         ])
 
+    def test_from_text__max_func(self):
+        text = 'One. Two. Three. Four. Five.'
+        chunks = Chunk.from_text(text, max_func=lambda chunk: chunk.text.lower().count('o') > 1)
+        self.assertListEqual(chunks, [
+            Chunk(sentences=[
+                Sentence(text='One.', span=(0, 4))
+            ]),
+            Chunk(sentences=[
+                Sentence(text='Two.', span=(5, 9)),
+                Sentence(text='Three.', span=(10, 16))
+            ]),
+            Chunk(sentences=[
+                Sentence(text='Four.', span=(17, 22)),
+                Sentence(text='Five.', span=(23, 28))
+            ])
+        ])
+
     def test_from_text__no_max(self):
         text = 'One. Two. Three. Four. Five.'
         with self.assertRaises(ValueError):
