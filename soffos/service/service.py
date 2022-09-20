@@ -22,15 +22,28 @@ class Service:
     adequate for celery. 
     """
 
+    _instance = None
+    _was_initialized = False
     name: str = 'ServiceName'
 
     class Data:
         pass
 
+    def __new__(cls):
+        # Singelton pattern. Only create one instance.
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
     def __init__(self):
         """
         Initializes the microservice
         """
+        # Singelton pattern. Only initialize instance once.
+        if self._was_initialized:
+            return
+        self._was_initialized = True
+
         logging.info('Initializing service: %s.', self.__class__.__name__)
         self.initialize()
         logging.info('Successfully initialized service: %s.', self.__class__.__name__)

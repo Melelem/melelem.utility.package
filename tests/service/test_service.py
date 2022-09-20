@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch, Mock
 
 from soffos.service import Service, Model, Field, ValidationError
 
@@ -15,6 +16,12 @@ class ServiceTests(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.service = TextCleaningService()
+
+    @patch.object(TextCleaningService, 'initialize')
+    def test_singelton(self, initialize: Mock):
+        service = TextCleaningService()
+        self.assertEqual(service, self.service)
+        initialize.assert_not_called()
 
     def test_validate(self):
         text = 'abc'
