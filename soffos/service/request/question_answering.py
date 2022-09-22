@@ -14,9 +14,11 @@ class QuestionAnsweringService(ServiceRequestSession):
         document_text: str = None,
         message_id: str = None,
         session_id: str = None,
-        qa_type: str = None,
         store_question: bool = None,
-        invoke_previous_questions: bool = None
+        invoke_previous_questions: bool = None,
+        check_ambiguity: bool = None,
+        check_query_type: bool = None,
+        generic_response: bool = None
     ):
 
         json = {"message": message}
@@ -30,13 +32,17 @@ class QuestionAnsweringService(ServiceRequestSession):
             json["document_text"] = document_text
         if message_id is not None:
             json["message_id"] = message_id
-        if qa_type is not None:
-            json["qa_type"] = qa_type
         if session_id is not None:
             json["session_id"] = session_id
         if store_question is not None:
             json["store_question"] = store_question
         if invoke_previous_questions is not None:
             json["invoke_previous_questions"] = invoke_previous_questions
+        if check_ambiguity is not None:
+            json["check_ambiguity"] = check_ambiguity
+        if check_query_type is not None:
+            json["check_query_type"] = check_query_type
+        if generic_response is not None:
+            json["generic_response"] = generic_response
 
         return self.request(json=json, path="answer")
