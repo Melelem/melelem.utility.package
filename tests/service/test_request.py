@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from soffos.service.request import (
-    BertModelService,
+    EmbeddingsModelService,
     NERModelService
 )
 
@@ -9,7 +9,7 @@ from soffos.service.request import (
 class RequestTests(TestCase):
     def test_bert_model_service(self):
         strs = ['Hello World!']
-        response = BertModelService().infer(strs)
+        response = EmbeddingsModelService().infer(strs)
         self.assertIn('embeddings', response)
 
     def test_ner_model_service(self):
