@@ -7,7 +7,7 @@ from soffos.service.request import (
 
 
 class RequestTests(TestCase):
-    def test_bert_model_service(self):
+    def test_embeddings_model_service(self):
         strs = ['Hello World!']
         response = EmbeddingsModelService().infer(strs)
         self.assertIn('embeddings', response)
