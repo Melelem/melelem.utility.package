@@ -15,6 +15,7 @@ class GPT3Service(ServiceRequestSession):
         top_p: float = None,
         frequency_penalty: float = None,
         presence_penalty: float = None,
+        logprobs: int = None,
         validate_prompt_content: bool = None,
     ):
         """The generate endpoint calls the "Complete" engine of OpenAI.
@@ -50,6 +51,8 @@ class GPT3Service(ServiceRequestSession):
             json["frequency_penalty"] = frequency_penalty
         if presence_penalty is not None:
             json["presence_penalty"] = presence_penalty
+        if logprobs is not None:
+            json["logprobs"] = logprobs
         if validate_prompt_content is not None:
             json["validate_prompt_content"] = validate_prompt_content
 
