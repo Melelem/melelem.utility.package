@@ -1,5 +1,5 @@
 from .answer_extraction import AnswerExtractionService
-from .bert_model import BertModelService
+from .embeddings_model import EmbeddingsModelService
 from .coref import CorefModelService
 from .documents import DocumentsService
 from .gpt3 import GPT3Service

@@ -3,8 +3,8 @@ import typing as t
 from ._base import ServiceRequestSession
 
 
-class BertModelService(ServiceRequestSession):
-    name = 'soffos-service-model-bert'
+class EmbeddingsModelService(ServiceRequestSession):
+    name = 'soffos-service-model-embeddings'
 
     def infer(
         self,

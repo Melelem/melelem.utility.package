@@ -1,6 +1,7 @@
 from ._base import ServiceRequestSession
 from typing import List
 
+
 class StanzaService(ServiceRequestSession):
     name = "soffos-service-model-stanza"
 
@@ -8,5 +9,4 @@ class StanzaService(ServiceRequestSession):
 
         json = {"texts": texts}
 
-        return self.request(json=json, path="annotate")
-        
+        return self.request(json=json, path="annotate", response_type=bytes)

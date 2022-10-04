@@ -8,7 +8,6 @@ import argparse
 YEAR, MONTH, DAY = 22, 10, 4  # date
 HOUR, MINUTE, SECOND = 14, 8, 36  # time
 
-
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument(
     '-v', '--version', action='store_true', help='set version as utc now')
