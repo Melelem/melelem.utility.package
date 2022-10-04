@@ -70,6 +70,8 @@ class ServiceRequestSession:
                 }
                 if path:
                     json['path'] = path
+                if response_type in [bytes, str]:
+                    json['response_type'] = response_type.__name__
             else:
                 url = get_service_url(self.name)
                 if path:
@@ -93,15 +95,24 @@ class ServiceRequestSession:
                     pass
                 raise self.Error(json_dumps(error))
 
-            # Get response bytes or text.
-            if response_type == bytes:
-                return response.content
-            elif response_type == str:
-                return response.text
-
-            # Get response json.
-            response_json: t.Dict[str, t.Any] = response.json()
-            response_json = response_json['response'] if DEBUG else response_json
+            # Unpack response.
+            response_json: t.Dict[str, t.Any]
+            if DEBUG:
+                # Handle response type.
+                response_json = response.json()['response']
+                if response_type == bytes:
+                    # NOTE: Treat with caution! Should only run locally for security!
+                    return eval(response_json)
+                elif response_type == str:
+                    return json_dumps(response_json)
+            else:
+                # Handle response type.
+                if response_type == bytes:
+                    return response.content
+                elif response_type == str:
+                    return response.text
+                else:
+                    response_json = response.json()
 
             # Optional: create response object.
             return response_type(**response_json) if response_type else response_json
