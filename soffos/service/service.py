@@ -14,17 +14,10 @@ from pydantic import Field, ValidationError, validator
 class Service:
     """
     Base super class for every Soffos microservice.
-
-    Notes
-    -----
-
-    For Celery services, remember to change "name" property to something that is
-    adequate for celery. 
     """
 
     _instance = None
     _was_initialized = False
-    name: str = 'ServiceName'
 
     class Data:
         pass
