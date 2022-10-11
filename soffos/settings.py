@@ -15,7 +15,6 @@ K8S_CONFIG = LazyLoader(load_incluster_config)
 def get_service_url(name: str):
     """
     Get the URL of a service by name from kubernetes' internal API.
-    https://kubernetes.io/docs/concepts/services-networking/service/#environment-variables
 
     :param name: The name of the service. E.g. 'soffos-api'.
     :raises NameError: If the service does not exist.
