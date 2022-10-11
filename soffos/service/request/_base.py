@@ -63,7 +63,7 @@ class ServiceRequestSession:
         try:
             # Build request.
             if DEBUG:
-                url = 'https://dev-api.soffos.ai/api/service/'
+                url = 'https://dev-api.soffos.ai/api/service/service/'
                 json = {
                     'name': self.name,
                     'request': json
