@@ -52,7 +52,7 @@ class Stopword(TextSpan):
     ):
         stopwords = cls.from_text(text, language, ignore_case)
         spans = [stopword.span for stopword in stopwords]
-        return TextSpan.split(text, spans, span_offset)
+        return TextSpan.split(text, spans, span_offset) if spans else []
 
 
 def get_language(text: str):
