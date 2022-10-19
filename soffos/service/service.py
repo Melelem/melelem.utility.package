@@ -16,6 +16,9 @@ class Service:
     Base super class for every Soffos microservice.
     """
 
+    # NOTE: Singelton pattern. Only create and initialize one instance per child class.
+    #   Class variables are created per child class that inherits this base class. Therefore, a
+    #   single instance will be allowed for each class that inherits this base class.
     _instance = None
     _was_initialized = False
 
