@@ -62,3 +62,6 @@ class GPT3Service(ServiceRequestSession):
         if user is not None:
             json['user'] = user
         return self.request(json=json, path="generate")
+
+    def count_tokens(self, text: str):
+        return self.request(json={'text': text}, path='count-tokens')
