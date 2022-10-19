@@ -17,6 +17,8 @@ class GPT3Service(ServiceRequestSession):
         presence_penalty: float = None,
         logprobs: int = None,
         validate_prompt_content: bool = None,
+        app: str = None,
+        user: str = None
     ):
         """The generate endpoint calls the "Complete" engine of OpenAI.
 
@@ -55,5 +57,8 @@ class GPT3Service(ServiceRequestSession):
             json["logprobs"] = logprobs
         if validate_prompt_content is not None:
             json["validate_prompt_content"] = validate_prompt_content
-
+        if app is not None:
+            json['app'] = app
+        if user is not None:
+            json['user'] = user
         return self.request(json=json, path="generate")
