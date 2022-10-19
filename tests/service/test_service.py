@@ -12,6 +12,14 @@ class TextCleaningService(Service):
         return data.text.strip()
 
 
+class AgeIncrementorService(Service):
+    class Data(Model):
+        age: int = Field()
+
+    def run(self, data: Data):
+        return data.age + 1
+
+
 class ServiceTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -22,6 +30,18 @@ class ServiceTests(TestCase):
         service = TextCleaningService()
         self.assertEqual(service, self.service)
         initialize.assert_not_called()
+
+    def test_singleton__multiple_services(self):
+        with patch.object(AgeIncrementorService, 'initialize') as initialize:
+            age_incrementor_service = AgeIncrementorService()
+            age_incrementor_service_2 = AgeIncrementorService()
+            self.assertEqual(age_incrementor_service, age_incrementor_service_2)
+            initialize.assert_called_once()
+
+        with patch.object(TextCleaningService, 'initialize') as initialize:
+            text_cleaning_service = TextCleaningService()
+            self.assertEqual(text_cleaning_service, self.service)
+            initialize.assert_not_called()
 
     def test_validate(self):
         text = 'abc'
