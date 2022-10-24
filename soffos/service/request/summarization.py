@@ -9,6 +9,7 @@ class SummarizationService(ServiceRequestSession):
         text: str,
         sent_length: int,
         llm_api_key: str = None,
+        user: str = None,
         simplify: bool = None,
         engine: str = None
     ):
@@ -19,6 +20,8 @@ class SummarizationService(ServiceRequestSession):
         }
         if llm_api_key is not None:
             json['llm_api_key'] = llm_api_key
+        if user is not None:
+            json['user'] = user
         if simplify is not None:
             json["simplify"] = simplify
         if engine is not None:
