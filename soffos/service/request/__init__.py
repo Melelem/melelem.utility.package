@@ -7,7 +7,6 @@ from .ner_model import NERModelService
 from .paraphrase import ParaphraseService
 from .profanity_model import ProfanityModelService
 from .profanity import ProfanityService
-from .qa_transformers_model import QATransformersModelService
 from .qna_generation import QnAGenerationService
 from .query_parser import QueryParserService
 from .question_answering import QuestionAnsweringService
