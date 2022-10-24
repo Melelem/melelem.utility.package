@@ -18,6 +18,7 @@ class QnAGenerationService(ServiceRequestSession):
     def generate_qna_list(
         self,
         text: str,
+        llm_api_key: str = None,
         max_tokens: int = None,
         engine: str = None,
         chunk_max_sentences: int = None,
@@ -26,6 +27,8 @@ class QnAGenerationService(ServiceRequestSession):
         user: str = None
     ):
         json = {'text': text}
+        if llm_api_key is not None:
+            json['llm_api_key'] = llm_api_key
         if max_tokens is not None:
             json['max_tokens'] = max_tokens
         if engine is not None:

@@ -9,6 +9,7 @@ class ParaphraseService(ServiceRequestSession):
         self,
         text: str,
         engine: str,
+        llm_api_key: str = None,
         simplify: bool = None,
         sentence_split : int = None
     ):
@@ -17,7 +18,9 @@ class ParaphraseService(ServiceRequestSession):
             "text": text,
             "engine": engine
         }
-
+        
+        if llm_api_key is not None:
+            json['llm_api_key'] = llm_api_key
         if simplify is not None:
             json["simplify"] = simplify
         if sentence_split is not None:

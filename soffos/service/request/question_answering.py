@@ -8,6 +8,7 @@ class QuestionAnsweringService(ServiceRequestSession):
     def answer(
         self,
         message: str,
+        llm_api_key: str = None,
         client_id: str = None,
         document_ids: List[str] = None,
         document_dicts: List[Dict[str, Any]] = None,
@@ -22,6 +23,8 @@ class QuestionAnsweringService(ServiceRequestSession):
     ):
 
         json = {"message": message}
+        if llm_api_key is not None:
+            json['llm_api_key'] = llm_api_key,
         if client_id is not None:
             json["client_id"] = client_id
         if document_ids is not None:
