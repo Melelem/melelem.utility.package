@@ -10,6 +10,7 @@ class GPT3Service(ServiceRequestSession):
         prompt: str,
         stop: str,
         max_tokens: int,
+        api_key: str = None,
         engine: str = None,
         temperature: float = None,
         top_p: float = None,
@@ -17,7 +18,6 @@ class GPT3Service(ServiceRequestSession):
         presence_penalty: float = None,
         logprobs: int = None,
         validate_prompt_content: bool = None,
-        app: str = None,
         user: str = None
     ):
         """The generate endpoint calls the "Complete" engine of OpenAI.
@@ -26,6 +26,7 @@ class GPT3Service(ServiceRequestSession):
             prompt (str): Few-shot example prompt.
             stop (str): Stop sequence. Once this sequence of characters is generated, the model stops generating more text.
             max_tokens (int): Maximum allowed tokens to generate. Make sure this value added with the prompt length does not exceed the maxiumum input length of the model. Service default is 200.
+            api_key (str): API key to be used when calling OpenAI. This should belong to the client whose end-user is making the call.
             engine (str, optional): Which model to use. Defaults to None. Service default is "text-curie-001". Valid options: "text-davinci-002", "text-curie-001", "text-babbage-001", "text-ada-001".
             temperature (float, optional): The level of "creativity". Defaults to None. Service default is 0.0.
             top_p (float, optional): Controls diversity via nucleus sampling. 0.5 means half of all likelihood-weighted options are considered. Defaults to None. Service default is 1.0.
@@ -42,7 +43,8 @@ class GPT3Service(ServiceRequestSession):
             'stop': stop,
             'max_tokens': max_tokens
         }
-
+        if api_key is not None:
+            json['api_key'] = api_key
         if engine is not None:
             json["engine"] = engine
         if temperature is not None:
@@ -57,8 +59,6 @@ class GPT3Service(ServiceRequestSession):
             json["logprobs"] = logprobs
         if validate_prompt_content is not None:
             json["validate_prompt_content"] = validate_prompt_content
-        if app is not None:
-            json['app'] = app
         if user is not None:
             json['user'] = user
         return self.request(json=json, path="generate")
