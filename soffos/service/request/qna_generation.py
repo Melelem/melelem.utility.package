@@ -23,7 +23,6 @@ class QnAGenerationService(ServiceRequestSession):
         engine: str = None,
         chunk_max_sentences: int = None,
         chunk_sentence_overlap: int = None,
-        app: str = None,
         user: str = None
     ):
         json = {'text': text}
@@ -37,8 +36,6 @@ class QnAGenerationService(ServiceRequestSession):
             json['chunk_max_sentences'] = chunk_max_sentences
         if chunk_sentence_overlap is not None:
             json['chunk_sentence_overlap'] = chunk_sentence_overlap
-        if app is not None:
-            json['app'] = app
         if user is not None:
             json['user'] = user
         return self.request(json, response_type=self.GenerateQnAListResponse)
