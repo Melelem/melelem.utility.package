@@ -8,6 +8,7 @@ class QuestionAnsweringService(ServiceRequestSession):
     def answer(
         self,
         message: str,
+        meta: dict = None,
         llm_api_key: str = None,
         user:str = None,
         client_id: str = None,
@@ -24,6 +25,8 @@ class QuestionAnsweringService(ServiceRequestSession):
     ):
 
         json = {"message": message}
+        if meta is not None:
+            json['meta'] = meta
         if llm_api_key is not None:
             json['llm_api_key'] = llm_api_key,
         if user is not None:
