@@ -8,8 +8,8 @@ class GPT3Service(ServiceRequestSession):
     def generate(
         self,
         prompt: str,
-        stop: str,
         max_tokens: int,
+        stop: str = None,
         api_key: str = None,
         engine: str = None,
         temperature: float = None,
@@ -40,9 +40,10 @@ class GPT3Service(ServiceRequestSession):
 
         json = {
             'prompt': prompt,
-            'stop': stop,
             'max_tokens': max_tokens
         }
+        if stop is not None:
+            json["stop"] = stop
         if api_key is not None:
             json['api_key'] = api_key
         if engine is not None:
