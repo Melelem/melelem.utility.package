@@ -3,6 +3,8 @@ from urllib3.util.retry import Retry
 from json import dumps as json_dumps
 
 import requests
+import os
+import logging
 
 from ...settings import get_service_url, DEBUG
 
@@ -63,6 +65,15 @@ class ServiceRequestSession:
         try:
             # Build request.
             if DEBUG:
+                try:
+                    authorization = os.getenv['SOFFOS_API_KEY']
+                    if headers is not None:
+                        headers['Authorization'] = authorization
+                    else:
+                        headers = {"Authorization": authorization}
+                except KeyError as ex:
+                    raise Exception("Please specify a Soffos API key in the environment variable SOFFOS_API_KEY") from ex
+                    
                 url = 'https://dev-api.soffos.ai/service/service/'
                 json = {
                     'name': self.name,
