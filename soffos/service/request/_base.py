@@ -66,7 +66,7 @@ class ServiceRequestSession:
             # Build request.
             if DEBUG:
                 try:
-                    authorization = os.getenv['SOFFOS_API_KEY']
+                    authorization = os.getenv('SOFFOS_API_KEY')
                     if headers is not None:
                         headers['Authorization'] = authorization
                     else:
