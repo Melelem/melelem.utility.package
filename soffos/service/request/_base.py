@@ -4,7 +4,6 @@ from json import dumps as json_dumps
 
 import requests
 import os
-import logging
 
 from ...settings import get_service_url, DEBUG
 
@@ -66,7 +65,7 @@ class ServiceRequestSession:
             # Build request.
             if DEBUG:
                 try:
-                    authorization = os.getenv('SOFFOS_API_KEY')
+                    authorization = os.environ['SOFFOS_API_KEY']
                     if headers is not None:
                         headers['Authorization'] = authorization
                     else:
@@ -133,4 +132,4 @@ class ServiceRequestSession:
             raise ex
         # Cast unknown errors.
         except Exception as ex:
-            raise self.Error from ex
+            raise ex
