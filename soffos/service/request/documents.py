@@ -1,6 +1,5 @@
 from ._base import ServiceRequestSession
 from typing import List, Union, Dict
-from datetime import datetime
 
 class DocumentsService(ServiceRequestSession):
     name = 'soffos-service-documents'
@@ -73,8 +72,8 @@ class DocumentsService(ServiceRequestSession):
         sparse_top_k: int = None,
         dense_top_k: int = None,
         filters: Dict[str, Union[Dict, List, str, int, float, bool]] = None,
-        date_from: Union[str, datetime] = None,
-        date_until: Union[str, datetime] = None
+        date_from: str = None,
+        date_until: str = None
     ):
         #TODO: Add reference to the querying syntax (filters).
         """Retrieves document passages from Elasticsearch with either keyword search, semantic search or both.
@@ -98,17 +97,17 @@ class DocumentsService(ServiceRequestSession):
             "client_id": client_id
         }
 
-        if document_ids:
+        if document_ids is not None:
             json["document_ids"] = document_ids
         if sparse_top_k is not None:
             json["sparse_top_k"] = sparse_top_k
         if dense_top_k is not None:
             json["dense_top_k"] = dense_top_k
-        if filters:
+        if filters is not None:
             json["filters"] = filters
-        if date_from:
+        if date_from is not None:
             json["date_from"] = date_from
-        if date_until:
+        if date_until is not None:
             json["date_until"] = date_until
 
         return self.request(json=json, path="document/retrieve")
@@ -150,8 +149,8 @@ class DocumentsService(ServiceRequestSession):
         self,
         client_id: str,
         question_ids: List[str],
-        date_from: Union[str, datetime] = None,
-        date_until: Union[str, datetime] = None
+        date_from: str = None,
+        date_until: str = None
     ):
         """Deletes stored questions and their metadata form Elasticsearch. The question_ids are an intentional requirement, even though we could delete all the client's questions using client_id, to avoid accidentally deleting them all.
 
@@ -181,8 +180,8 @@ class DocumentsService(ServiceRequestSession):
         sparse_top_k: int = None,
         dense_top_k: int = None,
         filters: Dict[str, Union[Dict, List, str, int, float, bool]] = None,
-        date_from: Union[str, datetime] = None,
-        date_until: Union[str, datetime] = None
+        date_from: str = None,
+        date_until: str = None
     ):
         #TODO: Add reference to the querying syntax (filters).
         """Retrieves document passages from Elasticsearch with either keyword search, semantic search or both.
