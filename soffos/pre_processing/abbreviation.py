@@ -69,8 +69,8 @@ def _load_abbreviations_for_segmentation() -> t.Dict[str, str]:
 
 
 def _load_known_abbreviations_pattern_for_segmentation():
-    pattern = '|'.join(map(re.escape, ABBREVIATIONS_FOR_SEGMENTATION()))
-    return r'\b(?:{})'.format(pattern)
+    pattern = '|'.join(abrv.replace('.', '\\.') for abrv in ABBREVIATIONS_FOR_SEGMENTATION())
+    return rf'\b(?:{pattern})'
 
 
 def _load_unknown_abbreviations_pattern_for_segmentation():
