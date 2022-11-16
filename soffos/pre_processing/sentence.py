@@ -60,11 +60,13 @@ class Sentence(TextSpan):
         known_abbreviations, unknown_abbreviations = Abbreviation.from_text(text, for_segmentation=True)
         urls = Url.from_text(text)
         emails = Email.from_text(text)
+        floating_point_numbers = TextSpan.from_matches(re.finditer(r'\b(?:\d+\.\d+)', text))
         non_break_spans = cls._reduce_non_break_spans(
             known_abbreviations,
             unknown_abbreviations,
             urls,
-            emails
+            emails,
+            floating_point_numbers
         )
 
         punct_break_spans, line_break_spans = cls._get_break_spans(text, non_break_spans)
