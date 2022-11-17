@@ -20,13 +20,15 @@ class Sentence(TextSpan):
         return reduce(get_spans, text_span_lists, [])
 
     @classmethod
-    def _get_break_spans(cls, text: str, non_break_spans: t.List[Span]):
+    def _get_sent_boundaries(cls, text: str, non_break_spans: t.List[Span], line_break_split=False):
         punct_break_spans = [match.span() for match in re.finditer(r'[.!?]', text)]
         punct_break_spans = cls.get_non_overlapping_spans(non_break_spans, punct_break_spans)
         punct_break_spans = cls.merge_spans(punct_break_spans)
-
-        line_break_spans = [match.span() for match in re.finditer(r'[\r\n\t\f]+', text)]
-        line_break_spans = cls.get_non_overlapping_spans(non_break_spans, line_break_spans)
+        
+        line_break_spans = None
+        if line_break_split:
+            line_break_spans = [match.span() for match in re.finditer(r'[\r\n\t\f]+', text)]
+            line_break_spans = cls.get_non_overlapping_spans(non_break_spans, line_break_spans)
 
         return punct_break_spans, line_break_spans
 
@@ -34,11 +36,13 @@ class Sentence(TextSpan):
     def _get_split_spans(
         cls,
         text: str,
-        punct_break_spans: t.List[Span],
-        line_break_spans: t.List[Span]
+        punct_sent_boundaries: t.List[Span],
+        line_sent_boundaries: t.List[Span] = None
     ):
-        split_spans = line_break_spans.copy()
-        for (_, span_end) in punct_break_spans:
+        split_spans = []
+        if line_sent_boundaries:
+            split_spans = line_sent_boundaries.copy()
+        for (_, span_end) in punct_sent_boundaries:
             match = re.match(r'\s+', text[span_end:])
             if match:
                 span = match.span()
@@ -49,11 +53,12 @@ class Sentence(TextSpan):
         return split_spans
 
     @classmethod
-    def from_text(cls, text: str, span_offset: int = 0):
+    def from_text(cls, text: str, span_offset: int = 0, line_break_split=False):
         """Split text into sentences by identifying sentence-breaking punctuations.
 
         :param text: The text to split into sentences
         :param span_offset: Offset all spans returned (useful if text is subtext), defaults to 0
+        :param line_break_split: Whether to consider line breaks as sentence boundaries
         :return: List of sentence spans
         """
         # Get non break text spans.
@@ -69,9 +74,9 @@ class Sentence(TextSpan):
             floating_point_numbers
         )
 
-        punct_break_spans, line_break_spans = cls._get_break_spans(text, non_break_spans)
-        if punct_break_spans or line_break_spans:
-            split_spans = cls._get_split_spans(text, punct_break_spans, line_break_spans)
+        punct_sent_boundaries, line_sent_boundaries = cls._get_sent_boundaries(text, non_break_spans, line_break_split)
+        if punct_sent_boundaries or line_sent_boundaries:
+            split_spans = cls._get_split_spans(text, punct_sent_boundaries, line_sent_boundaries)
             return cls.split(text, split_spans, span_offset)
         else:
             return [cls(

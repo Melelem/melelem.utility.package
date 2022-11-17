@@ -34,7 +34,8 @@ class Chunk:
         max_sentences: int = 0,
         max_characters: int = 0,
         max_func: t.Callable[[Chunk], bool] = None,
-        sentence_overlap: int = 0
+        sentence_overlap: int = 0,
+        line_break_sentence_split = False
     ):
         """Split text into collections of sentences (chunks). Chunk sizes may be limited by their
         number of characters, sentences, words. To disable a max limitation, set its value to 0. At
@@ -46,6 +47,7 @@ class Chunk:
         :param max_characters: Max number of characters a chunk may contain, defaults to 0.
         :param max_func: Callable which returns true on custom max condition, defaults to None.
         :param sentence_overlap: The number of sentences to overlap between chunks, defaults to 0.
+        :param line_break_sentence_split: Whether to consider line breaks as sentence boundaries.
         :return: A list of chunks.
         """
         if not max_func and all(max_value < 1 for max_value in [
@@ -54,8 +56,17 @@ class Chunk:
             raise ValueError(
                 'At least one of the max arguments must be >= 1 or provide a max function.'
             )
+        
+        def _larger(temp_chunk: Chunk, character_len: int, word_len: int, func: callable):
+            if (
+                    (max_characters and character_len > max_characters) or 
+                    (max_words and word_len > max_words) or 
+                    (max_func and func(temp_chunk))
+            ):
+                return True
+            return False
 
-        sentences = Sentence.from_text(text)
+        sentences = Sentence.from_text(text, line_break_split=line_break_sentence_split)
         sentence_count = len(sentences)
         sentence_index = 0
 
@@ -63,30 +74,21 @@ class Chunk:
         while sentence_index < sentence_count:
             # Get sentence and validate its length.
             sentence = sentences[sentence_index]
-            if (
-                max_characters and sentence.length > max_characters
-            ) or (
-                max_words and len(sentence.words) > max_words
-            ) or (
-                max_func and max_func(cls(sentences=[sentence]))
-            ):
+            if _larger(cls(sentences=[sentence]), sentence.length, len(sentence.words), max_func):
                 sentence_index += 1
+                #NOTE: If the sentence is bigger than the chunk size, just add it to the list.
+                chunks.append(cls(sentences=[sentence]))
                 continue
 
             # Add next sentences to chunk until its size limits are exceeded.
             chunk = [sentence]
             for next_sentence in sentences[sentence_index + 1:]:
-                if (
-                    max_sentences and len(chunk) + 1 > max_sentences
-                ) or (
-                    max_characters
-                    and sum(s.length for s in chunk + [next_sentence]) > max_characters
-                ) or (
-                    max_words
-                    and sum(len(s.words) for s in chunk + [next_sentence]) > max_words
-                ) or (
-                    max_func and max_func(cls(sentences=chunk + [next_sentence]))
-                ):
+                if _larger(
+                    cls(sentences=chunk + [next_sentence]),
+                    sum(s.length for s in chunk + [next_sentence]),
+                    sum(len(s.words) for s in chunk + [next_sentence]),
+                    max_func
+                ) or (max_sentences and len(chunk) + 1 > max_sentences):
                     break
                 chunk.append(next_sentence)
 
