@@ -1,5 +1,4 @@
 from ._base import ServiceRequestSession
-from typing import List
 
 
 class TransformerModelService(ServiceRequestSession):
@@ -11,7 +10,7 @@ class TransformerModelService(ServiceRequestSession):
 
         return self.request(json=json, path="classify-query")      
 
-    def encode(self, texts: List[str], task: str = None):
+    def encode(self, texts: list[str], task: str = None):
 
         json = {"texts": texts}
         if task is not None:
@@ -19,9 +18,8 @@ class TransformerModelService(ServiceRequestSession):
             
         return self.request(json=json, path="sentence-bert/encode")
 
+    def extract_keywords(self, **kwargs):
 
-    def summarize_conversation(self,texts:List[str]):
+        json = {**kwargs}
 
-        json = {"texts": texts}
-        
-        return self.request(json=json, path="summarize_conversation")         
+        return self.request(json=json, path="extract-keywords")
