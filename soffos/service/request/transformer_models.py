@@ -4,9 +4,9 @@ from ._base import ServiceRequestSession
 class TransformerModelService(ServiceRequestSession):
     name = "soffos-service-model-transformers"
 
-    def classify_query(self, query: str):
+    def classify_queries(self, queries: list[str]):
         
-        json = {"query": query}
+        json = {"queries": queries}
 
         return self.request(json=json, path="classify-query")      
 
@@ -23,3 +23,9 @@ class TransformerModelService(ServiceRequestSession):
         json = {**kwargs}
 
         return self.request(json=json, path="extract-keywords")
+
+    def sentiment(self, texts: list[str]):
+
+        json = {"texts": texts}
+
+        return self.request(json=json, path="sentiment")
