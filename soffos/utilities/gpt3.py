@@ -4,7 +4,7 @@ import re
 
 
 class GPTEngine(str, Enum):
-    davinci = 'text-davinci-002'
+    davinci = 'text-davinci-003'
     curie = 'text-curie-001'
     babbage = 'text-babbage-001'
     ada = 'text-ada-001'
