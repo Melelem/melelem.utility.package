@@ -101,9 +101,11 @@ class ServiceRequestSession:
                 error = {'status_code': response.status_code}
                 try:
                     error['json'] = response.json()
+                    error['url'] = url
+                    error['service'] = self.name
                 except requests.exceptions.JSONDecodeError:
                     pass
-                raise self.Error(json_dumps(error))
+                raise self.Error(error)
 
             # Unpack response.
             response_json: t.Dict[str, t.Any]
