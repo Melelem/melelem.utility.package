@@ -10,11 +10,6 @@ from ._base import ServiceRequestSession
 class QnAGenerationService(ServiceRequestSession):
     name = 'soffos-service-qna-generation'
 
-    class GenerateQnAListResponse(BaseModel):
-        qna_list: t.List[t.Dict[str, t.Any]]
-        usage_overview: t.Dict[str, t.Any]
-        chunks: t.List[Chunk]
-
     def generate_qna_list(
         self,
         text: str,
@@ -38,4 +33,5 @@ class QnAGenerationService(ServiceRequestSession):
             json['chunk_sentence_overlap'] = chunk_sentence_overlap
         if user is not None:
             json['user'] = user
-        return self.request(json, response_type=self.GenerateQnAListResponse)
+            
+        return self.request(json)
