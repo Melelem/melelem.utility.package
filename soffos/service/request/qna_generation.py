@@ -16,8 +16,8 @@ class QnAGenerationService(ServiceRequestSession):
         llm_api_key: str = None,
         max_tokens: int = None,
         engine: str = None,
-        chunk_max_sentences: int = None,
-        chunk_sentence_overlap: int = None,
+        sentence_split: int = None,
+        sentence_overlap: int = None,
         user: str = None
     ):
         json = {'text': text}
@@ -27,10 +27,10 @@ class QnAGenerationService(ServiceRequestSession):
             json['max_tokens'] = max_tokens
         if engine is not None:
             json['engine'] = engine
-        if chunk_max_sentences is not None:
-            json['chunk_max_sentences'] = chunk_max_sentences
-        if chunk_sentence_overlap is not None:
-            json['chunk_sentence_overlap'] = chunk_sentence_overlap
+        if sentence_split is not None:
+            json['sentence_split'] = sentence_split
+        if sentence_overlap is not None:
+            json['sentence_overlap'] = sentence_overlap
         if user is not None:
             json['user'] = user
             
