@@ -152,7 +152,7 @@ def replace_special_chars(text: str, replacement: str = ''):
     return re.sub(r'[^a-zA-Z0-9.,!?/:;\"\'\s]', replacement, text)
 
 
-def normalize_chars(text: str, encoding: str = 'ascii', errors: str = 'ignore'):
+def normalize_chars(text: str, encoding: str = 'utf-8', errors: str = 'ignore'):
     text = re.sub(r'\x0d|\x1b|\x07|\uf0b7|\uf020|\u202f|\x02|(\(cid:\d+\))', '', text)
 
     # whitespaces
