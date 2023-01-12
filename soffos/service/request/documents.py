@@ -118,6 +118,10 @@ class DocumentsService(ServiceRequestSession):
         client_id: str,
         document_ids: List[str],
         question_id: str,
+        answer: str,
+        no_answer: bool,
+        from_previous: bool,
+        session_id: str = None,
         meta: dict = None
     ):
         """Stores the question, its prediction and all relevant metadata produced during the call.
@@ -127,6 +131,9 @@ class DocumentsService(ServiceRequestSession):
             client_id (str): Client's ID.
             document_ids (List[str]): List of document IDs this question was asked upon.
             question_id (str): Question ID.
+            answer (str): The answer.
+            no_answer (bool): Whether the response isn't really an answer to the question, but a generic response.
+            from_previous (bool): Whether the answer was retrieved from previously asked questions.
             meta (dict, optional): Any metadata we wish to tag this question with. Defaults to None.
 
         Returns:
@@ -138,9 +145,14 @@ class DocumentsService(ServiceRequestSession):
             "question": question,
             "client_id": client_id,
             "document_ids": document_ids,
-            "question_id": question_id
+            "question_id": question_id,
+            "answer": answer,
+            "no_answer": no_answer,
+            "from_previous": from_previous
         }
-        if meta:
+        if session_id is not None:
+            json["session_id"] = session_id
+        if meta is not None:
             json["meta"] = meta
 
         return self.request(json=json, path="question/ingest")
