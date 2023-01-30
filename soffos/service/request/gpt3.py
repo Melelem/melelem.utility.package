@@ -7,7 +7,7 @@ class GPT3Service(ServiceRequestSession):
 
     def generate(
         self,
-        prompt: str,
+        prompt: t.Union[str, list],
         max_tokens: int,
         stop: str = None,
         api_key: str = None,
@@ -23,7 +23,7 @@ class GPT3Service(ServiceRequestSession):
         """The generate endpoint calls the "Complete" engine of OpenAI.
 
         Args:
-            prompt (str): Few-shot example prompt.
+            prompt (str, list): Few-shot example prompt. Or list of prompts. If list is provided, the result will contain multiple outputs.
             stop (str): Stop sequence. Once this sequence of characters is generated, the model stops generating more text.
             max_tokens (int): Maximum allowed tokens to generate. Make sure this value added with the prompt length does not exceed the maxiumum input length of the model. Service default is 200.
             api_key (str): API key to be used when calling OpenAI. This should belong to the client whose end-user is making the call.

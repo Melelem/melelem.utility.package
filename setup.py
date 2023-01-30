@@ -5,8 +5,8 @@ import argparse
 # Set the version to be the 24hr, UTC+0 datetime stamp:
 #   1. by hand (see: https://www.utctime.net/).
 #   2. run this script with version arg ('python setup.py -v').
-YEAR, MONTH, DAY = 23, 1, 24  # date
-HOUR, MINUTE, SECOND = 17, 47, 50  # time
+YEAR, MONTH, DAY = 23, 1, 30  # date
+HOUR, MINUTE, SECOND = 15, 58, 31  # time
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument(
