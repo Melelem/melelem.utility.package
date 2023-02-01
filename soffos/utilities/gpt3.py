@@ -1,7 +1,9 @@
 from enum import Enum
+import tiktoken
 import typing as t
 import re
 
+GPT3_TOKENIZER = tiktoken.get_encoding("gpt2")
 
 class GPTEngine(str, Enum):
     davinci = 'text-davinci-003'
@@ -87,32 +89,16 @@ def calculate_usage_overview(usages: t.List[Usage]):
         'calls': len(usages)
     }
 
-#TODO: Implement an exact calculation using Transformer's GPT tokenizer and parametrize the option
-# to either use a rough calculation (fast) or exact (slower).
-def calculate_allowed_max_tokens(
-        engine: GPTEngine, 
-        prompt_len_chars: int,
-        request_data_len_chars: int = 0
-    ):
-    """
-    Calculate the maximum value that can be set for max_tokens when calling the GPT-3 service.
-    This is the difference of the final formatted prompt's length from the maximum
-    input length of the specific engine.
-    This is not required for services that we expect a very small completion and where max_tokens
-    can be set to a very low value.
-    This is very useful for services with long completions. By using this function to calculate
-    max_tokens, we effectively allow the model to generate up to the maximum number of tokens possible.
-    The request_data_len_chars parameter is optional to allow the use of this function both in validators
-    (where the prompt isn't yet formatted) and within the service itself if the prompt is not yet at its final form.
+
+def calculate_max_allowed_tokens(
+    engine: GPTEngine,
+    prompt: str
+):
+    """Calculates how many tokens are remaining for completion given the model size and prompt.
 
     Args:
-        engine (GPTEngine): Engine being used.
-        prompt_len_chars (int): Character length of the prompt.
-        request_data_len_chars (int): Character length of anything that will be added to the prompt. When provided, the value for prompt_len_chars should be the length of the non-formatted prompt.
+        engine (GPTEngine): The engine.
+        prompt (str): The prompt.
     """
 
-    return Prompt.chars_to_tokens(
-        chars=Prompt.tokens_to_chars(
-            GPT_ENGINE_SPECS[engine].max_tokens
-        ) - (prompt_len_chars + request_data_len_chars)
-    )
+    return GPT_ENGINE_SPECS[engine].max_tokens - len(GPT3_TOKENIZER.encode(prompt))
