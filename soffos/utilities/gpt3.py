@@ -22,15 +22,7 @@ class Prompt:
             self.text = prompt_file.read()
         self.char_count = len(self.text)
         self.word_count = len(self.text.split())
-        self.token_count = self.chars_to_tokens(self.char_count)
-
-    @classmethod
-    def tokens_to_chars(self, tokens: int):
-        return tokens*4
-    
-    @classmethod
-    def chars_to_tokens(self, chars: int):
-        return chars/4
+        self.token_count = len(GPT3_TOKENIZER.encode(self.text)) if self.text else 0
     
     def format_text(self, replacements: t.Dict[str, str]):
         """
