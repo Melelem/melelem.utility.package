@@ -277,17 +277,19 @@ class DocumentsService(ServiceRequestSession):
 
         return self.request(json=json, path="discussion/delete")
     
-    def retrieve_discussion_context(
+    def retrieve_discussions(
         self,
         client_id: str,
-        session_id: str
+        session_ids: list[str] = None
     ):
         
         json = {
-            "client_id": client_id,
-            "session_id": session_id
+            "client_id": client_id
         }
 
+        if session_ids is not None:
+            json["session_ids"] = session_ids
+            
         return self.request(json=json, path="discussion/retrieve")
 
     def retrieve_discussion_interactions(
