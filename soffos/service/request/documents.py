@@ -229,3 +229,63 @@ class DocumentsService(ServiceRequestSession):
             json["date_until"] = date_until
 
         return self.request(json=json, path="question/retrieve")
+
+    def ingest_discussion_context(
+        self,
+        client_id: str,
+        session_id: str,
+        context: str
+    ):
+    
+        json = {
+            "client_id": client_id,
+            "session_id": session_id,
+            "context": context
+        }
+
+        return self.request(json=json, path="discussion/create")
+
+    def ingest_discussion_interaction(
+        self,
+        client_id: str,
+        session_id: str,
+        message_id: str,
+        query: str,
+        response: str
+    ):
+
+        json = {
+            "client_id": client_id,
+            "session_id": session_id,
+            "message_id": message_id,
+            "query": query,
+            "response": response
+        }
+
+        return self.request(json=json, path="discussion/interaction/ingest")
+
+    def delete_discussion(
+        self,
+        client_id: str,
+        session_id: str
+    ):
+
+        json = {
+            "client_id": client_id,
+            "session_id": session_id
+        }
+
+        return self.request(json=json, path="discussion/delete")
+
+    def retrieve_discussion_interactions(
+        self,
+        client_id: str,
+        session_id: str
+    ):
+
+        json = {
+            "client_id": client_id,
+            "session_id": session_id
+        }
+
+        return self.request(json=json, path="discussion/interaction/retrieve")
