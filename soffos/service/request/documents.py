@@ -264,15 +264,15 @@ class DocumentsService(ServiceRequestSession):
 
         return self.request(json=json, path="discussion/interaction/ingest")
 
-    def delete_discussion(
+    def delete_discussions(
         self,
         client_id: str,
-        session_id: str
+        session_ids: list[str]
     ):
 
         json = {
             "client_id": client_id,
-            "session_id": session_id
+            "session_ids": session_ids
         }
 
         return self.request(json=json, path="discussion/delete")
