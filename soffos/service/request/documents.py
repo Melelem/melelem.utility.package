@@ -276,6 +276,19 @@ class DocumentsService(ServiceRequestSession):
         }
 
         return self.request(json=json, path="discussion/delete")
+    
+    def retrieve_discussion_context(
+        self,
+        client_id: str,
+        session_id: str
+    ):
+        
+        json = {
+            "client_id": client_id,
+            "session_id": session_id
+        }
+
+        return self.request(json=json, path="discussion/retrieve")
 
     def retrieve_discussion_interactions(
         self,
