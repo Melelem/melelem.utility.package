@@ -66,12 +66,14 @@ class Sentence(TextSpan):
         urls = Url.from_text(text)
         emails = Email.from_text(text)
         floating_point_numbers = TextSpan.from_matches(re.finditer(r'\b(?:\d+\.\d+)', text))
+        numbered_lists = TextSpan.from_matches(re.finditer(r'(?:\n[\d|A-Za-z]{1,3})(\.)', text))
         non_break_spans = cls._reduce_non_break_spans(
             known_abbreviations,
             unknown_abbreviations,
             urls,
             emails,
-            floating_point_numbers
+            floating_point_numbers,
+            numbered_lists
         )
 
         punct_sent_boundaries, line_sent_boundaries = cls._get_sent_boundaries(text, non_break_spans, line_break_split)
