@@ -172,8 +172,13 @@ def normalize_chars(text: str, encoding: str = 'utf-8', errors: str = 'ignore'):
 def normalize_whitespaces(text: str):
     text = text.strip()
 
-    # replace multiple consecutive white spaces with just one
-    text = re.sub(r'\s+', ' ', text)
+    # Replace multiple consecutive spaces and tabs with just one space
+    text = re.sub(r'[ |\t]{2,}', ' ', text)
+    # Replace multiple consecutive new lines with just 2
+    # Single and double new lines are important formatting information on which
+    # certain pre-processing rules rely. (e.g. identifying non breaking periods
+    # on numbered lists)
+    text = re.sub(r'\n{3,}', '\n\n', text)
 
     return text
 
