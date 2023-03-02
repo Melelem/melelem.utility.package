@@ -249,7 +249,7 @@ class DocumentsService(ServiceRequestSession):
         self,
         client_id: str,
         session_id: str,
-        message_id: str,
+        message_id: int,
         query: str,
         response: str
     ):
