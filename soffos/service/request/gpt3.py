@@ -8,7 +8,7 @@ class GPT3Service(ServiceRequestSession):
     def generate(
         self,
         prompt: t.Union[str, list],
-        max_tokens: int,
+        max_tokens: int = None,
         stop: str = None,
         api_key: str = None,
         engine: str = None,
@@ -38,14 +38,14 @@ class GPT3Service(ServiceRequestSession):
             _type_: OpenAIObject augmented with additional metadata such as costings.
         """
 
-        json = {
-            'prompt': prompt,
-            'max_tokens': max_tokens
-        }
+        json = {'prompt': prompt}
+
+        if max_tokens is not None:
+            json["max_tokens"] = max_tokens
         if stop is not None:
             json["stop"] = stop
         if api_key is not None:
-            json['api_key'] = api_key
+            json["api_key"] = api_key
         if engine is not None:
             json["engine"] = engine
         if temperature is not None:
@@ -62,7 +62,56 @@ class GPT3Service(ServiceRequestSession):
             json["validate_prompt_content"] = validate_prompt_content
         if user is not None:
             json['user'] = user
+
         return self.request(json=json, path="generate")
+    
+
+    def chat(
+        self,
+        messages: list[dict[str, str]],
+        max_tokens: int = None,
+        stop: str = None,
+        api_key: str = None,
+        engine: str = None,
+        temperature: float = None,
+        top_p: float = None,
+        n: int = None,
+        frequency_penalty: float = None,
+        presence_penalty: float = None,
+        logit_bias: dict = None,
+        validate_prompt_content: bool = None,
+        user: str = None
+    ):
+        
+        json = {"messages": messages}
+
+        if max_tokens is not None:
+            json["max_tokens"] = max_tokens
+        if stop is not None:
+            json["stop"] = stop
+        if api_key is not None:
+            json["api_key"] = api_key
+        if engine is not None:
+            json["engine"] = engine
+        if temperature is not None:
+            json["temperature"] = temperature
+        if top_p is not None:
+            json["top_p"] = top_p
+        if n is not None:
+            json["n"] = n
+        if frequency_penalty is not None:
+            json["frequency_penalty"] = frequency_penalty
+        if presence_penalty is not None:
+            json["presence_penalty"] = presence_penalty
+        if logit_bias is not None:
+            json["logit_bias"] = logit_bias
+        if validate_prompt_content is not None:
+            json["validate_prompt_content"] = validate_prompt_content
+        if user is not None:
+            json["user"] = user
+
+        return self.request(json=json, path="chat")
+
 
     def count_tokens(self, text: str):
         return self.request(json={'text': text}, path='count-tokens')
