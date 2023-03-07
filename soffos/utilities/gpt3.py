@@ -6,6 +6,7 @@ import re
 GPT3_TOKENIZER = tiktoken.get_encoding("gpt2")
 
 class GPTEngine(str, Enum):
+    chat = 'gpt-3.5-turbo'
     davinci = 'text-davinci-003'
     curie = 'text-curie-001'
     babbage = 'text-babbage-001'
@@ -51,6 +52,10 @@ class Prompt:
         return text
 
 GPT_ENGINE_SPECS = {
+    GPTEngine.chat: GPTEngineSpecifications(
+        price_per_1k_tokens=0.002,
+        max_tokens=4096
+    ),
     GPTEngine.davinci: GPTEngineSpecifications(
         price_per_1k_tokens=0.02,
         max_tokens=4000
