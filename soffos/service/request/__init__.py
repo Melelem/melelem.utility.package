@@ -4,7 +4,7 @@ from .coref import CorefModelService
 from .documents import DocumentsService
 from .gpt3 import GPT3Service
 from .ner_model import NERModelService
-from openai import OpenAIService
+from .openai import OpenAIService
 from .paraphrase import ParaphraseService
 from .profanity_model import ProfanityModelService
 from .profanity import ProfanityService
