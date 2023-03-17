@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 import typing as t
 
 
-class OpenAIServcice(ServiceRequestSession):
+class OpenAIService(ServiceRequestSession):
     name = 'soffos-service-openai'
 
     def complete(
