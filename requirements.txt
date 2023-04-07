@@ -2,4 +2,4 @@ requests==2.27.1
 pydantic==1.8.2
 beautifulsoup4==4.11.1
 kubernetes==24.2.0
-tiktoken==0.3.2
+tiktoken==0.3.3
