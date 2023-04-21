@@ -5,8 +5,8 @@ import argparse
 # Set the version to be the 24hr, UTC+0 datetime stamp:
 #   1. by hand (see: https://www.utctime.net/).
 #   2. run this script with version arg ('python setup.py -v').
-YEAR, MONTH, DAY = 23, 4, 7  # date
-HOUR, MINUTE, SECOND = 13, 1, 2  # time
+YEAR, MONTH, DAY = 23, 4, 21  # date
+HOUR, MINUTE, SECOND = 8, 33, 21  # time
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument(
@@ -71,5 +71,5 @@ else:
         install_requires=install_requires,
         include_package_data=True,
         data_files=[(str(DATA_DIR), data_files)],
-        python_requires='>=3.7.*'
+        python_requires='>=3.7, <3.10'
     )
