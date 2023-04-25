@@ -1,6 +1,7 @@
 from ._base import ServiceRequestSession
 from typing import List, Union, Dict
 
+
 class DocumentsService(ServiceRequestSession):
     name = 'soffos-service-documents'
 
@@ -304,3 +305,52 @@ class DocumentsService(ServiceRequestSession):
         }
 
         return self.request(json=json, path="discussion/interaction/retrieve")
+    
+    #chat requests
+
+    def ingest_chat_messages(
+        self,
+        messages: list[dict],
+        client_id: str,
+        session_id: str
+    ):
+        
+        json = {
+            "messages": messages,
+            "client_id": client_id,
+            "session_id": session_id
+        }
+
+        return self.request(json=json, path="chat/messages/ingest")
+    
+    def retrieve_chat_messages(
+        self,
+        client_id: str,
+        session_id: str
+    ):
+        
+        json = {
+            "client_id": client_id,
+            "session_id": session_id
+        }
+
+        return self.request(json=json, path="chat/messages/retrieve")
+    
+    def delete_chat_messages(
+        self,
+        client_id: str,
+        session_ids: list[str] = None,
+        message_ids: list[str] = None
+    ):
+        
+        json = {
+            "client_id": client_id
+        }
+
+        if session_ids is not None:
+            json["session_ids"] = session_ids
+        if message_ids is not None:
+            json["message_ids"] = message_ids
+
+        return self.request(json=json, path="chat/messages/delete")
+    
