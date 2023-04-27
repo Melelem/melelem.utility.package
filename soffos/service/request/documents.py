@@ -312,12 +312,14 @@ class DocumentsService(ServiceRequestSession):
         self,
         messages: list[dict],
         client_id: str,
+        user_id: str,
         session_id: str
     ):
         
         json = {
             "messages": messages,
             "client_id": client_id,
+            "user_id": user_id,
             "session_id": session_id
         }
 
@@ -326,19 +328,24 @@ class DocumentsService(ServiceRequestSession):
     def retrieve_chat_messages(
         self,
         client_id: str,
-        session_id: str
+        user_id: str,
+        session_id: str = None,
     ):
         
         json = {
             "client_id": client_id,
-            "session_id": session_id
+            "user_id": user_id
         }
+
+        if session_id is not None:
+            json["session_id"] = session_id
 
         return self.request(json=json, path="chat/messages/retrieve")
     
     def delete_chat_messages(
         self,
         client_id: str,
+        user_ids: list[str] = None,
         session_ids: list[str] = None,
         message_ids: list[str] = None
     ):
@@ -347,6 +354,8 @@ class DocumentsService(ServiceRequestSession):
             "client_id": client_id
         }
 
+        if user_ids is not None:
+            json["user_ids"] = user_ids
         if session_ids is not None:
             json["session_ids"] = session_ids
         if message_ids is not None:
