@@ -313,7 +313,8 @@ class DocumentsService(ServiceRequestSession):
         messages: list[dict],
         client_id: str,
         user_id: str,
-        session_id: str
+        session_id: str,
+        session_name: str = None
     ):
         
         json = {
@@ -322,6 +323,8 @@ class DocumentsService(ServiceRequestSession):
             "user_id": user_id,
             "session_id": session_id
         }
+        if session_name is not None:
+            json['session_name'] = session_name
 
         return self.request(json=json, path="chat/messages/ingest")
     
