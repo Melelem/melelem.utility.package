@@ -366,3 +366,68 @@ class DocumentsService(ServiceRequestSession):
 
         return self.request(json=json, path="chat/messages/delete")
     
+
+    def ingest_table(
+        self,
+        client_id: str,
+        table: list[str],
+        name: str,
+        description: str
+    ):
+        
+        json = {
+            "client_id": client_id,
+            "table": table,
+            "name": name,
+            "description": description
+        }
+
+        return self.request(json=json, path="table/ingest")
+
+    def retrieve_table(
+        self,
+        client_id: str,
+        query: str = None,
+        sparse_top_k: int = None,
+        dense_top_k: int = None,
+        filters: dict = None,
+        date_from: str = None,
+        date_until: str = None
+    ):
+        
+        json = {
+            "client_id": client_id
+        }
+
+        if query is not None:
+            json['query'] = query
+        if sparse_top_k is not None:
+            json['sparse_top_k'] = sparse_top_k
+        if dense_top_k is not None:
+            json['dense_top_k'] = dense_top_k
+        if filters is not None:
+            json['filters'] = filters
+        if date_from is not None:
+            json['date_from'] = date_from
+        if date_until is not None:
+            json['date_until'] = date_until
+
+        return self.request(json=json, path="table/retrieve")
+    
+    def delete_table(
+        self,
+        client_id: str,
+        table_ids: list[str] = None,
+        filters: dict = None
+    ):
+        
+        json = {
+            "client_id": client_id
+        }
+
+        if table_ids is not None:
+            json['table_ids'] = table_ids
+        if filters is not None:
+            json['filters'] = filters
+
+        return self.request(json=json, path="table/delete")
