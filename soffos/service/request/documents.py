@@ -384,7 +384,7 @@ class DocumentsService(ServiceRequestSession):
 
         return self.request(json=json, path="table/ingest")
 
-    def retrieve_table(
+    def retrieve_tables(
         self,
         client_id: str,
         query: str = None,
@@ -414,7 +414,7 @@ class DocumentsService(ServiceRequestSession):
 
         return self.request(json=json, path="table/retrieve")
     
-    def delete_table(
+    def delete_tables(
         self,
         client_id: str,
         table_ids: list[str] = None,
