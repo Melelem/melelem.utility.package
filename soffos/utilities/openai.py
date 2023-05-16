@@ -21,6 +21,7 @@ class GPTEngine(str, Enum):
     curie = 'text-curie-001'
     babbage = 'text-babbage-001'
     ada = 'text-ada-001'
+    ada_embedding = 'text-embedding-ada-002'
 
 class GPTEngineSpecifications(t.NamedTuple):
     max_tokens: int
@@ -46,6 +47,9 @@ GPT_ENGINE_SPECS = {
     ),
     GPTEngine.ada: GPTEngineSpecifications(
         max_tokens=2048
+    ),
+    GPTEngine.ada_embedding: GPTEngineSpecifications(
+        max_tokens=8192
     )
 }
 
@@ -80,8 +84,8 @@ class Prompt:
             text = text.replace(literal, replacement)
 
         return text
+    
 Usage = t.Dict[str, t.Any]
-
 
 def calculate_usage_overview(usages: t.List[Usage]):
     return {
