@@ -112,6 +112,28 @@ class OpenAIService(ServiceRequestSession):
 
         return self.request(json=json, path="chat")
 
+    def embeddings(
+        self,
+        input: t.Union[str, list],
+        api_key: str = None,
+        user: str = None,
+        engine: str = None,
+        validate_prompt_content: bool = None,
+    ):
+        
+        json = {"input": input}
+
+        if api_key is not None:
+            json["api_key"] = api_key
+        if user is not None:
+            json["user"] = user
+        if engine is not None:
+            json["engine"] = engine
+        if validate_prompt_content is not None:
+            json["validate_prompt_content"] = validate_prompt_content
+
+        return self.request(json=json, path="embeddings")
+        
 
     def count_tokens(self, text: str):
         return self.request(json={'text': text}, path='count-tokens')
