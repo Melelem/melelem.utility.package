@@ -1,7 +1,7 @@
 from enum import Enum
 import tiktoken
 import typing as t
-import re
+from itertools import chain
 
 class Tokenizer:
     def __init__(self) -> None:
@@ -88,12 +88,12 @@ class Prompt:
 Usage = t.Dict[str, t.Any]
 
 def calculate_usage_overview(usages: t.List[Usage]):
+
+    keys = list(set(chain.from_iterable(u.keys() for u in usages)))
+    
     return {
-        'prompt_tokens': sum(u['prompt_tokens'] for u in usages),
-        'completion_tokens': sum(u['completion_tokens'] for u in usages),
-        'total_tokens': sum(u['total_tokens'] for u in usages),
-        'total_cost_dollars': sum(u['cost_dollars'] for u in usages),
-        'calls': len(usages)
+        'calls': len(usages),
+        **{k: sum([u.get(k, 0) for u in usages]) for k in keys}
     }
 
 
