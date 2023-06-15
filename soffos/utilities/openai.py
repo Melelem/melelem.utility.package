@@ -17,8 +17,9 @@ class GPTEngine(str, Enum):
     gpt4_8k = 'gpt-4'
     gpt4_32k = 'gpt-4-32k' 
     chatgpt = 'gpt-3.5-turbo'
+    chatgpt_16k = 'gpt-3.5-turbo-16k'
     chatgpt_0613 = 'gpt-3.5-turbo-0613'
-    chatgpt_0613_16k = 'gpt-3.5-turbo-16k-0613'
+    chatgpt_16k_0613 = 'gpt-3.5-turbo-16k-0613'
     davinci = 'text-davinci-003'
     curie = 'text-curie-001'
     babbage = 'text-babbage-001'
@@ -38,10 +39,13 @@ GPT_ENGINE_SPECS = {
     GPTEngine.chatgpt: GPTEngineSpecifications(
         max_tokens=4096
     ),
+    GPTEngine.chatgpt_16k: GPTEngineSpecifications(
+        max_tokens=16384
+    ),
     GPTEngine.chatgpt_0613: GPTEngineSpecifications(
         max_tokens=4096
     ),
-    GPTEngine.chatgpt_0613_16k: GPTEngineSpecifications(
+    GPTEngine.chatgpt_16k_0613: GPTEngineSpecifications(
         max_tokens=16384
     ),
     GPTEngine.davinci: GPTEngineSpecifications(
