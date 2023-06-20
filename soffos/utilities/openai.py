@@ -130,23 +130,18 @@ def calculate_max_allowed_tokens(
 
     return GPT_ENGINE_SPECS[engine].max_tokens - len(TOKENIZER(engine.value).encode(prompt))
 
-def num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301"):
+def num_tokens_from_messages(messages, model="gpt-3.5-turbo"):
     """Returns the number of tokens used by a list of messages."""
+    #TODO: Remember to update this on soffos-service-openai whenever a new model has different tokenization.
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
         print("Warning: model not found. Using cl100k_base encoding.")
         encoding = tiktoken.get_encoding("cl100k_base")
-    if model == "gpt-3.5-turbo":
-        print("Warning: gpt-3.5-turbo may change over time. Returning num tokens assuming gpt-3.5-turbo-0301.")
-        return num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301")
-    elif model == "gpt-4":
-        print("Warning: gpt-4 may change over time. Returning num tokens assuming gpt-4-0314.")
-        return num_tokens_from_messages(messages, model="gpt-4-0314")
-    elif model in ["gpt-3.5-turbo-0301", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k-0613"]:
+    if model.startswith("gpt-3.5"):
         tokens_per_message = 4  # every message follows <|start|>{role/name}\n{content}<|end|>\n
         tokens_per_name = -1  # if there's a name, the role is omitted
-    elif model in ["gpt-4-0314", "gpt-4-0613"] :
+    elif model.startswith("gpt-4"):
         tokens_per_message = 3
         tokens_per_name = 1
     else:
