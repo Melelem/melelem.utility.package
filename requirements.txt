@@ -1,4 +1,4 @@
-requests==2.27.1
+requests==2.31.0
 pydantic==1.8.2
 beautifulsoup4==4.11.1
 kubernetes==24.2.0
