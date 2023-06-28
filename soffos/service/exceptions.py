@@ -1,10 +1,12 @@
+from typing import Any
+
 class ServiceException(Exception):
     def __init__(
         self,
         service: str,
         status_code: int,
         message: str, 
-        details: str = None
+        details: Any = None
         ) -> None:
         self.service = service
         self.status_code = status_code
@@ -12,7 +14,7 @@ class ServiceException(Exception):
         self.details = details
         
     def to_response(self):
-        return {k: v for k, v in vars(self).items() if k != 'status_code'}, self.status_code
+        return {k: v for k, v in vars(self).items() if k != 'status_code'}
 
 class BadRequestException(ServiceException):
     def __init__(self, service: str, message: str, details: str = None):

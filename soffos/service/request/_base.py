@@ -6,15 +6,13 @@ import requests
 import os
 
 from ...settings import get_service_url, DEBUG
+from ..exceptions import BadRequestException, InternalServerErrorException
 
 
 Response = t.TypeVar('Response')
 
 
 class ServiceRequestSession:
-
-    class Error(Exception):
-        pass
 
     name: str
 
@@ -98,14 +96,14 @@ class ServiceRequestSession:
 
             # Validate response is ok.
             if not response.ok:
-                error = {'status_code': response.status_code}
-                try:
-                    error['json'] = response.json()
-                    error['url'] = url
-                    error['service'] = self.name
-                except requests.exceptions.JSONDecodeError:
-                    pass
-                raise self.Error(error)
+                if response.status_code == 400:
+                    raise BadRequestException(**response.json())
+                else:
+                    raise InternalServerErrorException(
+                        service=self.name,
+                        message='Service error',
+                        details=response.json()
+                    )
 
             # Unpack response.
             response_json: t.Dict[str, t.Any]
@@ -129,9 +127,6 @@ class ServiceRequestSession:
             # Optional: create response object.
             return response_type(**response_json) if response_type else response_json
 
-        # Re-raise known errors.
-        except self.Error as ex:
-            raise ex
         # Cast unknown errors.
         except Exception as ex:
             raise ex
