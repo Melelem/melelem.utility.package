@@ -1,18 +1,23 @@
-class ErrorResponse:
+class ServiceException(Exception):
     def __init__(
-        self, 
-        service: str, 
-        details: str = None, 
-        message: str = None, 
-        status_code: int = 400
+        self,
+        service: str,
+        status_code: int,
+        message: str, 
+        details: str = None
         ) -> None:
         self.service = service
-        self.details = details
-        self.message = message
         self.status_code = status_code
-
-    def to_dict(self, exclude_empty: bool = False):
-        if exclude_empty:
-            return {k: v for k, v in vars(self).items() if v is not None}
-        return vars(self)
+        self.message = message
+        self.details = details
         
+    def to_response(self):
+        return {k: v for k, v in vars(self).items() if k != 'status_code'}, self.status_code
+
+class BadRequestException(ServiceException):
+    def __init__(self, service: str, message: str, details: str = None):
+        super().__init__(service=service, status_code=400, message=message, details=details)
+
+class InternalServerErrorException(ServiceException):
+    def __init__(self, service: str, message: str, details: str = None):
+        super().__init__(service=service, status_code=500, message=message, details=details)
