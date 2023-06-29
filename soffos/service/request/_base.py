@@ -99,11 +99,7 @@ class ServiceRequestSession:
                 if response.status_code == 400:
                     raise BadRequestException(**response.json())
                 else:
-                    raise InternalServerErrorException(
-                        service=self.name,
-                        message='Service error',
-                        details=response.json()
-                    )
+                    raise InternalServerErrorException(**response.json())
 
             # Unpack response.
             response_json: t.Dict[str, t.Any]
