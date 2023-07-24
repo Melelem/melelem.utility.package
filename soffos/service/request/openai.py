@@ -17,7 +17,6 @@ class OpenAIService(ServiceRequestSession):
         frequency_penalty: float = None,
         presence_penalty: float = None,
         logprobs: int = None,
-        validate_prompt_content: bool = None,
         user: str = None
     ):
         """The generate endpoint calls the "Complete" engine of OpenAI.
@@ -58,8 +57,6 @@ class OpenAIService(ServiceRequestSession):
             json["presence_penalty"] = presence_penalty
         if logprobs is not None:
             json["logprobs"] = logprobs
-        if validate_prompt_content is not None:
-            json["validate_prompt_content"] = validate_prompt_content
         if user is not None:
             json['user'] = user
 
@@ -79,7 +76,6 @@ class OpenAIService(ServiceRequestSession):
         frequency_penalty: float = None,
         presence_penalty: float = None,
         logit_bias: dict = None,
-        validate_prompt_content: bool = None,
         user: str = None
     ):
         
@@ -105,8 +101,6 @@ class OpenAIService(ServiceRequestSession):
             json["presence_penalty"] = presence_penalty
         if logit_bias is not None:
             json["logit_bias"] = logit_bias
-        if validate_prompt_content is not None:
-            json["validate_prompt_content"] = validate_prompt_content
         if user is not None:
             json["user"] = user
 
@@ -117,8 +111,7 @@ class OpenAIService(ServiceRequestSession):
         input: t.Union[str, list],
         api_key: str = None,
         user: str = None,
-        engine: str = None,
-        validate_prompt_content: bool = None,
+        engine: str = None
     ):
         
         json = {"input": input}
@@ -129,11 +122,25 @@ class OpenAIService(ServiceRequestSession):
             json["user"] = user
         if engine is not None:
             json["engine"] = engine
-        if validate_prompt_content is not None:
-            json["validate_prompt_content"] = validate_prompt_content
 
         return self.request(json=json, path="embeddings")
+    
+    def moderate(
+        self,
+        input: t.Union[str, list],
+        api_key: str = None,
+        user: str = None
+    ):
         
+        json = {"input": input}
+
+        if api_key is not None:
+            json["api_key"] = api_key
+        if user is not None:
+            json["user"] = user
+
+        return self.request(json=json, path="moderate")
+
 
     def count_tokens(self, text: str):
         return self.request(json={'text': text}, path='count-tokens')
