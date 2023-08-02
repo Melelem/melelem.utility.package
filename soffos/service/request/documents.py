@@ -431,3 +431,122 @@ class DocumentsService(ServiceRequestSession):
             json['filters'] = filters
 
         return self.request(json=json, path="table/delete")
+
+    def create_chatbot(
+        self,
+        client_id: str,
+        name: str,
+        role: str,
+        chatbot_id: str = None
+    ):
+        
+        json = {
+            "client_id": client_id,
+            "name": name,
+            "role": role
+        }
+
+        if chatbot_id is not None:
+            json["chatbot_id"] = chatbot_id
+
+        return self.request(json=json, path="chatbot/create")
+    
+    def delete_chatbots(
+        self,
+        client_id: str,
+        chatbot_ids: list[str] = None,
+        filters: dict = None
+    ):
+        
+        json = {
+            "client_id": client_id
+        }
+
+        if chatbot_ids is not None:
+            json["chatbot_ids"] = chatbot_ids
+        if filters is not None:
+            json["filters"] = filters
+        
+        return self.request(json=json, path="chatbot/delete")
+    
+    def get_chatbots(
+        self,
+        client_id: str,
+        chatbot_ids: list[str] = None,
+        filters: dict = None
+    ):
+        
+        json = {
+            "client_id": client_id
+        }
+
+        if chatbot_ids is not None:
+            json["chatbot_ids"] = chatbot_ids
+        if filters is not None:
+            json["filters"] = filters
+        
+        return self.request(json=json, path="chatbot/retrieve")
+        
+    def ingest_chatbot_messages(
+        self,
+        messages: list[dict],
+        client_id: str,
+        user_id: str,
+        chatbot_id: str,
+        session_id: str,
+        session_name: str = None
+    ):
+        
+        json = {
+            "messages": messages,
+            "client_id": client_id,
+            "user_id": user_id,
+            "chatbot_id": chatbot_id,
+            "session_id": session_id
+        }
+
+        if session_name is not None:
+            json["session_name"] = session_name
+
+        return self.request(json=json, path="chatbot/messages/ingest")
+    
+    def delete_chatbot_messages(
+        self,
+        user_ids: list[str] = None,
+        session_ids: list[str] = None,
+        chatbot_ids: list[str] = None,
+        message_ids: list[str] = None
+    ):
+        
+        json = {}
+
+        if user_ids is not None:
+            json["user_ids"] = user_ids
+        if session_ids is not None:
+            json["session_ids"] = session_ids
+        if chatbot_ids is not None:
+            json["chatbot_ids"] = chatbot_ids
+        if message_ids is not None:
+            json["message_ids"] = message_ids
+        
+        return self.request(json=json, path="chatbot/messages/delete")
+    
+    def get_chatbot_messages(
+        self,
+        client_id: str,
+        chatbot_id: str,
+        user_id: str = None,
+        session_id: str = None
+    ):
+        
+        json = {
+            "client_id": client_id,
+            "chatbot_id": chatbot_id
+        }
+
+        if user_id is not None:
+            json["user_id"] = user_id
+        if session_id is not None:
+            json["session_id"] = session_id
+
+        return self.request(json=json, path="chatbot/messages/retrieve")
