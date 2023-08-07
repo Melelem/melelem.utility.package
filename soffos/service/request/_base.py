@@ -98,6 +98,8 @@ class ServiceRequestSession:
             if not response.ok:
                 if response.status_code == 400:
                     raise BadRequestException(**response.json())
+                elif response.status_code == 422:
+                    raise Exception(str(response.json()))
                 else:
                     raise InternalServerErrorException(**response.json())
 
