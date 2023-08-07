@@ -536,7 +536,7 @@ class DocumentsService(ServiceRequestSession):
         client_id: str,
         chatbot_id: str,
         user_id: str = None,
-        session_id: str = None
+        session_ids: list[str] = None
     ):
         
         json = {
@@ -546,7 +546,7 @@ class DocumentsService(ServiceRequestSession):
 
         if user_id is not None:
             json["user_id"] = user_id
-        if session_id is not None:
-            json["session_id"] = session_id
+        if session_ids is not None:
+            json["session_ids"] = session_ids
 
         return self.request(json=json, path="chatbot/messages/retrieve")
