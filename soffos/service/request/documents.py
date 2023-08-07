@@ -512,13 +512,16 @@ class DocumentsService(ServiceRequestSession):
     
     def delete_chatbot_messages(
         self,
+        client_id: str,
         user_ids: list[str] = None,
         session_ids: list[str] = None,
         chatbot_ids: list[str] = None,
         message_ids: list[str] = None
     ):
         
-        json = {}
+        json = {
+            "client_id": client_id
+        }
 
         if user_ids is not None:
             json["user_ids"] = user_ids
