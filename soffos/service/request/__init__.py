@@ -8,7 +8,6 @@ from .qna_generation import QnAGenerationService
 from .query_parser import QueryParserService
 from .question_answering import QuestionAnsweringService
 from .stanza import StanzaService
-from .string_similarity import StringSimilarityService
 from .summarization import SummarizationService
 from .transformer_models import TransformerModelService
 from .translation import TranslationService
