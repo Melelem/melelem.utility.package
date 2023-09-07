@@ -4,13 +4,12 @@ from typing import List
 class SummarizationService(ServiceRequestSession):
     name = "soffos-service-summarization"
 
-    def summarize_abstractive(
+    def summarize(
         self,
         text: str,
         sent_length: int,
         llm_api_key: str = None,
         user: str = None,
-        simplify: bool = None,
         engine: str = None
     ):
 
@@ -22,22 +21,7 @@ class SummarizationService(ServiceRequestSession):
             json['llm_api_key'] = llm_api_key
         if user is not None:
             json['user'] = user
-        if simplify is not None:
-            json["simplify"] = simplify
         if engine is not None:
             json["engine"] = engine
         
-        return self.request(json=json, path="abstractive")
-
-    def summarize_extractive(
-        self,
-        text: str,
-        sent_length: int
-    ):
-
-        json = {
-            "text": text,
-            "sent_length": sent_length
-        }
-        
-        return self.request(json=json, path="extractive")
+        return self.request(json=json)
