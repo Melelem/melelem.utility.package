@@ -1,7 +1,5 @@
 import typing as t
 
-from pydantic import BaseModel
-
 from ...pre_processing import Chunk
 from ._base import ServiceRequestSession
 
