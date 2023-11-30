@@ -1,7 +1,7 @@
-from enum import Enum
-import tiktoken
 import typing as t
 from itertools import chain
+from enum import Enum
+import tiktoken
 
 class Tokenizer:
     def __init__(self) -> None:
@@ -14,6 +14,7 @@ class Tokenizer:
 TOKENIZER = Tokenizer()
 
 class GPTEngine(str, Enum):
+    gpt4_1106_preview = 'gpt-4-1106-preview'
     gpt4_8k = 'gpt-4'
     gpt4_32k = 'gpt-4-32k'
     gpt4_8k_0613 = 'gpt-4-0613'
@@ -32,6 +33,9 @@ class GPTEngineSpecifications(t.NamedTuple):
     max_tokens: int
 
 GPT_ENGINE_SPECS = {
+    GPTEngine.gpt4_1106_preview: GPTEngineSpecifications(
+        max_tokens=128000
+    ),
     GPTEngine.gpt4_8k: GPTEngineSpecifications(
         max_tokens=8192
     ),
