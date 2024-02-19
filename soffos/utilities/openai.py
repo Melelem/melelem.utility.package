@@ -30,10 +30,16 @@ class GPTEngine(str, Enum):
     ada = 'text-ada-001'
     ada_embedding = 'text-embedding-ada-002'
 
+    gemini_1_pro = 'gemini-1.0-pro'
+
 class GPTEngineSpecifications(t.NamedTuple):
     max_tokens: int
 
 GPT_ENGINE_SPECS = {
+    GPTEngine.gemini_1_pro: GPTEngineSpecifications(
+        max_tokens=32000
+    ),
+
     GPTEngine.gpt4_1106_preview: GPTEngineSpecifications(
         max_tokens=128000
     ),
