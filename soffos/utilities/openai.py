@@ -8,7 +8,10 @@ class Tokenizer:
         self.tokenizers = {}
     def __call__(self, engine):
         if engine not in self.tokenizers:
-            self.tokenizers[engine] = tiktoken.encoding_for_model(engine)
+            try:
+                self.tokenizers[engine] = tiktoken.encoding_for_model(engine)
+            except KeyError:
+                self.tokenizers[engine] = tiktoken.get_encoding("cl100k_base")
         return self.tokenizers[engine]
 
 TOKENIZER = Tokenizer()
