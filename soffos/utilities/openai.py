@@ -22,6 +22,7 @@ class GPTEngine(str, Enum):
     gpt4_32k = 'gpt-4-32k'
     gpt4_8k_0613 = 'gpt-4-0613'
     gpt4_32k_0613 = 'gpt-4-32k-0613'
+    chatgpt_1106 = "gpt-3.5-turbo-1106"
     chatgpt = 'gpt-3.5-turbo'
     chatgpt_16k = 'gpt-3.5-turbo-16k'
     chatgpt_0613 = 'gpt-3.5-turbo-0613'
@@ -57,6 +58,9 @@ GPT_ENGINE_SPECS = {
     ),
     GPTEngine.gpt4_32k_0613: GPTEngineSpecifications(
         max_tokens=32768
+    ),
+    GPTEngine.chatgpt_1106: GPTEngineSpecifications(
+        max_tokens= 16380
     ),
     GPTEngine.chatgpt: GPTEngineSpecifications(
         max_tokens=4096
