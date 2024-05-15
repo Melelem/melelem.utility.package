@@ -17,6 +17,9 @@ class Tokenizer:
 TOKENIZER = Tokenizer()
 
 class GPTEngine(str, Enum):
+    gpt_4o = "gpt-4o"
+    gpt_4_turbo = "gpt-4-turbo"
+    gpt_4_turbo_2024_04_09 = "gpt-4-turbo-2024-04-09"
     gpt4_1106_preview = 'gpt-4-1106-preview'
     gpt4_8k = 'gpt-4'
     gpt4_32k = 'gpt-4-32k'
@@ -41,9 +44,17 @@ class GPTEngineSpecifications(t.NamedTuple):
 
 GPT_ENGINE_SPECS = {
     GPTEngine.gemini_1_pro: GPTEngineSpecifications(
-        max_tokens=32000
+        max_tokens=16000
     ),
-
+    GPTEngine.gpt_4o: GPTEngineSpecifications(
+        max_tokens=128000
+    ),
+    GPTEngine.gpt_4_turbo: GPTEngineSpecifications(
+        max_tokens=128000
+    ),
+    GPTEngine.gpt_4_turbo_2024_04_09: GPTEngineSpecifications(
+        max_tokens=128000
+    ),
     GPTEngine.gpt4_1106_preview: GPTEngineSpecifications(
         max_tokens=128000
     ),
