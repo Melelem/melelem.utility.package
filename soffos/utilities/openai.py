@@ -43,10 +43,16 @@ class GPTEngine(str, Enum):
     claude_3_haiku = "claude-3-haiku-20240307"
     claude_3_sonnet = "claude-3-5-sonnet-20240620"
 
+    metal = "METAL"
+
+
 class GPTEngineSpecifications(t.NamedTuple):
     max_tokens: int
 
 GPT_ENGINE_SPECS = {
+    GPTEngine.metal: GPTEngineSpecifications(
+        max_tokens=16000
+    ),
     GPTEngine.claude_3_haiku: GPTEngineSpecifications(
         max_tokens=200000
     ),
