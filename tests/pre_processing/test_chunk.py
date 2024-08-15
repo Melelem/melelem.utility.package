@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from soffos.pre_processing import Sentence
-from soffos.pre_processing.chunk import Chunk
+from metal.pre_processing import Sentence
+from metal.pre_processing.chunk import Chunk
 
 
 class ChunkTests(TestCase):

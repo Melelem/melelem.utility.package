@@ -3,7 +3,7 @@ from ._base import ServiceRequestSession
 from typing import List, Dict, Any
 
 class QuestionAnsweringService(ServiceRequestSession):
-    name = "soffos-service-question-answering"
+    name = "metal-service-question-answering"
 
     def answer(
         self,

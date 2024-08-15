@@ -1,6 +1,6 @@
 from unittest import TestCase
 
 
-class SoffosTests(TestCase):
+class MetalTests(TestCase):
     def test_import(self):
-        import soffos
+        import metal

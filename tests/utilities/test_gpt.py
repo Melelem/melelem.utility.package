@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from soffos.utilities.gpt3 import (
+from metal.utilities.gpt3 import (
     GPTEngine
 )
 

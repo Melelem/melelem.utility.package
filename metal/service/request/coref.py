@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 from typing import List
 
 class CorefModelService(ServiceRequestSession):
-    name = "soffos-service-model-coref"
+    name = "metal-service-model-coref"
 
     def resolve(self, texts: List[str], pronouns: List[str] = None):
 

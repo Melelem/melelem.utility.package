@@ -3,7 +3,7 @@ import typing as t
 
 
 class OpenAIService(ServiceRequestSession):
-    name = 'soffos-service-openai'
+    name = 'metal-service-openai'
 
     def complete(
         self,

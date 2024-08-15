@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 from typing import List
 
 class SummarizationService(ServiceRequestSession):
-    name = "soffos-service-summarization"
+    name = "metal-service-summarization"
 
     def summarize(
         self,

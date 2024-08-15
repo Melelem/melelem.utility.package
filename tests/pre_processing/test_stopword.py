@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from soffos.pre_processing import TextSpan
-from soffos.pre_processing.stopword import Stopword
+from metal.pre_processing import TextSpan
+from metal.pre_processing.stopword import Stopword
 
 
 class StopwordTests(TestCase):

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from soffos.pre_processing.text import (
+from metal.pre_processing.text import (
     TextSpan,
     remove_possessions,
     normalize_chars

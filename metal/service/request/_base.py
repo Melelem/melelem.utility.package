@@ -63,15 +63,15 @@ class ServiceRequestSession:
             # Build request.
             if DEBUG:
                 try:
-                    authorization = os.environ['SOFFOS_API_KEY']
+                    authorization = os.environ['METAL_API_KEY']
                     if headers is not None:
                         headers['Authorization'] = authorization
                     else:
                         headers = {"Authorization": authorization}
                 except KeyError as ex:
-                    raise Exception("Please specify a Soffos API key in the environment variable SOFFOS_API_KEY") from ex
+                    raise Exception("Please specify a Metal API key in the environment variable METAL_API_KEY") from ex
                     
-                url = 'https://dev-api.soffos.ai/service/service/'
+                url = 'https://dev-api.metal.ai/service/service/'
                 json = {
                     'name': self.name,
                     'request': json

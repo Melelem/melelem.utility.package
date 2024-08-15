@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from soffos.service import Service, Model, Field, ValidationError
+from metal.service import Service, Model, Field, ValidationError
 
 
 class TextCleaningService(Service):

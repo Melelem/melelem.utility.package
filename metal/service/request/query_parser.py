@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 
 
 class QueryParserService(ServiceRequestSession):
-    name = "soffos-service-query-parser"
+    name = "metal-service-query-parser"
 
     def parse(
         self, 

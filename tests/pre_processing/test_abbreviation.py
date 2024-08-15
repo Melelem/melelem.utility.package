@@ -1,7 +1,7 @@
 import typing as t
 from unittest import TestCase
 
-from soffos.pre_processing.abbreviation import Abbreviation
+from metal.pre_processing.abbreviation import Abbreviation
 
 
 class AbbreviationTests(TestCase):

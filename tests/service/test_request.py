@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from soffos.service.request import (
+from metal.service.request import (
     EmbeddingsModelService,
     NERModelService
 )

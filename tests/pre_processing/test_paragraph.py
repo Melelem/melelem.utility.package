@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from soffos.pre_processing.paragraph import Paragraph
+from metal.pre_processing.paragraph import Paragraph
 
 
 class ParagraphTests(TestCase):

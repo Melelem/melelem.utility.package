@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Custom
-soffos/data/nltk
+metal/data/nltk

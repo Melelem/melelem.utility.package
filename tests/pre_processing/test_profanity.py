@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from soffos.pre_processing.profanity import Profanity
+from metal.pre_processing.profanity import Profanity
 
 
 class ProfanityTests(TestCase):

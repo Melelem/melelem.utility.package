@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 from typing import Union
 
 class AnalyticsService(ServiceRequestSession):
-    name = 'soffos-service-analytics'
+    name = 'metal-service-analytics'
 
     def get_question_keywords(
         self,

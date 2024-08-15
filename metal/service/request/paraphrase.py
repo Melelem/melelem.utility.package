@@ -3,7 +3,7 @@ from typing import List
 
 
 class ParaphraseService(ServiceRequestSession):
-    name = "soffos-service-paraphrase"
+    name = "metal-service-paraphrase"
 
     def paraphrase(
         self,

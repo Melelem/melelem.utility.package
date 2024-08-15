@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from soffos.utilities.lazy_loader import LazyLoader
+from metal.utilities.lazy_loader import LazyLoader
 
 
 class LazyLoaderTests(TestCase):
