@@ -1,6 +1,6 @@
 from .coref import CorefModelService
 from .documents import DocumentsService
-from .openai import OpenAIService
+from .llm_select import LLMSelectorService
 from .paraphrase import ParaphraseService
 from .profanity_model import ProfanityModelService
 from .profanity import ProfanityService

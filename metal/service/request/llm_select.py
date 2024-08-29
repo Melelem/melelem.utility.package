@@ -2,8 +2,8 @@ from ._base import ServiceRequestSession
 import typing as t
 
 
-class OpenAIService(ServiceRequestSession):
-    name = 'metal-service-openai'
+class LLMSelectorService(ServiceRequestSession):
+    name = 'metal-service-llm-selector'
 
     def complete(
         self,
