@@ -183,7 +183,7 @@ def calculate_max_allowed_tokens(
 
 def num_tokens_from_messages(messages, model="gpt-3.5-turbo"):
     """Returns the number of tokens used by a list of messages."""
-    #TODO: Remember to update this on metal-service-openai whenever a new model has different tokenization.
+    #TODO: Remember to update this on metal-service-llm-selector whenever a new model has different tokenization.
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
