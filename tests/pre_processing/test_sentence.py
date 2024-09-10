@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from metal.pre_processing.sentence import Sentence
+from melelem.pre_processing.sentence import Sentence
 
 
 class SentenceTests(TestCase):
@@ -84,17 +84,17 @@ class SentenceTests(TestCase):
         ])
 
     def test_from_text__urls(self):
-        text = 'Want to learn about NLP? Visit https://www.metal.ai/ for info.'
+        text = 'Want to learn about NLP? Visit https://www.melelem.ai/ for info.'
         sentences = Sentence.from_text(text)
         self.assertListEqual(sentences, [
             Sentence(text='Want to learn about NLP?', span=(0, 24)),
-            Sentence(text='Visit https://www.metal.ai/ for info.', span=(25, 63))
+            Sentence(text='Visit https://www.melelem.ai/ for info.', span=(25, 63))
         ])
 
     def test_from_text__emails(self):
-        text = 'Want to learn about NLP? Contact john.doe@metal.ai for info.'
+        text = 'Want to learn about NLP? Contact john.doe@melelem.ai for info.'
         sentences = Sentence.from_text(text)
         self.assertListEqual(sentences, [
             Sentence(text='Want to learn about NLP?', span=(0, 24)),
-            Sentence(text='Contact john.doe@metal.ai for info.', span=(25, 61))
+            Sentence(text='Contact john.doe@melelem.ai for info.', span=(25, 61))
         ])

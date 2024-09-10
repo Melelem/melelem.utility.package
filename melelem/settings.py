@@ -16,7 +16,7 @@ def get_service_url(name: str):
     """
     Get the URL of a service by name from kubernetes' internal API.
 
-    :param name: The name of the service. E.g. 'metal-api'.
+    :param name: The name of the service. E.g. 'melelem-api'.
     :raises NameError: If the service does not exist.
     :return: The service's URL.
     """

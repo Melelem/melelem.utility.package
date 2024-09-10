@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from metal.pre_processing.profanity import Profanity
+from melelem.pre_processing.profanity import Profanity
 
 
 class ProfanityTests(TestCase):

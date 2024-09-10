@@ -1,28 +1,28 @@
-# metal package
+# melelem package
 
 :exclamation: WARNING: This repo is public. DO NOT put any code containing IP or secret settings.
 
 
 ## Pip Install
 
-To pip install the metal package, run:
+To pip install the melelem package, run:
 
 ```
-pip install git+https://github.com/Soffos-Inc/metal_utility_package.git
+pip install git+https://github.com/Soffos-Inc/melelem_utility_package.git
 ```
 
 NOTE: Installing via git only works if this repo is public. If this repo is made to be private in the future, then an SSH key will need to be attached to this repo and supplied during the
 pip install:
 
 ```
-pip install git+ssh://github.com/Soffos-Inc/metal_utility_package.git
+pip install git+ssh://github.com/Soffos-Inc/melelem_utility_package.git
 ```
 
 ## Version Control
 
 ### Where is the package version specified?
 
-Pip relies on the `setup.py` file to declare and setup the metal package. During setup, the version number of the metal package is set. The version is set to be current UTC datetime stamp, denoting when the package was updated. The version number is in the format:
+Pip relies on the `setup.py` file to declare and setup the melelem package. During setup, the version number of the melelem package is set. The version is set to be current UTC datetime stamp, denoting when the package was updated. The version number is in the format:
 
 `{year}.{month}.{day}.{hour}.{minute}.{second}`
 
@@ -40,7 +40,7 @@ Alternatively, if you're using VS code, you can launch the "Update Version" conf
 
 ### Why should I update the package version?
 
-When pip installing, pip will only know that a new version of the package is available if you **set a new package version number higher than the old one**. Pip does not look at your code and compare the differences between the old and new code. If you make an update to the code of the metal package and forget to update the version number, pip will not know to install the new code. 
+When pip installing, pip will only know that a new version of the package is available if you **set a new package version number higher than the old one**. Pip does not look at your code and compare the differences between the old and new code. If you make an update to the code of the melelem package and forget to update the version number, pip will not know to install the new code. 
 
 ## Package Releases
 
@@ -51,14 +51,14 @@ moment in time and attach a tag to that snapshot.
 
 ### Why should I create a package release?
 
-This is important to do if you want to pip install a version of the metal package that will be unaffected by future changes (which may be breaking changes). This is particularly important for the production environment. If a specific release of the package is not pip installed, then the latest metal package will always be installed during build time and could introduce breaking changes.
+This is important to do if you want to pip install a version of the melelem package that will be unaffected by future changes (which may be breaking changes). This is particularly important for the production environment. If a specific release of the package is not pip installed, then the latest melelem package will always be installed during build time and could introduce breaking changes.
 
 ### How do I select a package release when pip installing?
 
 You need to specify the tag of the release you wish to pip install:
 
 ```
-git+https://github.com/Soffos-Inc/metal_utility_package.git@22.9.20.13.12.33
+git+https://github.com/Soffos-Inc/melelem_utility_package.git@22.9.20.13.12.33
 ```
 
 ### How do I create a new package release?
@@ -76,17 +76,17 @@ git+https://github.com/Soffos-Inc/metal_utility_package.git@22.9.20.13.12.33
 ### Unit Tests
 
 The unit tests are contained in the `tests` directory. Tests are ignored when pip installing the
-metal package.
+melelem package.
 
 ### Requirements
 
 All required packages should be specified in the `requirements.txt` file. These will be
-auto-installed when installing the metal package.
+auto-installed when installing the melelem package.
 
 ### Package
 
-Everything you wish included in the metal package should be contained in the `metal` directory.
-NOTE: that metal package has a special folder called `data`. Here is where you should put any
+Everything you wish included in the melelem package should be contained in the `melelem` directory.
+NOTE: that melelem package has a special folder called `data`. Here is where you should put any
 resource files (non-python) you wish to be included in the pip install. For example, a file called
 `stopwords.json`. There is some code in `setup.py` that walks through the directory and includes all
 the files contained within.

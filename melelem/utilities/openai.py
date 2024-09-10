@@ -43,14 +43,14 @@ class GPTEngine(str, Enum):
     claude_3_haiku = "claude-3-haiku-20240307"
     claude_3_sonnet = "claude-3-5-sonnet-20240620"
 
-    metal = "METAL"
+    melelem = "MELELEM"
 
 
 class GPTEngineSpecifications(t.NamedTuple):
     max_tokens: int
 
 GPT_ENGINE_SPECS = {
-    GPTEngine.metal: GPTEngineSpecifications(
+    GPTEngine.melelem: GPTEngineSpecifications(
         max_tokens=16000
     ),
     GPTEngine.claude_3_haiku: GPTEngineSpecifications(
@@ -183,7 +183,7 @@ def calculate_max_allowed_tokens(
 
 def num_tokens_from_messages(messages, model="gpt-3.5-turbo"):
     """Returns the number of tokens used by a list of messages."""
-    #TODO: Remember to update this on metal-service-llm-selector whenever a new model has different tokenization.
+    #TODO: Remember to update this on melelem-service-llm-selector whenever a new model has different tokenization.
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:

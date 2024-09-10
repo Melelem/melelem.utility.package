@@ -3,7 +3,7 @@ import typing as t
 
 
 class LLMSelectorService(ServiceRequestSession):
-    name = 'metal-service-llm-selector'
+    name = 'melelem-service-llm-selector'
 
     def complete(
         self,

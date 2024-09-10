@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from metal.pre_processing import Sentence
-from metal.pre_processing.chunk import Chunk
+from melelem.pre_processing import Sentence
+from melelem.pre_processing.chunk import Chunk
 
 
 class ChunkTests(TestCase):

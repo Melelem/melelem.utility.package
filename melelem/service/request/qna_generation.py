@@ -6,7 +6,7 @@ from ._base import ServiceRequestSession
 
 # TODO: Abstract this class into base class.
 class QnAGenerationService(ServiceRequestSession):
-    name = 'metal-service-qna-generation'
+    name = 'melelem-service-qna-generation'
 
     def generate_qna_list(
         self,

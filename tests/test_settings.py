@@ -3,7 +3,7 @@ from unittest.mock import patch, Mock
 
 from kubernetes import client
 
-from metal.settings import (
+from melelem.settings import (
     get_service_url,
     K8S_CONFIG
 )
@@ -26,7 +26,7 @@ class Tests(TestCase):
         k8s__list_service_for_all_namespaces: Mock,
         k8s_config: Mock
     ):
-        name = 'metal-service'
+        name = 'melelem-service'
         url = get_service_url(name)
 
         k8s_config.assert_called_once()
@@ -51,7 +51,7 @@ class Tests(TestCase):
         k8s__list_service_for_all_namespaces: Mock,
         k8s_config: Mock
     ):
-        name = 'metal-service'
+        name = 'melelem-service'
         with self.assertRaises(NameError):
             get_service_url(name)
 

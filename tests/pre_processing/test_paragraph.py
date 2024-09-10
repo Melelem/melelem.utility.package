@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from metal.pre_processing.paragraph import Paragraph
+from melelem.pre_processing.paragraph import Paragraph
 
 
 class ParagraphTests(TestCase):

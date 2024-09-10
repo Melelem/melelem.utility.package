@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from metal.service.request import (
+from melelem.service.request import (
     EmbeddingsModelService,
     NERModelService
 )

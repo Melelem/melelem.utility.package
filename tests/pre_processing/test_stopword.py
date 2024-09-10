@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from metal.pre_processing import TextSpan
-from metal.pre_processing.stopword import Stopword
+from melelem.pre_processing import TextSpan
+from melelem.pre_processing.stopword import Stopword
 
 
 class StopwordTests(TestCase):

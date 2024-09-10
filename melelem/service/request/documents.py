@@ -3,7 +3,7 @@ from typing import List, Union, Dict
 
 
 class DocumentsService(ServiceRequestSession):
-    name = 'metal-service-documents'
+    name = 'melelem-service-documents'
 
     def ingest_document(
         self,

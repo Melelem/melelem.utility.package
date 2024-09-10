@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 from typing import List
 
 class TranslationService(ServiceRequestSession):
-    name = "metal-service-translation"
+    name = "melelem-service-translation"
 
     def translate(
         self,

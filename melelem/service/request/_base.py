@@ -63,15 +63,15 @@ class ServiceRequestSession:
             # Build request.
             if DEBUG:
                 try:
-                    authorization = os.environ['METAL_API_KEY']
+                    authorization = os.environ['Melelem_API_KEY']
                     if headers is not None:
                         headers['Authorization'] = authorization
                     else:
                         headers = {"Authorization": authorization}
                 except KeyError as ex:
-                    raise Exception("Please specify a Metal API key in the environment variable METAL_API_KEY") from ex
+                    raise Exception("Please specify a Melelem API key in the environment variable Melelem_API_KEY") from ex
                     
-                url = 'https://dev-api.metal.ai/service/service/'
+                url = 'https://dev-api.melelem.ai/service/service/'
                 json = {
                     'name': self.name,
                     'request': json

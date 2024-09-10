@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from metal.pre_processing import TextSpan
-from metal.pre_processing.punctuation import (
+from melelem.pre_processing import TextSpan
+from melelem.pre_processing.punctuation import (
     Punctuation,
     split_punctuations
 )

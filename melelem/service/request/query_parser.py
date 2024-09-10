@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 
 
 class QueryParserService(ServiceRequestSession):
-    name = "metal-service-query-parser"
+    name = "melelem-service-query-parser"
 
     def parse(
         self, 

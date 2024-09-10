@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 from typing import Union
 
 class AnalyticsService(ServiceRequestSession):
-    name = 'metal-service-analytics'
+    name = 'melelem-service-analytics'
 
     def get_question_keywords(
         self,

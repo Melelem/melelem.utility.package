@@ -1,7 +1,7 @@
 import typing as t
 from unittest import TestCase
 
-from metal.pre_processing.abbreviation import Abbreviation
+from melelem.pre_processing.abbreviation import Abbreviation
 
 
 class AbbreviationTests(TestCase):

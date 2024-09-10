@@ -3,7 +3,7 @@ from typing import List
 
 
 class StanzaService(ServiceRequestSession):
-    name = "metal-service-model-stanza"
+    name = "melelem-service-model-stanza"
 
     def annotate(self, texts: List[str]):
 

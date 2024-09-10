@@ -1,12 +1,12 @@
 import argparse
 
 
-# NOTE: Whenever a change is made to the metal module, you must update its package version!
+# NOTE: Whenever a change is made to the melelem module, you must update its package version!
 # Set the version to be the 24hr, UTC+0 datetime stamp:
 #   1. by hand (see: https://www.utctime.net/).
 #   2. run this script with version arg ('python setup.py -v').
-YEAR, MONTH, DAY = 24, 9, 6  # date
-HOUR, MINUTE, SECOND = 6, 24, 3  # time
+YEAR, MONTH, DAY = 24, 9, 10  # date
+HOUR, MINUTE, SECOND = 6, 7, 39  # time
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument(
@@ -40,7 +40,7 @@ else:
     from setuptools import setup, find_packages
     import os
 
-    from metal import DATA_DIR
+    from melelem import DATA_DIR
 
     with open('README.md', 'r', encoding='utf-8') as readme:
         long_description = readme.read()
@@ -55,14 +55,14 @@ else:
         data_files += [os.path.join(rel_data_dir, file_name) for file_name in file_names]
 
     setup(
-        name='metal',
+        name='melelem',
         version=f'{YEAR}.{MONTH}.{DAY}.{HOUR}.{MINUTE}.{SECOND}',
         author='Stefan Kairinos',
         author_email='stefan.kairinos@soffos.ai',
-        description='Metal\' utilities.',
+        description='Melelem\' utilities.',
         long_description=long_description,
         long_description_content_type='text/markdown',
-        url='https://github.com/Soffos-Inc/metal_utility_package',
+        url='https://github.com/Melelem/melelem_utility_package',
         classifiers=[
             'Programming Language :: Python :: 3',
             'Operating System :: OS Independent'

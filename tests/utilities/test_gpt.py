@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from metal.utilities.gpt3 import (
+from melelem.utilities.gpt3 import (
     GPTEngine
 )
 

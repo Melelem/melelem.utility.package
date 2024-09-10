@@ -2,7 +2,7 @@ from ._base import ServiceRequestSession
 
 
 class TransformerModelService(ServiceRequestSession):
-    name = "metal-service-model-transformers"
+    name = "melelem-service-model-transformers"
 
     def classify_queries(self, queries: list[str]):
         
