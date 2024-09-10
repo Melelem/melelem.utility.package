@@ -1,4 +1,4 @@
-requests==2.31.0
+requests==2.32.3
 beautifulsoup4==4.11.1
 kubernetes==24.2.0
 tiktoken==0.5.1
