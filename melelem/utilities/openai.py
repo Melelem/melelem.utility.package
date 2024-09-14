@@ -158,13 +158,22 @@ class Prompt:
     
 Usage = t.Dict[str, t.Any]
 
-def calculate_usage_overview(usages: t.List[Usage]):
-
+def calculate_usage_overview(usages: t.List[Usage]) -> t.Dict[str, t.Union[int, dict]]:
     keys = list(set(chain.from_iterable(u.keys() for u in usages)))
+    
+    usage_sums = {}
+    for k in keys:
+        total = 0
+        for u in usages:
+            value = u.get(k, 0)
+            if isinstance(value, int):
+                total += value
+
+        usage_sums[k] = total
     
     return {
         'calls': len(usages),
-        **{k: sum([u.get(k, 0) for u in usages]) for k in keys}
+        **usage_sums
     }
 
 
