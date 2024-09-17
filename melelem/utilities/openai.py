@@ -159,7 +159,7 @@ class Prompt:
 Usage = t.Dict[str, t.Any]
 
 def calculate_usage_overview(usages: t.List[Usage]) -> t.Dict[str, t.Union[int, dict]]:
-    keys = list(set(chain.from_iterable(u.keys() for u in usages)))
+    keys = list(set(chain.from_iterable(u.keys() for u in usages if u is not None)))
     
     usage_sums = {}
     for k in keys:
